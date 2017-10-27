@@ -1,0 +1,22 @@
+{
+  "name": "chatsecurise",
+  "version": "1.0.0",
+  "description": "Chat sécurisé - Ingesup",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nath33/ChatSecurise.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Nath33/ChatSecurise/issues"
+  },
+  "homepage": "https://github.com/Nath33/ChatSecurise#readme",
+  "dependencies": {
+    "jest": "^21.2.1"
+  }
+}
