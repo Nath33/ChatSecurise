@@ -2,11 +2,8 @@ import openSocket from 'socket.io-client';
 
 const socket = openSocket('http://localhost:8081');
 
-function subscribeToServer(callback) {
-    socket.on('message', (name) => {
-        callback(name)
-    })
-    socket.emit("pseudo", "user")
+function sendToServer(key, value) {
+    socket.emit(key, value)
 }
 
-export {subscribeToServer};
+export {sendToServer};
