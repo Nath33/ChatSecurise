@@ -6,4 +6,8 @@ function sendToServer(key, value) {
     socket.emit(key, value)
 }
 
-export {sendToServer};
+function subscribe(key, callback){
+    socket.on(key, (message) => callback(message))
+}
+
+export {sendToServer, subscribe};

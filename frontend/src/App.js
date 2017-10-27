@@ -1,12 +1,16 @@
 import React, {Component} from 'react';
 import './App.css';
-import {disconnectFromServer, sendToServer, subscribeToServer} from './connectToSocket';
+import {sendToServer, subscribe} from './connectToSocket';
 
 class App extends Component {
 
     componentDidMount() {
         let pseudo = prompt('nom : ')
-        sendToServer('pseudo', pseudo)
+
+        sendToServer('verif', pseudo)
+        subscribe('Error', (message) => {
+            console.log(message)
+        })
 
         window.addEventListener("beforeunload", () => {
             sendToServer("disconect","")
