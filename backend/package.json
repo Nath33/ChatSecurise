@@ -1,11 +1,22 @@
 {
-    "name": "super-chat",
-    "version": "0.1.0",
-    "dependencies": {
-        "express": "~3.3.4",
-        "socket.io": "~1.2.1",
-        "ent": "~0.1.0"
-    },
-    "author": "Mateo21 <mateo21@email.com>",
-    "description": "Un super Chat temps réel avec socket.io"
+  "name": "chatsecurise",
+  "version": "1.0.0",
+  "description": "Chat sécurisé - Ingesup",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nath33/ChatSecurise.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Nath33/ChatSecurise/issues"
+  },
+  "homepage": "https://github.com/Nath33/ChatSecurise#readme",
+  "dependencies": {
+    "jest": "^21.2.1"
+  }
 }
