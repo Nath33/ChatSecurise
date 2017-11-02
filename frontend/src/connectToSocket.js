@@ -9,5 +9,8 @@ function sendToServer(key, value) {
 function subscribe(key, callback){
     socket.on(key, (message) => callback(message))
 }
+function userUse(key, callback){
+    socket.on(key, (message) => callback(message))
+}
 
-export {sendToServer, subscribe};
+export {sendToServer, subscribe, userUse};

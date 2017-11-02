@@ -7,14 +7,16 @@ let clients = []
 io.sockets.on('connection', function (socket) {
 
     socket.on("verif", pseudo => {
-        if (clients.findIndex(elt => elt.pseudo) === -1) {
+        if (clients.findIndex(elt => elt.pseudo === pseudo) === -1) {
             clients.push({pseudo: pseudo, socket: socket})
         } else {
             socket.emit("Error", "Identifiant déjà utilisé")
         }
     })
 
-    socket.on('disconect', () => {clients.splice(clients.findIndex(elt => elt.socket === socket), 1)})
+    socket.on('disconect', () => {
+        clients.splice(clients.findIndex(elt => elt.socket === socket), 1)
+    })
 });
 
 server.listen(8081);

@@ -1,15 +1,22 @@
 import React, {Component} from 'react';
 import './App.css';
-import {sendToServer, subscribe} from './connectToSocket';
+import {sendToServer, subscribe, userUse} from './connectToSocket';
 
 class App extends Component {
 
     componentDidMount() {
-        let pseudo = prompt('nom : ')
+        let pseudo = ""
+        pseudo = prompt('nom : ')
 
         sendToServer('verif', pseudo)
         subscribe('Error', (message) => {
             console.log(message)
+        })
+
+        userUse('Error', (message) => {
+            alert(message)
+            pseudo = prompt('nom : ')
+            sendToServer('verif', pseudo)
         })
 
         window.addEventListener("beforeunload", () => {
