@@ -17,6 +17,13 @@ io.sockets.on('connection', function (socket) {
     socket.on('disconect', () => {
         clients.splice(clients.findIndex(elt => elt.socket === socket), 1)
     })
+
+    socket.on('message', (message) => {
+        let pseudo = clients[clients.findIndex(elt => elt.socket === socket)].pseudo
+        for (let index in clients) {
+            clients[index].socket.emit("message", JSON.stringify({message: message, pseudo: pseudo}))
+        }
+    })
 });
 
 server.listen(8081, () => {

@@ -1,69 +1,48 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>chat</title>
-    <!-- STYLE -->
-    <link rel="stylesheet" href="style2.css">
-    <!-- BOOTSTRAP -->
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>chat</title>
 </head>
 <body>
-    <div class="container-fluid">
-        <div class="row">
-            <!-- Zone A -->
-            <div id="zone_a" class="col-10">
-                <!-- Room -->
-                <div id="room">
-                    <h3>#Room</h3>
-                </div>
-                <!-- Message -->
-                <div id="text">
-                    <div id="msg">
-                        <script>
-                            for(var j = 0; j < 15; j++) {
-                                document.write(
-                                    "<li>" +
-                                    "<h3><img id='profil_chat' src='http://lorempixel.com/400/200'>" + "Pseudo_" + j + "</h3></img>" +
-                                    "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer fermentum viverra neque sed facilisis.</p>" +
-                                    "</li>"
-                                )
-                            }
-                        </script>
-                    </div>
-                </div>
-                <!-- Send -->
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Message" aria-label="message" aria-describedby="basic-addon2">
-                    <span class="input-group-addon" id="basic-addon2">Send</span>
-                </div>
-            </div>
-            <!-- Zone B -->
-            <div id="zone_b" class="col-2">
-                <!-- Search -->
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Username" aria-label="username" aria-describedby="basic-addon2">
-                    <span class="input-group-addon" id="basic-addon2">Search</span>
-                </div>
-                <!-- Users -->
-                <div id="users">
-                    <script>
-                        for (var i = 0; i < 30; i++) {
-                            document.write(
-                                "<li>" +
-                                "<img id='profil' src='http://lorempixel.com/400/200' />" +
-                                "Pseudo_" + i + "</li>" 
-                            )
-                        }
-                    </script>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container">
-        <div id="app">Loading...</div>
-    </div>
+<div class="container-fluid">
+	<div class="row">
+		<!-- Zone A -->
+		<div id="zone_a" class="col-10">
+			<!-- Room -->
+			<div id="room">
+				<h3>#Room</h3>
+			</div>
+
+			<div class="container">
+				<div id="app"></div>
+			</div>
+
+		</div>
+		<!-- Zone B -->
+		<div id="zone_b" class="col-2">
+			<!-- Search -->
+			<div class="input-group">
+				<input type="text" class="form-control" placeholder="Username" aria-label="username"
+							 aria-describedby="basic-addon2">
+				<span class="input-group-addon" id="basic-addon2">Search</span>
+			</div>
+			<!-- Users -->
+			<div id="users">
+				<script>
+					for (var i = 0; i < 30; i++) {
+						document.write(
+							"<li>" +
+							"<img id='profil' src='http://lorempixel.com/400/200' />" +
+							"Pseudo_" + i + "</li>"
+						)
+					}
+				</script>
+			</div>
+		</div>
+	</div>
+</div>
 </body>
 </html>
