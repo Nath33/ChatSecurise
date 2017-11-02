@@ -8,9 +8,17 @@ io.sockets.on('connection', function (socket) {
 
     socket.on("verif", pseudo => {
         if (clients.findIndex(elt => elt.pseudo === pseudo) === -1) {
-            clients.push({pseudo: pseudo, socket: socket})
+            clients.push({pseudo: pseudo, socket: socket});
+            let listUser = []
+            clients.forEach(function(item) {
+                listUser.push(item.pseudo);
+            });
+            JSON.stringify(listUser);
+            socket.emit("List", listUser);
+            socket.broadcast.emit("List", listUser);
+
         } else {
-            socket.emit("Error", "Identifiant déjà utilisé")
+            socket.emit("check", "Identifiant déjà utilisé");
         }
     })
 
