@@ -32,6 +32,9 @@ export default class App extends React.Component {
 			this.setState({
 				data: newVal
 			})
+			var elem = document.getElementById('text'); //chat container's ID where your messages stack up.
+			elem.scrollTop = elem.scrollHeight;
+
 		})
 
 		window.addEventListener("beforeunload", () => {
@@ -65,7 +68,7 @@ export default class App extends React.Component {
 					<div id="text">
 						<div id="msg">
 							<ul>
-								{this.state.data.map(post => <li key={post.date}><Row data={post}/></li>)}
+								{this.state.data.map((post, index) => <li key={index}><Row data={post}/></li>)}
 							</ul>
 						</div>
 					</div>
