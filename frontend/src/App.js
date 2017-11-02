@@ -5,24 +5,26 @@ import {sendToServer, subscribe, userUse} from './connectToSocket';
 class App extends Component {
 
     componentDidMount() {
-        let pseudo = ""
-        pseudo = prompt('nom : ')
 
-        sendToServer('verif', pseudo)
+        this.checkUser()
+
         subscribe('Error', (message) => {
             console.log(message)
         })
 
         userUse('Error', (message) => {
             alert(message)
-            pseudo = prompt('nom : ')
-            sendToServer('verif', pseudo)
+            this.checkUser()
         })
 
         window.addEventListener("beforeunload", () => {
             sendToServer("disconect","")
         });
 
+    }
+
+    checkUser(){
+        sendToServer('verif', prompt('nom : '))
     }
 
     render() {
