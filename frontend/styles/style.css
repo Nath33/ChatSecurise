@@ -1,5 +1,5 @@
 /* Zone A */
-#zone_a {
+#zone_chat {
     background-color: #ecf0f1;
     padding: 0;
 }
@@ -43,13 +43,13 @@
     margin-right: 10px;
 }
 
-#zone_a .input-group {
+#zone_chat .input-group {
     height: 120px;
     background-color: #bdc3c7;
 }
 
 /* Zone B */
-#zone_b {
+#zone_users {
     height: 100%;
     padding: 5px;
     background-color: #2c3e50;
@@ -59,7 +59,6 @@
 
 #users {
     color: #ecf0f1;
-    text-align: center;
     font-size: 30px;
     font-weight: bold;
     overflow-y: scroll;
