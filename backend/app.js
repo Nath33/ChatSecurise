@@ -7,18 +7,22 @@ let clients = []
 console.log("Starting socket")
 io.sockets.on('connection', function (socket) {
 
+    function getListUser(){
+        let listUser = []
+        clients.forEach(function(item) {
+            listUser.push(item.getPseudo());
+        });
+        JSON.stringify(listUser);
+        socket.emit("List", listUser);
+        socket.broadcast.emit("List", listUser);
+    }
+
     socket.on("verif", pseudo => {
         let client = new Client(pseudo,socket)
         console.log(client.getPseudo())
         if (clients.findIndex(elt => elt.getPseudo() === pseudo) === -1) {
             clients.push(client);
-            let listUser = []
-            clients.forEach(function(item) {
-                listUser.push(item.getPseudo());
-            });
-            JSON.stringify(listUser);
-            socket.emit("List", listUser);
-            socket.broadcast.emit("List", listUser);
+            getListUser()
 
         } else {
             socket.emit("check", "Identifiant déjà utilisé");
@@ -27,6 +31,7 @@ io.sockets.on('connection', function (socket) {
 
     socket.on('disconect', () => {
         clients.splice(clients.findIndex(elt => elt.getSocket() === socket), 1)
+        getListUser()
     })
 
     socket.on('message', (message) => {
