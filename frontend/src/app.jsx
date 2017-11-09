@@ -15,19 +15,20 @@ export default class App extends React.Component {
 			data: [],
 			users: [],
 			rooms: [],
-			myRoom: ""
+			myRoom: "",
+			pseudo: "",
 		}
 	}
 
 	componentDidMount() {
-		App.checkUser()
+		this.checkUser()
 		subscribe('Error', (message) => {
 			console.log(message)
 		})
 
 		subscribe('check', (message) => {
 			alert(message)
-			App.checkUser()
+			this.checkUser()
 		})
 		subscribe('List', (message) => {
 			console.log(message)
@@ -65,8 +66,10 @@ export default class App extends React.Component {
 		});
 	}
 
-	static checkUser() {
-		sendToServer('verif', prompt('nom : '))
+	checkUser = () => {
+		let pseudo = prompt('nom : ')
+		sendToServer('verif', pseudo)
+		this.setState({pseudo:pseudo})
 	}
 
 	update = (evt) => {
@@ -95,7 +98,7 @@ export default class App extends React.Component {
 					</div>
 					<div id="zone_chat" className="col-9">
 						<div id="room">
-							<h3>#Room - {this.state.myRoom}</h3>
+							<h3>{this.state.pseudo} -#Room - {this.state.myRoom}</h3>
 						</div>
 						<div className="App">
 							<div id="text">
