@@ -10,7 +10,7 @@ io.sockets.on('connection', function (socket) {
 
     function sendListUser() {
         let listUser = []
-        rooms.default.forEach(function (item) {
+        findUserInRoom(socket).room.forEach(function (item) {
             listUser.push(item.getPseudo());
         });
         let value = JSON.stringify(listUser);;
@@ -63,12 +63,13 @@ io.sockets.on('connection', function (socket) {
     })
 
     socket.on('createRoom', (data) => {
-        const {oldRoom, newRoom} = JSON.parse(data)
-        let user = getUserAndRemoveItFromRoomBySocket(oldRoom);
+        const {newRoom} = JSON.parse(data)
+        let oldRoomName = findRoomName(findUserInRoom(socket).room);
+        let user = getUserAndRemoveItFromRoomBySocket(oldRoomName);
         rooms[newRoom] = []
         rooms[newRoom].push(user)
-
         sendListRoom(true)
+        sendListUser()
     })
 
     socket.on('changeRoom', (data) => {

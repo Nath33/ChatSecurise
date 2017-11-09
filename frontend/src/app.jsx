@@ -17,6 +17,7 @@ export default class App extends React.Component {
 			rooms: [],
 			myRoom: "",
 			pseudo: "",
+			inputRoom: "",
 		}
 	}
 
@@ -88,15 +89,27 @@ export default class App extends React.Component {
 		})
 	}
 
+	handleInputRoom = (evt)=>{
+		this.setState({
+			inputRoom:evt.target.value
+		})
+	}
+	createRoom = ()=>{
+		if(this.state.inputRoom.trim() === ""){alert("Room vide")}
+		else {sendToServer("createRoom", JSON.stringify({newRoom: this.state.inputRoom}))}
+	}
+
 	render() {
 		console.log(this.state.rooms)
 		return (
 			<div>
 				<div className="row">
-					<div id="zone_rooms" className="col-1">
+					<div id="zone_rooms" className="col-2">
+						<input onChange={this.handleInputRoom} value={this.state.inputRoom}/>
+						<button onClick={this.createRoom}>Créer une room</button>
 						{this.state.rooms.map((room, index) => <RoomRow key={index} room={room}/>)}
 					</div>
-					<div id="zone_chat" className="col-9">
+					<div id="zone_chat" className="col-8">
 						<div id="room">
 							<h3>{this.state.pseudo} -#Room - {this.state.myRoom}</h3>
 						</div>
