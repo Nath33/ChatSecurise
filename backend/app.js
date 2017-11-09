@@ -25,7 +25,7 @@ io.sockets.on('connection', function (socket) {
             sendListUser()
             sendListRoom()
         } else {
-            // socket.emit("check", "Identifiant déjà utilisé");
+            socket.emit("check", "Identifiant déjà utilisé");
         }
     })
 
