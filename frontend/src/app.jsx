@@ -45,7 +45,8 @@ export default class App extends React.Component {
 		})
 		subscribe('yourRoom', (jsonRoom) => {
 					this.setState({
-						myRoom: JSON.parse(jsonRoom)
+						myRoom: JSON.parse(jsonRoom),
+						data: [],
 					})
 				})
 
