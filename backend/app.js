@@ -8,48 +8,32 @@ let rooms = {default: [],}
 console.log("Starting socket")
 io.sockets.on('connection', function (socket) {
 
-    function getListUser(){
+    function sendListUser() {
         let listUser = []
-        clients.forEach(function(item) {
+        rooms.default.forEach(function (item) {
             listUser.push(item.getPseudo());
         });
-        JSON.stringify(listUser);
-        socket.emit("List", listUser);
-        socket.broadcast.emit("List", listUser);
+        let value = JSON.stringify(listUser);;
+        socket.emit("List", value);
+        socket.broadcast.emit("List", value);
     }
 
-    socket.on("verif", pseudo => {
-        let client = new Client(pseudo,socket)
-        console.log(client.getPseudo())
-        if (clients.findIndex(elt => elt.getPseudo() === pseudo) === -1) {
-            clients.push(client);
-            getListUser()
-            sendListRoom()
-
-        } else {
-            socket.emit("check", "Identifiant déjà utilisé");
-        }
-    })
 
     socket.on("verif", pseudo => {
         if (rooms.default.findIndex(elt => elt.pseudo === pseudo) === -1) {
-            rooms.default.push({pseudo: pseudo, socket: socket});
-            let listUser = []
-            rooms.default.forEach(function (item) {
-                listUser.push(item.pseudo);
-            });
-            JSON.stringify(listUser);
-            socket.emit("List", listUser);
-            socket.broadcast.emit("List", listUser);
+            rooms.default.push(new Client(pseudo, socket));
+            sendListUser()
             sendListRoom()
         } else {
-            socket.emit("check", "Identifiant déjà utilisé");
+            // socket.emit("check", "Identifiant déjà utilisé");
         }
     })
 
     socket.on('disconect', () => {
-        rooms.default.splice(rooms.default.findIndex(elt => elt.socket === socket), 1)
-        getListUser()
+        let obj = findUserInRoom(socket);
+        if(obj === null){return}
+        removeUserFromItsRoom(findRoomName(obj.room), obj.index)
+        sendListUser()
     })
 
     socket.on('message', (message) => {
@@ -103,6 +87,14 @@ io.sockets.on('connection', function (socket) {
         rooms[newRoom].push(user)
     })
 
+    function findRoomName(room){
+        for(let room2 in rooms){
+            if(room === rooms[room2]){
+                return room2
+            }
+        }
+    }
+
     function checkIfShouldBeDeleted(oldRoom) {
         if (rooms[oldRoom].length === 0 && oldRoom !== "default") {
             delete rooms[oldRoom]
@@ -117,13 +109,23 @@ io.sockets.on('connection', function (socket) {
     }
 
     function getUserAndRemoveItFromRoomBySocket(oldRoom) {
-        let userIndex = rooms[oldRoom].findIndex(elt => elt.socket === socket);
+        let userIndex = rooms[oldRoom].findIndex(elt => elt.getSocket() === socket);
         return removeUserFromItsRoom(oldRoom, userIndex);
     }
 
     function getUserAndRemoveItFromRoomByPseudo(oldRoom, pseudo) {
-        let userIndex = rooms[oldRoom].findIndex(elt => elt.pseudo === pseudo);
+        let userIndex = rooms[oldRoom].findIndex(elt => elt.getPseudo() === pseudo);
         return removeUserFromItsRoom(oldRoom, userIndex)
+    }
+
+    function findUserInRoom(socket) {
+        for (let room in rooms) {
+            let index = rooms[room].findIndex(elt => elt.getSocket() === socket);
+            if (index !== null && index !== -1) {
+                return {room: rooms[room], index: index}
+            }
+        }
+        return null
     }
 });
 

@@ -31,7 +31,7 @@ export default class App extends React.Component {
 		subscribe('List', (message) => {
 			console.log(message)
 			this.setState({
-				users: message
+				users: JSON.parse(message)
 			})
 		})
 
