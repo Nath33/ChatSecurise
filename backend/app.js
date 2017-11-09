@@ -16,6 +16,12 @@ io.sockets.on('connection', function (socket) {
         let value = JSON.stringify(listUser);;
         socket.emit("List", value);
         socket.broadcast.emit("List", value);
+        sendYourRoom()
+    }
+
+    function sendYourRoom() {
+        let roomName = findRoomName(findUserInRoom(socket).room);
+        socket.emit("yourRoom", JSON.stringify(roomName));
     }
 
 
