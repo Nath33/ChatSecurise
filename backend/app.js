@@ -8,14 +8,23 @@ let rooms = {default: [],}
 console.log("Starting socket")
 io.sockets.on('connection', function (socket) {
 
-    function sendListUser() {
+    function sendToRoom(room, key, value) {
+        room.map(client => client.getSocket().emit(key, value))
+    }
+
+    function listUserRoom(room) {
         let listUser = []
-        findUserInRoom(socket).room.forEach(function (item) {
+        room.forEach(function (item) {
             listUser.push(item.getPseudo());
         });
-        let value = JSON.stringify(listUser);;
+        return listUser;
+    }
+
+    function sendListUser() {
+        let listUser = listUserRoom(findUserInRoom(socket).room);
+        let value = JSON.stringify(listUser)
         socket.emit("List", value);
-        socket.broadcast.emit("List", value);
+        sendToRoom(findUserInRoom(socket).room, "List", value)
         sendYourRoom()
     }
 
@@ -43,39 +52,31 @@ io.sockets.on('connection', function (socket) {
     })
 
     socket.on('message', (message) => {
-        console.log("sending to ", rooms.default.length, message)
-        let pseudo = rooms.default[rooms.default.findIndex(elt => elt.socket === socket)].pseudo
-        for (let index in rooms.default) {
-            rooms.default[index].socket.emit("message", JSON.stringify({message: message, pseudo: pseudo}))
-        }
-    })
-
-    socket.on('privateMessage', (data) => {
-        data = JSON.parse(data)
-        console.log(data)
-        let pseudo = rooms.default[rooms.default.findIndex(elt => elt.socket === socket)].pseudo
-        for (let index in rooms.default) {
-            console.log(rooms.default[index].pseudo, data.pseudo)
-            if (data.pseudo.indexOf(rooms.default[index].pseudo) !== -1) {
-                rooms.default[index].socket.emit("message", JSON.stringify({message: data.message, pseudo: pseudo}))
-            }
-        }
+        let room = findUserInRoom(socket).room;
+        console.log("sending to ", room.length, message)
+        let pseudo = room[room.findIndex(elt => elt.socket === socket)].pseudo
+        sendToRoom(room, 'message', JSON.stringify({message: message, pseudo: pseudo}))
     })
 
     socket.on('createRoom', (data) => {
         const {newRoom} = JSON.parse(data)
-        let oldRoomName = findRoomName(findUserInRoom(socket).room);
-        let user = getUserAndRemoveItFromRoomBySocket(oldRoomName);
+        let oldRoom = findUserInRoom(socket).room
+        let user = getUserAndRemoveItFromRoomBySocket(findRoomName(oldRoom));
         rooms[newRoom] = []
         rooms[newRoom].push(user)
+        sendToRoom(oldRoom, "List", listUserRoom(oldRoom))
         sendListRoom(true)
         sendListUser()
     })
 
     socket.on('changeRoom', (data) => {
-        const {oldRoom, newRoom} = JSON.parse(data)
-        let user = getUserAndRemoveItFromRoomBySocket(oldRoom);
+        const {newRoom} = JSON.parse(data)
+        let oldRoom = findUserInRoom(socket).room;
+        let user = getUserAndRemoveItFromRoomBySocket(findRoomName(oldRoom));
         rooms[newRoom].push(user)
+        sendToRoom(oldRoom, 'List', listUserRoom(oldRoom))
+        sendListUser()
+        sendListRoom()
     })
 
     function sendListRoom(all) {

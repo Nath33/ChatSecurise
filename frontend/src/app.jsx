@@ -98,16 +98,18 @@ export default class App extends React.Component {
 		if(this.state.inputRoom.trim() === ""){alert("Room vide")}
 		else {sendToServer("createRoom", JSON.stringify({newRoom: this.state.inputRoom}))}
 	}
+	handleChangerRoom = (roomName) =>{
+		sendToServer("changeRoom", JSON.stringify({newRoom: roomName}))
+	}
 
 	render() {
-		console.log(this.state.rooms)
 		return (
 			<div>
 				<div className="row">
 					<div id="zone_rooms" className="col-2">
 						<input onChange={this.handleInputRoom} value={this.state.inputRoom}/>
 						<button onClick={this.createRoom}>Créer une room</button>
-						{this.state.rooms.map((room, index) => <RoomRow key={index} room={room}/>)}
+						{this.state.rooms.map((room, index) => <RoomRow key={index} click={this.handleChangerRoom} room={room}/>)}
 					</div>
 					<div id="zone_chat" className="col-8">
 						<div id="room">

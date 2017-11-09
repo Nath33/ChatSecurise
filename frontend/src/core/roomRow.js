@@ -8,7 +8,7 @@ export default class RoomRow extends React.Component {
 	}
 
 	handle = () => {
-
+		this.props.click(this.props.room)
 	}
 
 	render() {

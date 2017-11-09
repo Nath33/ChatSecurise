@@ -21,7 +21,7 @@ describe('test room', () => {
         let socket = openSocket('http://localhost:8081', options);
         socket.emit("verif", "canard")
         socket.emit("createRoom", JSON.stringify({newRoom: "room2"}))
-        socket.emit("changeRoom", JSON.stringify({oldRoom: "room2", newRoom: "default"}))
+        socket.emit("changeRoom", JSON.stringify({newRoom: "default"}))
         setTimeout(() => {
             expect(app.rooms.room2).toBe(undefined);
             expect(app.rooms.default.length).toBe(1);
