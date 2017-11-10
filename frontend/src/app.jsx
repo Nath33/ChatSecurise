@@ -2,6 +2,7 @@ import React from 'react';
 import 'styles/index.scss';
 import Row from 'core/row';
 import UserRow from 'core/userRow';
+import RoomRow from 'core/roomRow';
 import {sendToServer, subscribe} from './connectToSocket';
 
 
@@ -12,29 +13,45 @@ export default class App extends React.Component {
 		this.state = {
 			value: "",
 			data: [],
-			users: []
+			users: [],
+			rooms: [],
+			myRoom: "",
+			pseudo: "",
+			inputRoom: "",
 		}
 	}
 
 	componentDidMount() {
-		App.checkUser()
+		this.checkUser()
 		subscribe('Error', (message) => {
 			console.log(message)
 		})
 
-        subscribe('check', (message) => {
-            alert(message)
-            App.checkUser()
-        })
-        subscribe('List', (message) => {
+		subscribe('check', (message) => {
+			alert(message)
+			this.checkUser()
+		})
+		subscribe('List', (message) => {
+			console.log(message)
+			this.setState({
+				users: JSON.parse(message)
+			})
+		})
 
-            console.log(message)
-            this.setState({
-                users: message
-            })
-        })
+		subscribe('listRoom', (rooms) => {
+			this.setState({
+				rooms: JSON.parse(rooms)
+			})
+		})
+		subscribe('yourRoom', (jsonRoom) => {
+					this.setState({
+						myRoom: JSON.parse(jsonRoom),
+						data: [],
+					})
+				})
 
 		subscribe('message', (data) => {
+			console.log(data)
 			let value = JSON.parse(data)
 			let newVal = this.state.data
 			newVal.push({pseudo: value.pseudo, message: value.message, date: new Date()})
@@ -51,8 +68,10 @@ export default class App extends React.Component {
 		});
 	}
 
-	static checkUser() {
-		sendToServer('verif', prompt('nom : '))
+	checkUser = () => {
+		let pseudo = prompt('nom : ')
+		sendToServer('verif', pseudo)
+		this.setState({pseudo:pseudo})
 	}
 
 	update = (evt) => {
@@ -63,20 +82,39 @@ export default class App extends React.Component {
 
 
 	send = (evt) => {
+		console.log("Send to everyone", this.state.value)
 		sendToServer("message", this.state.value)
+
 		this.setState({
 			value: ""
 		})
 	}
 
+	handleInputRoom = (evt)=>{
+		this.setState({
+			inputRoom:evt.target.value
+		})
+	}
+	createRoom = ()=>{
+		if(this.state.inputRoom.trim() === ""){alert("Room vide")}
+		else {sendToServer("createRoom", JSON.stringify({newRoom: this.state.inputRoom}))}
+	}
+	handleChangerRoom = (roomName) =>{
+		sendToServer("changeRoom", JSON.stringify({newRoom: roomName}))
+	}
 
 	render() {
 		return (
 			<div>
 				<div className="row">
-					<div id="zone_a" className="col-10">
+					<div id="zone_rooms" className="col-2">
+						<input onChange={this.handleInputRoom} value={this.state.inputRoom}/>
+						<button onClick={this.createRoom}>Créer une room</button>
+						{this.state.rooms.map((room, index) => <RoomRow key={index} click={this.handleChangerRoom} room={room}/>)}
+					</div>
+					<div id="zone_chat" className="col-8">
 						<div id="room">
-							<h3>#Room</h3>
+							<h3>{this.state.pseudo} -#Room - {this.state.myRoom}</h3>
 						</div>
 						<div className="App">
 							<div id="text">
@@ -89,14 +127,14 @@ export default class App extends React.Component {
 						</div>
 						<div className="input-group">
 							<input type="text" className="form-control" placeholder="Message" aria-label="message"
-								   aria-describedby="basic-addon2" value={this.state.value} onChange={this.update}/>
+										 aria-describedby="basic-addon2" value={this.state.value} onChange={this.update}/>
 							<span className="input-group-addon" id="basic-addon2" onClick={this.send}>Send</span>
 						</div>
 					</div>
-					<div id="zone_b" className="col-2">
+					<div id="zone_users" className="col-2">
 						<div className="input-group">
 							<input type="text" className="form-control" placeholder="Username" aria-label="username"
-								   aria-describedby="basic-addon2" />
+										 aria-describedby="basic-addon2"/>
 							<span className="input-group-addon" id="basic-addon2">Search</span>
 						</div>
 						<div id="users">
