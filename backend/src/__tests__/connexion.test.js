@@ -18,18 +18,12 @@ afterEach(() => {
 
 describe('test socket', () => {
     test('It should add 1 client', (done) => {
-        setTimeout(() => {
-            expect(app.rooms.default.length).toBe(1)
-            done()
-        }, 500)
+        socket.on('connect', function(){done()});
     });
 
     test('It should pop 1 client', (done) => {
         socket.emit("disconect", "")
-        setTimeout(() => {
-            expect(app.rooms.default.length).toBe(0)
-            done()
-        }, 500)
+        socket.on('disconnect', function(){done()});
     });
 
     test('It should ask for pseudo client', (done) => {

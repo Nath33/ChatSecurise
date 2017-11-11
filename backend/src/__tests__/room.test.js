@@ -6,67 +6,79 @@ const options = {
     'force new connection': true
 };
 
+let socket
+
+beforeEach(() => {
+    socket = openSocket('http://localhost:8081', options);
+    socket.emit("verif", "canard")
+});
+afterEach(() => {
+    socket.emit("disconect", "")
+});
+
+
 describe('test room', () => {
     test('It should add 1 room', (done) => {
-        let socket = openSocket('http://localhost:8081', options);
-        socket.emit("verif", "canard")
-        socket.emit("createRoom", JSON.stringify({newRoom: "room2"}))
-        setTimeout(() => {
-            expect(app.rooms.room2.length).toBe(1);
-            done()
-        }, 500)
+        expect.assertions(2);
+        // When leave, it deletes the room if empty
+        let call = 0
+        socket.on("listRoom", (data) => {
+            if(call === 0){
+                expect(JSON.parse(data).length).toBe(1)
+                expect(JSON.parse(data)[0]).toBe("default")
+                done()
+            }else if(call === 2){
+                expect(JSON.parse(data).length).toBe(1)
+                expect(JSON.parse(data)[0]).toBe("room2")
+                done()
+            }
+            call++
+        })
+        setTimeout(()=>{
+            socket.emit("changeRoom", JSON.stringify({newRoom: "room2"}))
+        }, 100)
     });
 
     test('It should leave the room', (done) => {
-        let socket = openSocket('http://localhost:8081', options);
-        socket.emit("verif", "canard")
-        socket.emit("createRoom", JSON.stringify({newRoom: "room2"}))
+        let call = 0
+        socket.on("listRoom", (data) => {
+            if(call === 0){
+                expect(JSON.parse(data).length).toBe(1)
+                expect(JSON.parse(data)[0]).toBe("default")
+                done()
+            }else if(call === 1){
+                expect(JSON.parse(data).length).toBe(1)
+                expect(JSON.parse(data)[0]).toBe("room2")
+                done()
+            }else if(call === 4){
+                expect(JSON.parse(data).length).toBe(1)
+                expect(JSON.parse(data)[0]).toBe("default")
+                done()
+            }
+            call++
+        })
+        socket.emit("changeRoom", JSON.stringify({newRoom: "room2"}))
         socket.emit("changeRoom", JSON.stringify({newRoom: "default"}))
-        setTimeout(() => {
-            expect(app.rooms.room2).toBe(undefined);
-            expect(app.rooms.default.length).toBe(1);
-            done()
-        }, 500)
+
     });
 
     test('It should list 2 rooms', (done) => {
         let i = 0;
-        let socket = openSocket('http://localhost:8081', options);
-        socket.emit("verif", "canard")
-        socket.emit("createRoom", JSON.stringify({newRoom: "room2"}))
-        socket.on("listRoom", (jsonList => {
-            if(i === 1){
+        let client2 = openSocket('http://localhost:8081', options)
+
+        client2.on("listRoom", (jsonList => {
+            if (i === 2) {
                 let list = JSON.parse(jsonList)
-                expect(list[0]).toBe("default");
-                expect(list[1]).toBe("room2");
+                expect(list[0]).toBe("default")
+                expect(list[1]).toBe("room2")
+                client2.emit("disconect", "")
                 done()
             }
             i++
         }))
-        let call = 0
-        socket.on("List", (jsonUserList => {
-            if(call === 1){
-                expect(JSON.parse(jsonUserList).length).toBe(1);
-                done()
-            }
-            call++
-        }))
-    });
 
-    test('It should invites a user in my room', (done) => {
-        let client1 = openSocket('http://localhost:8081', options);
-        let client2 = openSocket('http://localhost:8081', options);
-
-        client1.emit("verif", "canard")
+        socket.emit("verif", "canard")
         client2.emit("verif", "canard2")
-
-        client1.emit("createRoom", JSON.stringify({newRoom: "room2"}))
-        client1.emit("inviteRoom", JSON.stringify({newRoom: "room2", oldRoom: "default", "pseudo": "canard2"}))
-
-        setTimeout(()=>{
-            expect(app.rooms.room2.length).toBe(2)
-            expect(app.rooms.default.length).toBe(0)
-            done()
-        }, 500)
+        socket.emit("changeRoom", JSON.stringify({newRoom: "room2"}))
     });
 });

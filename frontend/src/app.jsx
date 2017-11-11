@@ -97,7 +97,7 @@ export default class App extends React.Component {
 	}
 	createRoom = ()=>{
 		if(this.state.inputRoom.trim() === ""){alert("Room vide")}
-		else {sendToServer("createRoom", JSON.stringify({newRoom: this.state.inputRoom}))}
+		else {sendToServer("changeRoom", JSON.stringify({newRoom: this.state.inputRoom}))}
 	}
 	handleChangerRoom = (roomName) =>{
 		sendToServer("changeRoom", JSON.stringify({newRoom: roomName}))
