@@ -1,0 +1,49 @@
+import React from 'react'
+import MessageRow from '../row/messageRow';
+
+export default class Chat extends React.Component {
+
+	constructor(props) {
+		super(props)
+		this.state = {
+			inputValue: ""
+		}
+	}
+
+	send = () => {
+		this.props.onSend(this.state.inputValue)
+		this.setState({
+			inputValue: ""
+		})
+	}
+
+	update = (evt) => {
+		this.setState({
+			inputValue:evt.target.value
+		})
+	}
+
+	render() {
+		return (
+			<div id="zone_chat" className="col-8">
+				<div id="room">
+					<h3>{this.props.pseudo} -#Room - {this.props.room}</h3>
+				</div>
+				<div className="App">
+					<div id="text">
+						<div id="msg">
+							<ul>
+								{this.props.messages.map((post, index) => <li key={index}><MessageRow message={post}/></li>)}
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div className="input-group">
+					<input type="text" className="form-control" placeholder="Message" aria-label="message"
+								 aria-describedby="basic-addon2" value={this.state.inputValue} onChange={this.update}/>
+					<span className="input-group-addon" id="basic-addon2" onClick={this.send}>Send</span>
+				</div>
+			</div>
+		)
+	}
+}

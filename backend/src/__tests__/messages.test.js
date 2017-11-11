@@ -16,8 +16,8 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-    client1.emit("disconect", "")
-    client2.emit("disconect", "")
+    client1.disconnect()
+    client2.disconnect()
 });
 
 
@@ -37,14 +37,10 @@ describe('test send messages', () => {
         })
     });
 
-    test('It should send message to everyone in myRoom room', (done) => {
+    test('It should send message to everyone in room2 room', (done) => {
         let message = "foo"
-        client1.emit("createRoom", JSON.stringify({newRoom: "room2"}))
+        client1.emit("changeRoom", JSON.stringify({newRoom: "room2"}))
         client2.emit("changeRoom", JSON.stringify({newRoom: "room2"}))
-
-        setTimeout(() => {
-            client1.emit("message", message)
-        }, 500)
 
         client2.on('message', (msg) => {
             let data = JSON.parse(msg)
@@ -52,15 +48,13 @@ describe('test send messages', () => {
             expect(data.pseudo).toBe("canard")
             done()
         })
+
+        setTimeout(()=>{client1.emit("message", message)}, 1000)
     });
 
     test('It should not send message to mulitple room', (done) => {
         let message = "foo"
-        client1.emit("createRoom", JSON.stringify({newRoom: "room2"}))
-
-        setTimeout(() => {
-            client1.emit("message", message)
-        }, 500)
+        client1.emit("changeRoom", JSON.stringify({newRoom: "room2"}))
 
         client1.on('message', (msg) => {
             let data = JSON.parse(msg)
@@ -72,5 +66,7 @@ describe('test send messages', () => {
         client2.on('message', () => {
             fail()
         })
+
+        client1.emit("message", message)
     });
 });

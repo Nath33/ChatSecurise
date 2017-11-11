@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default class Row extends React.Component {
+export default class MessageRow extends React.Component {
 
 	constructor(props) {
 		super(props)
@@ -11,8 +11,8 @@ export default class Row extends React.Component {
 			<div>
 				<h3><img
 					src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=="
-					alt="Red dot"/>{this.props.data.pseudo} {this.props.data.date.toDateString()}</h3>
-				<p>{this.props.data.message}</p>
+					alt="Red dot"/>{this.props.message.pseudo} {this.props.message.date.toDateString()}</h3>
+				<p>{this.props.message.message}</p>
 			</div>
 		)
 	}

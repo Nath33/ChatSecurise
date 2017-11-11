@@ -12,18 +12,13 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-    socket.emit("disconect", "canard")
+    socket.disconnect()
 });
 
 
 describe('test socket', () => {
     test('It should add 1 client', (done) => {
         socket.on('connect', function(){done()});
-    });
-
-    test('It should pop 1 client', (done) => {
-        socket.emit("disconect", "")
-        socket.on('disconnect', function(){done()});
     });
 
     test('It should ask for pseudo client', (done) => {

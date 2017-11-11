@@ -13,7 +13,7 @@ beforeEach(() => {
     socket.emit("verif", "canard")
 });
 afterEach(() => {
-    socket.emit("disconect", "")
+    socket.disconnect()
 });
 
 
@@ -71,7 +71,7 @@ describe('test room', () => {
                 let list = JSON.parse(jsonList)
                 expect(list[0]).toBe("default")
                 expect(list[1]).toBe("room2")
-                client2.emit("disconect", "")
+                client2.emit("disconnect", "")
                 done()
             }
             i++

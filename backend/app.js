@@ -17,18 +17,14 @@ io.sockets.on('connection', function (socket) {
         }
     })
 
-    socket.on('disconect', () => {
-        socket.disconnect()
-        leaveRoom()
-    })
-
     socket.on('message', (message) => {
         io.to(socket.room).emit("message", JSON.stringify({message: message, pseudo: socket.pseudo}));
     })
 
     socket.on('changeRoom', (data) => {
         const {newRoom} = JSON.parse(data)
-        leaveRoom()
+        if(newRoom === socket.room){return}
+        leaveRoom(socket)
         joinRoom(newRoom)
         sendYourRoom(socket)
         sendEveryOneListRoom()
@@ -36,7 +32,7 @@ io.sockets.on('connection', function (socket) {
 
     /*------------------------------*/
 
-    function leaveRoom() {
+    function leaveRoom(socket) {
         let roomName = socket.room;
         socket.leave(roomName)
         socket.room = undefined
@@ -55,7 +51,7 @@ io.sockets.on('connection', function (socket) {
 
     function listUserRoom(room) {
         let listUser = []
-        for(const sock in io.in(room).connected){
+        for (const sock in io.in(room).connected) {
             if (
                 io.in(room).connected.hasOwnProperty(sock) &&
                 io.in(room).connected[sock].room === room
@@ -70,9 +66,9 @@ io.sockets.on('connection', function (socket) {
         socket.emit("yourRoom", JSON.stringify(socket.room));
     }
 
-    function getConnectedSocketIdsList(){
+    function getConnectedSocketIdsList() {
         let ids = []
-        for(const id in io.sockets.connected){
+        for (const id in io.sockets.connected) {
             if (io.sockets.adapter.rooms.hasOwnProperty(id)) {
                 ids.push(id)
             }
@@ -83,7 +79,7 @@ io.sockets.on('connection', function (socket) {
     function sendEveryOneListRoom() {
         let listRooms = []
         let connectedSocketIds = getConnectedSocketIdsList()
-        for(const room in io.sockets.adapter.rooms){
+        for (const room in io.sockets.adapter.rooms) {
             if (io.sockets.adapter.rooms.hasOwnProperty(room) && connectedSocketIds.indexOf(room) === -1) {
                 listRooms.push(room)
             }
@@ -93,7 +89,7 @@ io.sockets.on('connection', function (socket) {
     }
 
     function isPseudoFree(rooms, pseudo) {
-        for(const sock in io.in(rooms).connected){
+        for (const sock in io.in(rooms).connected) {
             if (
                 io.in(rooms).connected.hasOwnProperty(sock) &&
                 io.in(rooms).connected[sock].pseudo === pseudo
@@ -104,8 +100,7 @@ io.sockets.on('connection', function (socket) {
 
         return true
     }
-});
-
+})
 
 
 server.listen(8081, () => {
