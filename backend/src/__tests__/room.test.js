@@ -1,4 +1,4 @@
-import openSocket from 'socket.io-client'
+const openSocket = require('socket.io-client')
 
 const app = require('../../../backend/app')
 const options = {
