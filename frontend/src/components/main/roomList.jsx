@@ -27,8 +27,11 @@ export default class RoomList extends React.Component {
 	render() {
 		return (
 			<div id="zone_rooms" className="col-2">
-				<input onChange={this.handleNewValue} value={this.state.inputValue}/>
-				<button onClick={this.createRoom}>Créer une room</button>
+				<div className="input-group">
+					<input type="text" className="form-control" placeholder="RoomName" aria-label="roomname"
+							aria-describedby="basic-addon2" onChange={this.handleNewValue} value={this.state.inputValue}/>
+					<span className="input-group-addon" id="basic-addon2" onClick={this.createRoom}>Add</span>
+				</div>
 				{this.props.rooms.map((room, index) => <RoomRow key={index} click={this.handleChangeRoom} room={room}/>)}
 			</div>
 		)
