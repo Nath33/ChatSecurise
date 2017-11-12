@@ -29,11 +29,6 @@
 #zone_rooms li {
     font-size: 1.75em;
 }
-
-#zone_rooms li:active {
-    color: #e67e22;
-}
-
 /* Zone A */
 #zone_chat {
     background-color: #ecf0f1;
