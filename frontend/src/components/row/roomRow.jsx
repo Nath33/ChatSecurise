@@ -7,22 +7,23 @@ export default class RoomRow extends React.Component {
 		super(props)
 
 		this.state = {
-			myRoom: '',
+			myRoom: 'default',
 		}
 	}
+
 	componentDidMount(){
 		subscribe('yourRoom', (jsonRoom) => {
 			this.setState({
 				myRoom: JSON.parse(jsonRoom),
-				messages: [],
 			})
 		})
-	}
-
-	componentWillUpdate(){
 		if(this.state.myRoom === this.props.room){document.getElementById(this.props.room).style.color = 'orange'}
 		else{document.getElementById(this.props.room).style.color = 'pink'}
-		console.log(this.state.myRoom)
+	}
+
+	shouldComponentUpdate(){
+		if(this.state.myRoom === this.props.room){document.getElementById(this.props.room).style.color = 'orange'}
+		else{document.getElementById(this.props.room).style.color = 'pink'}
 	}
 
 	handle = () => {
@@ -30,7 +31,6 @@ export default class RoomRow extends React.Component {
 		this.setState({
 			myRoom: this.props.room
 		})
-		console.log(this.state.myRoom)
 	}
 
 	render() {
