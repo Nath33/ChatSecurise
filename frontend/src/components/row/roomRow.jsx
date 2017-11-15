@@ -5,9 +5,8 @@ export default class RoomRow extends React.Component {
 
 	constructor(props) {
 		super(props)
-
 		this.state = {
-			myRoom: 'default',
+			myRoom: ''
 		}
 	}
 
@@ -17,20 +16,17 @@ export default class RoomRow extends React.Component {
 				myRoom: JSON.parse(jsonRoom),
 			})
 		})
-		if(this.state.myRoom === this.props.room){document.getElementById(this.props.room).style.color = 'orange'}
-		else{document.getElementById(this.props.room).style.color = 'pink'}
-	}
-
-	shouldComponentUpdate(){
-		if(this.state.myRoom === this.props.room){document.getElementById(this.props.room).style.color = 'orange'}
-		else{document.getElementById(this.props.room).style.color = 'pink'}
+		console.log("10" + this.state.room)
 	}
 
 	handle = () => {
 		this.props.click(this.props.room)
-		this.setState({
-			myRoom: this.props.room
+		subscribe('yourRoom', (jsonRoom) => {
+			this.setState({
+				myRoom: JSON.parse(jsonRoom),
+			})
 		})
+		console.log("20" + this.state.room)
 	}
 
 	render() {

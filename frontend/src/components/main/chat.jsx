@@ -26,9 +26,6 @@ export default class Chat extends React.Component {
 	render() {
 		return (
 			<div id="zone_chat" className="col-8">
-				<div id="room">
-					<h3>{this.props.pseudo} -#Room - {this.props.room}</h3>
-				</div>
 				<div className="App">
 					<div id="text">
 						<div id="msg">
