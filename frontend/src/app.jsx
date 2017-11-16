@@ -22,6 +22,7 @@ export default class App extends React.Component {
 
 	componentDidMount() {
 		this.checkUser()
+
 		subscribe('Error', (message) => {
 			console.log(message)
 		})
@@ -30,6 +31,7 @@ export default class App extends React.Component {
 			alert(message)
 			this.checkUser()
 		})
+
 		subscribe('List', (message) => {
 			console.log(message)
 			this.setState({
@@ -42,6 +44,7 @@ export default class App extends React.Component {
 				rooms: JSON.parse(rooms)
 			})
 		})
+
 		subscribe('yourRoom', (jsonRoom) => {
 			this.setState({
 				myRoom: JSON.parse(jsonRoom),
@@ -70,7 +73,6 @@ export default class App extends React.Component {
 		sendToServer('verif', pseudo)
 		this.setState({pseudo: pseudo})
 	}
-
 
 	handleSendMessage = (message) => {
 		console.log("Send to everyone", message)

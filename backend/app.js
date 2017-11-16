@@ -2,8 +2,8 @@ const app = require('express')(),
     server = require('http').createServer(app),
     io = require('socket.io').listen(server)
 
-console.log("Starting socket")
 io.sockets.on('connection', function (socket) {
+
     socket.on("verif", pseudo => {
         if (isPseudoFree(io.sockets.adapter.rooms, pseudo)) {
             socket.pseudo = pseudo
@@ -24,7 +24,7 @@ io.sockets.on('connection', function (socket) {
     socket.on('changeRoom', (data) => {
         const {newRoom} = JSON.parse(data)
         if(newRoom === socket.room){return}
-        leaveRoom(socket)
+        if(socket.room !== "default") { leaveRoom(socket) }
         joinRoom(newRoom)
         sendYourRoom(socket)
         sendEveryOneListRoom()
