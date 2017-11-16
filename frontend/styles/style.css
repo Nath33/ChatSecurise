@@ -1,11 +1,21 @@
+#basic-addon2 {
+    background-color: #4B4B4B;
+    color: #DDDDDE;
+    border-color: #3C3C3C;
+}
 /* Zone Rooms */
+#room_g {
+    padding:0;
+}
 #zone_rooms {
-    background-color: #2c3e50;
+    background-color: #343434;
+    border-right: 2px solid #262626;
     height: 100%;
-    min-height: 930px;
-    max-height: 930px;
+    margin:0;
+    min-height: 810px;
+    max-height: 810px;
     padding: 0;
-    overflow: scroll;
+    overflow-y: auto;
     color: #ecf0f1;
 
 }
@@ -18,47 +28,70 @@
 #zone_rooms input {
     width: 60%;
     height: 40px;
+    background-color: #4B4B4B;
+    color: #DDDDDE;
+    border-color: #3C3C3C;
 }
 
-#zone_rooms button {
+#zone_rooms span {
     width: 40%;
     height: 40px;
     margin-top: 0;
+    border-color: #3C3C3C;
 }
 
 #zone_rooms li {
     font-size: 1.75em;
 }
 
-#zone_rooms li:active {
-    color: #e67e22;
+#room_info {
+    height: 120px;
+    padding: 0;
+    background-color: #343434;
+    border-top: 2px solid #262626;
+    border-right: 2px solid #262626;
+    color: #ecf0f1;
 }
 
-/* Zone A */
+#room_info h2{
+    line-height: 50px;
+}
+
+#room_info p{
+    color: #797979;
+    line-height: 0px;
+}
+
+#room_info h4{
+    color: #797979;
+    line-height: 0px;
+}
+/* Zone Chat */
 #zone_chat {
-    background-color: #ecf0f1;
+    background-color: #2D2D2D;
     padding: 0;
 }
 
-#room {
-    height: 75px;
-    padding-top: 20px;
-    padding-left: 15px;
-    background-color: #bdc3c7;
+#text {
+    height: 810px;
+    max-height: 810px;
+    overflow-y: auto; 
+    color:#ecf0f1;
 }
 
-#text {
-    height: 735px;
-    max-height: 735px;
-    overflow-y: scroll; 
+#msg ul {
+    margin-top: 10px;
+    padding: 0;
 }
 
 #msg li {
-    margin-top: 10px;
-    margin-left: 10px;
+    padding-left: 10px;
     list-style: none;
-    border-bottom: 1px solid #bdc3c7;
     
+}
+#msg li:nth-child(2n) {
+    background-color: #1d1d1d;
+    padding-bottom:5px;
 }
 
 #msg h3 {
@@ -82,22 +115,43 @@
 #zone_chat .input-group {
     height: 120px;
     background-color: #bdc3c7;
+    border-top: 2px solid #262626;
+    border-radius: 0;
 }
 
-/* Zone B */
+#zone_chat input {
+    background-color: #4B4B4B;
+    color: #DDDDDE;
+    border-color: #3C3C3C;
+    border-radius: 0;
+}
+
+#zone_chat #basic-addon2 {
+    border-radius: 0;
+}
+
+/* Zone Users */
 #zone_users {
     height: 100%;
     padding: 5px;
-    background-color: #2c3e50;
+    background-color: #343434;
+    border-left: 2px solid #262626;
     min-height: 930px;
     max-height: 930px;
+}
+
+#zone_users input {
+    background-color: #4B4B4B;
+    color: #DDDDDE;
+    border-color: #3C3C3C;
+    border-radius: 0;
 }
 
 #users {
     color: #ecf0f1;
     font-size: 30px;
     font-weight: bold;
-    overflow-y: scroll;
+    overflow-y: auto;
     max-height: 880px;
 }
 

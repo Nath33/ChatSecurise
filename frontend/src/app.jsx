@@ -89,7 +89,7 @@ export default class App extends React.Component {
 	render() {
 		return (
 			<div className="row">
-				<RoomList rooms={this.state.rooms} onClick={this.handleChangeRoom}/>
+				<RoomList rooms={this.state.rooms} onClick={this.handleChangeRoom} pseudo={this.state.pseudo} room={this.state.myRoom}/>
 				<Chat messages={this.state.messages} pseudo={this.state.pseudo} room={this.state.myRoom}
 							onSend={this.handleSendMessage}/>
 				<UserList users={this.state.users}/>
