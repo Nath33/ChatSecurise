@@ -1,60 +1,72 @@
+const openSocket = require('socket.io-client')
 const app = require('../../../backend/app')
-import openSocket from 'socket.io-client'
 
 const options = {
     transports: ['websocket'],
     'force new connection': true
 };
 
+let client1
+let client2
+beforeEach(() => {
+    client1 = openSocket('http://localhost:8081', options);
+    client1.emit("verif", "canard")
+    client2 = openSocket('http://localhost:8081', options);
+    client2.emit("verif", "foo")
+});
+
+afterEach(() => {
+    client1.disconnect()
+    client2.disconnect()
+});
+
 
 describe('test send messages', () => {
-    test('It should send message to everyone', (done) => {
-        let client1 = openSocket('http://localhost:8081', options);
-        let client2 = openSocket('http://localhost:8081', options);
+    test('It should send message to everyone in default room', (done) => {
         let message = "foo"
-        let pseudo = "canard"
-
-        client1.emit("verif", pseudo)
-        client2.emit("verif", "client2")
 
         setTimeout(() => {
             client1.emit("message", message)
-        }, 500)
+        }, 1000)
 
         client2.on('message', (msg) => {
             let data = JSON.parse(msg)
-            expect(data.message).toBe(message)
-            expect(data.pseudo).toBe(pseudo)
+            expect(data.message).toBe("foo")
+            expect(data.pseudo).toBe("canard")
             done()
         })
     });
 
-
-    test('It should send message to client2 only', (done) => {
-        let client1 = openSocket('http://localhost:8081', options);
-        let client2 = openSocket('http://localhost:8081', options);
-        let client3 = openSocket('http://localhost:8081', options);
-
+    test('It should send message to everyone in room2 room', (done) => {
         let message = "foo"
-        let pseudoClient1 = "canard"
-
-        client1.emit("verif", pseudoClient1)
-        client2.emit("verif", "client2")
-        client3.emit("verif", "client3")
-
-        setTimeout(() => {
-            client1.emit("privateMessage", JSON.stringify({message: message, pseudo: "client2"}))
-        }, 500)
+        client1.emit("changeRoom", JSON.stringify({newRoom: "room2"}))
+        client2.emit("changeRoom", JSON.stringify({newRoom: "room2"}))
 
         client2.on('message', (msg) => {
             let data = JSON.parse(msg)
-            expect(data.message).toBe(message)
-            expect(data.pseudo).toBe(pseudoClient1)
+            expect(data.message).toBe("foo")
+            expect(data.pseudo).toBe("canard")
             done()
         })
 
-        client3.on('message', (msg) => {
+        setTimeout(()=>{client1.emit("message", message)}, 1000)
+    });
+
+    test('It should not send message to mulitple room', (done) => {
+        let message = "foo"
+        client1.emit("changeRoom", JSON.stringify({newRoom: "room2"}))
+
+        client1.on('message', (msg) => {
+            let data = JSON.parse(msg)
+            expect(data.message).toBe("foo")
+            expect(data.pseudo).toBe("canard")
+            done()
+        })
+
+        client2.on('message', () => {
             fail()
         })
+
+        client1.emit("message", message)
     });
 });

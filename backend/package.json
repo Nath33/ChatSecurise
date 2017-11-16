@@ -4,6 +4,7 @@
   "description": "Chat sécurisé - Ingesup",
   "main": "index.js",
   "scripts": {
+    "start": "node app.js",
     "test": "jest"
   },
   "repository": {
