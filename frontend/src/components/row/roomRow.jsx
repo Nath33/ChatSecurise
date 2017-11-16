@@ -10,15 +10,6 @@ export default class RoomRow extends React.Component {
 		}
 	}
 
-	componentDidMount(){
-		subscribe('yourRoom', (jsonRoom) => {
-			this.setState({
-				myRoom: JSON.parse(jsonRoom),
-			})
-		})
-		console.log("10" + this.state.room)
-	}
-
 	handle = () => {
 		this.props.click(this.props.room)
 		subscribe('yourRoom', (jsonRoom) => {
@@ -26,14 +17,24 @@ export default class RoomRow extends React.Component {
 				myRoom: JSON.parse(jsonRoom),
 			})
 		})
-		console.log("20" + this.state.room)
 	}
 
 	render() {
+		var style = {
+			color: 'red',
+		}
+
+		let list = "";
+		if (this.props.room === this.props.test) {
+			list = <span style={style}>{this.props.room}</span>;
+		} else {
+			list = <span>{this.props.room}</span>;
+		}
+
 		return (
 			<div>
 				<li id={this.props.room} onClick={this.handle}>
-					{this.props.room}
+					{list}
 				</li>
 			</div>
 		)
