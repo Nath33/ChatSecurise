@@ -28,13 +28,13 @@ export default class RoomList extends React.Component {
 
 	createRoom = () => {
 		this.props.onClick(this.state.inputValue)
+		/*
 		subscribe('yourRoom', (jsonRoom) => {
 			this.setState({
 				myRoom: JSON.parse(jsonRoom),
 			})
 		})
-		if(this.state.myRoom === this.props.room){document.getElementById(this.state.myRoom).style.color = "red"}
-		else{document.getElementById(this.props.room).style.color = "white"}
+		*/
 	}
 
 	handleChangeRoom = (roomName) => {
@@ -50,7 +50,7 @@ export default class RoomList extends React.Component {
 								aria-describedby="basic-addon2" onChange={this.handleNewValue} value={this.state.inputValue}/>
 						<span className="input-group-addon" id="basic-addon2" onClick={this.createRoom}>Add</span>
 					</div>
-					{this.props.rooms.map((room, index) => <RoomRow key={index} click={this.handleChangeRoom} room={room}/>)}
+					{this.props.rooms.map((room, index) => <RoomRow key={index} click={this.handleChangeRoom} room={room} test={this.props.room}/>)}
 				</div>
 				<div id="room_info">
 					<h2>{this.props.pseudo}</h2>
