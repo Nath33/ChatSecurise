@@ -17,6 +17,7 @@ export default class App extends React.Component {
 			rooms: [],
 			myRoom: "",
 			pseudo: "",
+			key:'guadeloupe'
 		}
 	}
 
@@ -55,7 +56,8 @@ export default class App extends React.Component {
 		subscribe('message', (jsonMessage) => {
 			let message = JSON.parse(jsonMessage)
 			let newMessagesList = this.state.messages
-			newMessagesList.push({pseudo: message.pseudo, message: message.message, date: new Date()})
+			let decryptMessage=this.decryptage(message.message,this.state.key)
+			newMessagesList.push({pseudo: message.pseudo, message: decryptMessage, date: new Date()})
 			this.setState({
 				messages: newMessagesList
 			})
@@ -76,7 +78,7 @@ export default class App extends React.Component {
 
 	handleSendMessage = (message) => {
 		console.log("Send to everyone", message)
-		sendToServer("message", message)
+		sendToServer("message", this.cryptage(message,this.state.key))
 	}
 
 	handleChangeRoom = (roomName) => {
@@ -87,6 +89,72 @@ export default class App extends React.Component {
 			sendToServer("changeRoom", JSON.stringify({newRoom: roomName}))
 		}
 	}
+
+	cryptage = (phrase, cle) => {
+		let coordphrase = new Array();
+		let coordphrase_cle = new Array();
+		let newcoord = new Array();
+		let coordcrypt = new Array();
+		let alpha = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789àâéêèëîïôöçù',!?.;:=+-()/@%$* ";
+		let crypt = "";
+		let phrase_cle = "";
+		var car = 0;
+		for (var z = 0; z < phrase.length; z++) {
+			phrase_cle += cle.charAt(car);
+			car++;
+			if (car == cle.length)
+				car = 0;
+		}
+		for (var k = 0; k < phrase.length; k++) {
+			for (var p = 0; p < alpha.length; p++) {
+				if (phrase.charAt(k) == alpha.charAt(p))
+					coordphrase[k] = p;
+				if (phrase_cle.charAt(k) == alpha.charAt(p))
+					coordphrase_cle[k] = p;
+			}
+			newcoord[k] = coordphrase[k] + coordphrase_cle[k];
+			if (newcoord[k] > alpha.length - 1)
+				newcoord[k] -= alpha.length;
+			crypt += alpha.charAt(newcoord[k]);
+		}
+		return crypt;
+	}
+
+	decryptage = (crypt, cle) => {
+		let coordphrase = new Array();
+		let coordphrase_cle = new Array();
+		let newcoord = new Array();
+		let coordcrypt = new Array();
+		let alpha = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789àâéêèëîïôöçù',!?.;:=+-()/@%$* ";
+		let decrypt = "";
+		let phrase_cle = "";
+		var car = 0;
+		for (var o = 0; o < crypt.length; o++) {
+			for (var b = 0; b < alpha.length; b++) {
+				if (crypt.charAt(o) == alpha.charAt(b))
+					coordcrypt[o] = b;
+			}
+		}
+		for (var z = 0; z < crypt.length; z++) {
+			phrase_cle += cle.charAt(car);
+			car++;
+			if (car == cle.length)
+				car = 0;
+		}
+		for (var y = 0; y < phrase_cle.length; y++) {
+			for (var u = 0; u < alpha.length; u++) {
+				if (phrase_cle.charAt(y) == alpha.charAt(u))
+					coordcrypt[y] -= u;
+				if (coordcrypt[y] < 0)
+					coordcrypt[y] += alpha.length;
+			}
+		}
+		for (var t = 0; t < crypt.length; t++) {
+			decrypt += alpha.charAt(coordcrypt[t]);
+		}
+		return decrypt;
+	}
+
 
 	render() {
 		return (

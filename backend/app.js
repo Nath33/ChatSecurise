@@ -18,6 +18,7 @@ io.sockets.on('connection', function (socket) {
     })
 
     socket.on('message', (message) => {
+        console.log(message);
         io.to(socket.room).emit("message", JSON.stringify({message: message, pseudo: socket.pseudo}));
     })
 
