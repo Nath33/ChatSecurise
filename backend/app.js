@@ -5,7 +5,9 @@ const app = require('express')(),
 io.sockets.on('connection', function (socket) {
 
     socket.on("verif", pseudo => {
-        if (isPseudoFree(io.sockets.adapter.rooms, pseudo)) {
+        if(pseudo.length ===0){
+            socket.emit("check", "Pseudo vide");
+        }else if (isPseudoFree(io.sockets.adapter.rooms, pseudo)) {
             socket.pseudo = pseudo
             socket.room = "default"
             socket.join("default")
@@ -97,7 +99,7 @@ io.sockets.on('connection', function (socket) {
         for (const sock in io.in(rooms).connected) {
             if (
                 io.in(rooms).connected.hasOwnProperty(sock) &&
-                io.in(rooms).connected[sock].pseudo === pseudo
+                io.in(rooms).connected[sock].pseudo === pseudo 
             ) {
                 return false
             }
