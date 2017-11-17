@@ -53,9 +53,14 @@ export default class RoomList extends React.Component {
 					{this.props.rooms.map((room, index) => <RoomRow key={index} click={this.handleChangeRoom} room={room} test={this.props.room}/>)}
 				</div>
 				<div id="room_info">
-					<h2>{this.props.pseudo}</h2>
-					<p>Actuellement dans:</p>
-					<h4>{this.props.room}</h4>
+					<div id="info_text">
+						<h2>{this.props.pseudo}</h2>
+						<p>Room actuelle :</p>
+						<h4>{this.props.room}</h4>
+					</div>
+					<div id="info_button">
+						<button id="button_param" className="btn"></button>
+					</div>
 				</div>
 			</div>
 		)

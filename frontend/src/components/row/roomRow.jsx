@@ -21,7 +21,7 @@ export default class RoomRow extends React.Component {
 
 	render() {
 		var style = {
-			color: 'red',
+			color: '#e67e22',
 		}
 
 		let list = "";

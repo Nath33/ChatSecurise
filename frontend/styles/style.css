@@ -17,7 +17,6 @@
     padding: 0;
     overflow-y: auto;
     color: #ecf0f1;
-
 }
 
 #zone_rooms #input_rooms {
@@ -42,11 +41,15 @@
 
 #zone_rooms li {
     font-size: 1.75em;
+    margin-left: 15px;
 }
 
 #room_info {
-    height: 120px;
-    padding: 0;
+    min-height: 120px;
+    max-height: 120px;
+    height: 100%;
+    padding:0;
+    padding-bottom: 5%;
     background-color: #343434;
     border-top: 2px solid #262626;
     border-right: 2px solid #262626;
@@ -54,18 +57,50 @@
 }
 
 #room_info h2{
-    line-height: 50px;
+    margin-left: 5%;
+    margin-top: 5px;
+    -webkit-margin-after: 0;
 }
 
 #room_info p{
     color: #797979;
+    margin-left: 5%;
+    margin-bottom: 10%;
+    margin-top: 20px;
     line-height: 0px;
+    -webkit-margin-after: 0;
 }
 
 #room_info h4{
     color: #797979;
-    line-height: 0px;
+    margin-left: 5%;
+    margin-top: 10px;
+    -webkit-margin-after: 0;
 }
+
+#info_text{
+    float: left;
+}
+
+#info_button{
+    float: right;
+    margin-top: 15px;
+    margin-right: 20px;
+    padding: 0;
+    text-align: center;
+}
+#button_param{
+    background-image: url('./img/cog-2x.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: #797979;
+    align: center;
+    width: 20px;
+    height: 20px;
+    
+}
+#button_param:active {background-color: #343434}
+
 /* Zone Chat */
 #zone_chat {
     background-color: #2D2D2D;
