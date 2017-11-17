@@ -5,7 +5,7 @@ const app = require('express')(),
 io.sockets.on('connection', function (socket) {
 
     socket.on("verif", pseudo => {
-        if(pseudo.length ===0){
+        if(pseudo.length ===0 || !pseudo.replace(/\s/g, '').length){
             socket.emit("check", "Pseudo vide");
         }else if (isPseudoFree(io.sockets.adapter.rooms, pseudo)) {
             socket.pseudo = pseudo
