@@ -9,6 +9,7 @@ io.sockets.on('connection', function (socket) {
             socket.pseudo = pseudo
             socket.room = "default"
             socket.join("default")
+            messageMoveRoom(socket,'join')
             sendListUserRoom(socket.room)
             sendYourRoom(socket)
             sendEveryOneListRoom()
@@ -19,13 +20,14 @@ io.sockets.on('connection', function (socket) {
 
     socket.on('message', (message) => {
         console.log(message);
-        io.to(socket.room).emit("message", JSON.stringify({message: message, pseudo: socket.pseudo}));
+        io.to(socket.room).emit("message", JSON.stringify({ message: message, pseudo: socket.pseudo }));
     })
 
     socket.on('changeRoom', (data) => {
-        const {newRoom} = JSON.parse(data)
-        if(newRoom === socket.room){return}
-        if(socket.room !== "default") { leaveRoom(socket) }
+        const { newRoom } = JSON.parse(data)
+        if (newRoom === socket.room) { return }
+        //if(socket.room !== "default") { leaveRoom(socket) }
+        leaveRoom(socket)
         joinRoom(newRoom)
         sendYourRoom(socket)
         sendEveryOneListRoom()
@@ -35,6 +37,7 @@ io.sockets.on('connection', function (socket) {
 
     function leaveRoom(socket) {
         let roomName = socket.room;
+        messageMoveRoom(socket,'leave')
         socket.leave(roomName)
         socket.room = undefined
         sendListUserRoom(roomName)
@@ -47,6 +50,7 @@ io.sockets.on('connection', function (socket) {
     function joinRoom(roomName) {
         socket.room = roomName
         socket.join(socket.room)
+        messageMoveRoom(socket,'join')
         sendListUserRoom(socket.room);
     }
 
@@ -100,6 +104,16 @@ io.sockets.on('connection', function (socket) {
         }
 
         return true
+    }
+
+    function messageMoveRoom(socket, action) {
+        if (action === 'join') {
+            let messageRoom = socket.pseudo + ' à rejoint la room '+socket.room
+            io.to(socket.room).emit("messageJoin", JSON.stringify({ message: messageRoom, pseudo: 'serveur' }))
+        }else if(action === 'leave'){
+            let messageRoom = socket.pseudo + ' à quitter la room '+socket.room
+            io.to(socket.room).emit("messageLeave", JSON.stringify({ message: messageRoom, pseudo: 'serveur' }))
+        }
     }
 })
 
