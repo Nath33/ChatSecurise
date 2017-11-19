@@ -8,6 +8,12 @@ export default class UserList extends React.Component {
 	}
 
 	render() {
+
+        const listItems = this.props.users.map(function (user, index) {
+            if (user !== "Admin")
+				return <UserRow key={index} user={user}/>
+		});
+
 		return (
 			<div id="zone_users" className="col-2">
 				<div className="input-group">
@@ -16,7 +22,7 @@ export default class UserList extends React.Component {
 					<span className="input-group-addon" id="basic-addon2">Search</span>
 				</div>
 				<div id="users">
-					{this.props.users.map((user, index) => <UserRow key={index} user={user}/>)}
+					{listItems}
 				</div>
 			</div>
 		)
