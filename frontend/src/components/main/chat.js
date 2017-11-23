@@ -43,9 +43,9 @@ export default class Chat extends React.Component {
 					</div>
 				</div>
 				<div className="input-group">
-					<input type="text" className="form-control" placeholder="Message" aria-label="message"
+					<input type="text" className="form-control" placeholder="Écrire ici..." aria-label="message"
 								 aria-describedby="basic-addon2" value={this.state.inputValue} onChange={this.update} onKeyPress={this.handleEnterPress}/>
-					<span className="input-group-addon" id="basic-addon2" onClick={this.send}>Send</span>
+					<span className="input-group-addon" id="basic-addon2" onClick={this.send}>Envoyer</span>
 				</div>
 			</div>
 		)

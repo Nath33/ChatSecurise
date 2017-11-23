@@ -17,9 +17,9 @@ export default class UserList extends React.Component {
 		return (
 			<div id="zone_users" className="col-2">
 				<div className="input-group">
-					<input type="text" className="form-control" placeholder="Username" aria-label="username"
+					<input type="text" className="form-control" placeholder="Nom d'utilisateur" aria-label="username"
 								 aria-describedby="basic-addon2"/>
-					<span className="input-group-addon" id="basic-addon2">Search</span>
+					<span className="input-group-addon" id="basic-addon2">Rechercher</span>
 				</div>
 				<div id="users">
 					{listItems}
@@ -28,5 +28,3 @@ export default class UserList extends React.Component {
 		)
 	}
 }
-
-

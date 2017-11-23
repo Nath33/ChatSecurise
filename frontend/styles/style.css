@@ -97,7 +97,7 @@
     align: center;
     width: 20px;
     height: 20px;
-    
+
 }
 #button_param:active {background-color: #343434}
 
@@ -110,7 +110,7 @@
 #text {
     height: 810px;
     max-height: 810px;
-    overflow-y: auto; 
+    overflow-y: auto;
     color:#ecf0f1;
 }
 
@@ -122,7 +122,7 @@
 #msg li {
     padding-left: 10px;
     list-style: none;
-    
+
 }
 #msg li:nth-child(2n) {
     background-color: #1d1d1d;
@@ -165,6 +165,10 @@
     border-radius: 0;
 }
 
+.input-group-addon{
+    cursor: pointer !important;
+}
+
 /* Zone Users */
 #zone_users {
     height: 100%;
@@ -181,6 +185,7 @@
     border-color: #3C3C3C;
     border-radius: 0;
 }
+
 
 #users {
     color: #ecf0f1;
