@@ -1,6 +1,14 @@
 const app = require('express')(),
     server = require('http').createServer(app),
-    io = require('socket.io').listen(server)
+    io = require('socket.io').listen(server),
+    openSocket = require('socket.io-client')
+const options = {
+    transports: ['websocket'],
+    'force new connection': true
+};
+
+let socket = openSocket('http://localhost:8081', options);
+socket.emit("verif", "Admin")
 
 io.sockets.on('connection', function (socket) {
 
@@ -9,8 +17,8 @@ io.sockets.on('connection', function (socket) {
             socket.emit("check", "Pseudo vide");
         }else if (isPseudoFree(io.sockets.adapter.rooms, pseudo)) {
             socket.pseudo = pseudo
-            socket.room = "default"
-            socket.join("default")
+            socket.room = "Accueil"
+            socket.join("Accueil")
             messageMoveRoom(socket,'join')
             sendListUserRoom(socket.room)
             sendYourRoom(socket)
@@ -26,9 +34,8 @@ io.sockets.on('connection', function (socket) {
     })
 
     socket.on('changeRoom', (data) => {
-        const { newRoom } = JSON.parse(data)
-        if (newRoom === socket.room) { return }
-        //if(socket.room !== "default") { leaveRoom(socket) }
+        const {newRoom} = JSON.parse(data)
+        if(newRoom === socket.room){return}
         leaveRoom(socket)
         joinRoom(newRoom)
         sendYourRoom(socket)
@@ -104,7 +111,6 @@ io.sockets.on('connection', function (socket) {
                 return false
             }
         }
-
         return true
     }
 

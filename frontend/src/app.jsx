@@ -34,7 +34,7 @@ export default class App extends React.Component {
 		})
 
 		subscribe('List', (message) => {
-			console.log(message)
+			console.log("list "+message)
 			this.setState({
 				users: JSON.parse(message)
 			})
@@ -94,11 +94,11 @@ export default class App extends React.Component {
 		});
 	}
 
-	checkUser = () => {
-		let pseudo = prompt('nom : ')
-		sendToServer('verif', pseudo)
-		this.setState({pseudo: pseudo})
-	}
+    checkUser = () => {
+        let pseudo = prompt('nom : ')
+        sendToServer('verif', pseudo)
+        this.setState({pseudo: pseudo})
+    }
 
 	handleSendMessage = (message) => {
 		console.log("Send to everyone", message)
