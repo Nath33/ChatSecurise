@@ -13,7 +13,7 @@ socket.emit("verif", "Admin")
 io.sockets.on('connection', function (socket) {
 
     socket.on("verif", pseudo => {
-        if(pseudo.length ===0 || !pseudo.replace(/\s/g, '').length){
+        if(pseudo.length === 0 || !pseudo.replace(/\s/g, '').length){
             socket.emit("check", "Pseudo vide");
         }else if (isPseudoFree(io.sockets.adapter.rooms, pseudo)) {
             socket.pseudo = pseudo
@@ -106,7 +106,7 @@ io.sockets.on('connection', function (socket) {
         for (const sock in io.in(rooms).connected) {
             if (
                 io.in(rooms).connected.hasOwnProperty(sock) &&
-                io.in(rooms).connected[sock].pseudo === pseudo 
+                io.in(rooms).connected[sock].pseudo === pseudo
             ) {
                 return false
             }
@@ -116,10 +116,10 @@ io.sockets.on('connection', function (socket) {
 
     function messageMoveRoom(socket, action) {
         if (action === 'join') {
-            let messageRoom = socket.pseudo + ' à rejoint la room '+socket.room
+            let messageRoom = socket.pseudo + ' a rejoint la room '+socket.room
             io.to(socket.room).emit("messageJoin", JSON.stringify({ message: messageRoom, pseudo: 'serveur' }))
         }else if(action === 'leave'){
-            let messageRoom = socket.pseudo + ' à quitter la room '+socket.room
+            let messageRoom = socket.pseudo + ' a quitter la room '+socket.room
             io.to(socket.room).emit("messageLeave", JSON.stringify({ message: messageRoom, pseudo: 'serveur' }))
         }
     }
