@@ -65,7 +65,7 @@ export default class App extends React.Component {
 			elem.scrollTop = elem.scrollHeight;
 		})
 
-		subscribe('messageLeave', (jsonMessage) => {
+		subscribe('messageServ', (jsonMessage) => {
 			let message = JSON.parse(jsonMessage)
 			let newMessagesList = this.state.messages
 			let messageRoom=message.message
@@ -77,17 +77,17 @@ export default class App extends React.Component {
 			elem.scrollTop = elem.scrollHeight;
 		})
 
-		subscribe('messageJoin', (jsonMessage) => {
-			let message = JSON.parse(jsonMessage)
-			let newMessagesList = this.state.messages
-			let messageRoom=message.message
-			newMessagesList.push({pseudo: message.pseudo, message: messageRoom, date: new Date()})
-			this.setState({
-				messages: newMessagesList
-			})
-			let elem = document.getElementById('text');
-			elem.scrollTop = elem.scrollHeight;
-		})
+		// subscribe('messageJoin', (jsonMessage) => {
+		// 	let message = JSON.parse(jsonMessage)
+		// 	let newMessagesList = this.state.messages
+		// 	let messageRoom=message.message
+		// 	newMessagesList.push({pseudo: message.pseudo, message: messageRoom, date: new Date()})
+		// 	this.setState({
+		// 		messages: newMessagesList
+		// 	})
+		// 	let elem = document.getElementById('text');
+		// 	elem.scrollTop = elem.scrollHeight;
+		// })
 
 		window.addEventListener("beforeunload", () => {
 			sendToServer("disconnect", "")

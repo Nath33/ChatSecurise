@@ -9,10 +9,14 @@ const options = {
 
 let socket = openSocket('http://localhost:8081', options);
 socket.emit("verif", "Admin")
+let adminSocket
 
 io.sockets.on('connection', function (socket) {
 
     socket.on("verif", pseudo => {
+        if(pseudo==='Admin'){
+            adminSocket=socket
+        }
         if(pseudo.length === 0 || !pseudo.replace(/\s/g, '').length){
             socket.emit("check", "Pseudo vide");
         }else if (isPseudoFree(io.sockets.adapter.rooms, pseudo)) {
@@ -36,8 +40,14 @@ io.sockets.on('connection', function (socket) {
     socket.on('changeRoom', (data) => {
         const {newRoom} = JSON.parse(data)
         if(newRoom === socket.room){return}
+        if(socket.room !== 'Accueil' && listUserRoom(socket.room).length === 1){
+            messageRoomDeleteOrCreate(socket.room, 'delete')
+        }
         leaveRoom(socket)
         joinRoom(newRoom)
+        if(listUserRoom(socket.room).length===1){
+            messageRoomDeleteOrCreate(socket.room,'create')
+        }
         sendYourRoom(socket)
         sendEveryOneListRoom()
     })
@@ -117,10 +127,22 @@ io.sockets.on('connection', function (socket) {
     function messageMoveRoom(socket, action) {
         if (action === 'join') {
             let messageRoom = socket.pseudo + ' a rejoint la room '+socket.room
-            io.to(socket.room).emit("messageJoin", JSON.stringify({ message: messageRoom, pseudo: 'serveur' }))
+            io.to(socket.room).emit("messageServ", JSON.stringify({ message: messageRoom, pseudo: adminSocket.pseudo }))
         }else if(action === 'leave'){
             let messageRoom = socket.pseudo + ' a quitter la room '+socket.room
-            io.to(socket.room).emit("messageLeave", JSON.stringify({ message: messageRoom, pseudo: 'serveur' }))
+            io.to(socket.room).emit("messageServ", JSON.stringify({ message: messageRoom, pseudo: adminSocket.pseudo }))
+        }
+    }
+
+    function messageRoomDeleteOrCreate(room, action) {
+        let roomAccueil=adminSocket.room
+        console.log('accueil ',roomAccueil)
+        if (action === 'create') {
+                let messageRoom = socket.pseudo+' a creer la room : ' + room
+                io.to(roomAccueil).emit("messageServ", JSON.stringify({ message: messageRoom, pseudo: adminSocket.pseudo }))
+        }else if(action === 'delete'){
+                let messageRoom =socket.pseudo + ' a  supprimer la room : ' + room
+                io.to(roomAccueil).emit("messageServ", JSON.stringify({ message: messageRoom, pseudo: adminSocket.pseudo }))
         }
     }
 })
