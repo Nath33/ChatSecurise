@@ -42,6 +42,7 @@ export default class RoomList extends React.Component {
 	}
 
 	render() {
+
 		return (
 			<div id="room_g" className="col-2">
 				<div id="zone_rooms">
@@ -59,7 +60,10 @@ export default class RoomList extends React.Component {
 						<h4>{this.props.room}</h4>
 					</div>
 					<div id="info_button">
-						<button id="button_param" className="btn"></button>
+						<button id="button_param" className="btn">
+							<div id="hiddenDiv" >
+							</div>
+						</button>
 					</div>
 				</div>
 			</div>

@@ -101,6 +101,17 @@
 }
 #button_param:active {background-color: #343434}
 
+#hiddenDiv{
+    display: none;
+    background-color: #FFF;
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    left: 100px;
+    z-index: 50;
+    bottom: 120px;
+}
+
 /* Zone Chat */
 #zone_chat {
     background-color: #2D2D2D;
@@ -209,4 +220,18 @@
     height: 70px;
     width: 70px;
     border-radius: 70px;
+}
+
+
+
+
+#inscription , #connection {
+    display:none;
+    text-align: right;
+}  
+#connection:target {
+    display:block
+}
+#inscription:target {
+    display:block
 }
