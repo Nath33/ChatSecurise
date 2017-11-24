@@ -1,5 +1,5 @@
 import React from 'react'
-import {subscribe} from './../../connectToSocket';
+import { subscribe } from './../../connectToSocket';
 import RoomRow from '../row/roomRow';
 
 export default class RoomList extends React.Component {
@@ -8,11 +8,12 @@ export default class RoomList extends React.Component {
 		super(props)
 		this.state = {
 			inputValue: "",
-			myRoom: ''
+			myRoom: '',
+			display: false,
 		}
 	}
 
-	componentDidUpdate(){
+	componentDidUpdate() {
 		subscribe('yourRoom', (jsonRoom) => {
 			this.setState({
 				myRoom: JSON.parse(jsonRoom),
@@ -41,17 +42,25 @@ export default class RoomList extends React.Component {
 		this.props.onClick(roomName)
 	}
 
-	render() {
+	makePop = () => {
+		document.getElementById("hiddenDiv").style.display = "block";
+	}
 
+	closePop = () => {
+		document.getElementById("hiddenDiv").style.display = "none";
+	}
+
+
+	render() {
 		return (
 			<div id="room_g" className="col-2">
 				<div id="zone_rooms">
 					<div className="input-group">
 						<input type="text" className="form-control" placeholder="RoomName" aria-label="roomname"
-								aria-describedby="basic-addon2" onChange={this.handleNewValue} value={this.state.inputValue}/>
+							aria-describedby="basic-addon2" onChange={this.handleNewValue} value={this.state.inputValue} />
 						<span className="input-group-addon" id="basic-addon2" onClick={this.createRoom}>Add</span>
 					</div>
-					{this.props.rooms.map((room, index) => <RoomRow key={index} click={this.handleChangeRoom} room={room} test={this.props.room}/>)}
+					{this.props.rooms.map((room, index) => <RoomRow key={index} click={this.handleChangeRoom} room={room} test={this.props.room} />)}
 				</div>
 				<div id="room_info">
 					<div id="info_text">
@@ -59,10 +68,14 @@ export default class RoomList extends React.Component {
 						<p>Room actuelle :</p>
 						<h4>{this.props.room}</h4>
 					</div>
+					<div id="hiddenDiv" >
+						<div id="button_close_div">
+							<button id='button_close' onClick={this.closePop}></button>
+						</div>
+						<p>wip</p>
+					</div>
 					<div id="info_button">
-						<button id="button_param" className="btn">
-							<div id="hiddenDiv" >
-							</div>
+						<button id="button_param" className="btn" onClick={this.makePop}>
 						</button>
 					</div>
 				</div>

@@ -99,17 +99,35 @@
     height: 20px;
     
 }
-#button_param:active {background-color: #343434}
+#button_param:active {
+    background-color: #343434;
+}
 
 #hiddenDiv{
     display: none;
-    background-color: #FFF;
+    background-color: rgba(80, 80, 80, 0.7);
     width: 100px;
     height: 100px;
     position: absolute;
-    left: 100px;
+    left: 85%;
     z-index: 50;
-    bottom: 120px;
+    bottom: 10.5%;
+}
+
+#button_close_div{
+    padding-left: 90px;
+    margin-top: -10px;
+}
+
+#button_close{
+    height: 20px;
+    width: 20px;
+    border-radius: 20px;
+    background-image: url('./img/close.png');
+    background-position: center;
+    background-size: 20px;
+    background-color: rgba(80, 80, 80, 0);
+    border: 1px solid #000000;
 }
 
 /* Zone Chat */
@@ -220,18 +238,4 @@
     height: 70px;
     width: 70px;
     border-radius: 70px;
-}
-
-
-
-
-#inscription , #connection {
-    display:none;
-    text-align: right;
-}  
-#connection:target {
-    display:block
-}
-#inscription:target {
-    display:block
 }
