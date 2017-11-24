@@ -20,7 +20,7 @@ afterEach(() => {
     client2.disconnect()
 });
 
-
+/*
 describe('test send messages', () => {
     test('It should send message to everyone in default room', (done) => {
         let message = "foo"
@@ -70,3 +70,4 @@ describe('test send messages', () => {
         client1.emit("message", message)
     });
 });
+*/

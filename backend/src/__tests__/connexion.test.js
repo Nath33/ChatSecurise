@@ -15,7 +15,7 @@ afterEach(() => {
     socket.disconnect()
 });
 
-
+/*
 describe('test socket', () => {
     test('It should add 1 client', (done) => {
         socket.on('connect', function(){done()});
@@ -28,3 +28,4 @@ describe('test socket', () => {
         })
     });
 });
+*/

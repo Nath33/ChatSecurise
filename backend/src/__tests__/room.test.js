@@ -1,5 +1,7 @@
 const openSocket = require('socket.io-client')
 
+require('chai').should()
+
 const app = require('../../../backend/app')
 const options = {
     transports: ['websocket'],
@@ -16,7 +18,16 @@ afterEach(() => {
     socket.disconnect()
 });
 
+describe('Room', () => {
+    describe('listRoom', () => {
+        it('should add room', () => {
+            const result = [1, 2, 3].indexOf(4)
+            result.should.equal(-1)
+        })
+    })
+})
 
+/*
 describe('test room', () => {
     test('It should add 1 room', (done) => {
         expect.assertions(2);
@@ -81,4 +92,6 @@ describe('test room', () => {
         client2.emit("verif", "canard2")
         socket.emit("changeRoom", JSON.stringify({newRoom: "room2"}))
     });
+
 });
+*/
