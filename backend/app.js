@@ -23,8 +23,8 @@ io.sockets.on('connection', function (socket) {
             socket.pseudo = pseudo
             socket.room = "Accueil"
             socket.join("Accueil")
-            messageQuitChat(socket, 'connect')
-            messageMoveRoom(socket,'join')
+            messageRoom(socket, 'connect')
+            messageRoom(socket,'join')
             sendListUserRoom(socket.room)
             sendYourRoom(socket)
             sendEveryOneListRoom()
@@ -34,13 +34,13 @@ io.sockets.on('connection', function (socket) {
     })
 
     socket.on('message', (message) => {
-        console.log(message);
+        console.log(message);//a garder pour montrer le cryptage (NICO DEPERO)
         io.to(socket.room).emit("message", JSON.stringify({ message: message, pseudo: socket.pseudo }));
     })
 
     socket.on('disconnect', () => {
-        messageMoveRoom(socket,'leave')
-        messageQuitChat(socket,'quit')
+        messageRoom(socket,'leave')
+        messageRoom(socket,'quit')
         sendListUserRoom(socket.room)
     })
 
@@ -48,12 +48,12 @@ io.sockets.on('connection', function (socket) {
         const {newRoom} = JSON.parse(data)
         if(newRoom === socket.room){return}
         if(socket.room !== 'Accueil' && listUserRoom(socket.room).length === 1){
-            messageRoomDeleteOrCreate(socket.room, 'delete')
+            messageRoom(socket, 'delete')
         }
         leaveRoom(socket)
         joinRoom(newRoom)
         if(listUserRoom(socket.room).length===1){
-            messageRoomDeleteOrCreate(socket.room,'create')
+            messageRoom(socket,'create')
         }
         sendYourRoom(socket)
         sendEveryOneListRoom()
@@ -63,7 +63,7 @@ io.sockets.on('connection', function (socket) {
 
     function leaveRoom(socket) {
         let roomName = socket.room;
-        messageMoveRoom(socket,'leave')
+        messageRoom(socket,'leave')
         socket.leave(roomName)
         socket.room = undefined
         sendListUserRoom(roomName)
@@ -76,7 +76,7 @@ io.sockets.on('connection', function (socket) {
     function joinRoom(roomName) {
         socket.room = roomName
         socket.join(socket.room)
-        messageMoveRoom(socket,'join')
+        messageRoom(socket,'join')
         sendListUserRoom(socket.room);
     }
 
@@ -131,37 +131,40 @@ io.sockets.on('connection', function (socket) {
         return true
     }
 
-    function messageQuitChat(socket, action){
-        if (action === 'connect') {
-            let messageRoom = socket.pseudo + ' a rejoint le chat '
-            io.to(socket.room).emit("messageServ", JSON.stringify({ message: messageRoom, pseudo: adminSocket.pseudo }))
-        }else if(action === 'quit'){
-            let messageRoom = socket.pseudo + ' a quitter le chat '
-            io.to(socket.room).emit("messageServ", JSON.stringify({ message: messageRoom, pseudo: adminSocket.pseudo }))
-        }
-    }
-
-    function messageMoveRoom(socket, action) {
-        if (action === 'join') {
-            let messageRoom = socket.pseudo + ' a rejoint la room '+socket.room
-            io.to(socket.room).emit("messageServ", JSON.stringify({ message: messageRoom, pseudo: adminSocket.pseudo }))
-        }else if(action === 'leave'){
-            let messageRoom = socket.pseudo + ' a quitter la room '+socket.room
-            io.to(socket.room).emit("messageServ", JSON.stringify({ message: messageRoom, pseudo: adminSocket.pseudo }))
-        }
-    }
-
-    function messageRoomDeleteOrCreate(room, action) {
+    function messageRoom(socket, action) {
         let roomAccueil=adminSocket.room
-        console.log('accueil ',roomAccueil)
-        if (action === 'create') {
-                let messageRoom = socket.pseudo+' a creer la room : ' + room
+        let messageRoom
+        switch (action) {
+            case 'join':
+                messageRoom = socket.pseudo + ' a rejoint la room '+socket.room
+                io.to(socket.room).emit("messageServ", JSON.stringify({ message: messageRoom, pseudo: adminSocket.pseudo }))
+                break;
+            case 'leave':
+                messageRoom = socket.pseudo + ' a quitter la room '+socket.room
+                io.to(socket.room).emit("messageServ", JSON.stringify({ message: messageRoom, pseudo: adminSocket.pseudo }))
+                break;
+            case 'connect':
+                messageRoom = socket.pseudo + ' a rejoint le chat '
+                io.to(socket.room).emit("messageServ", JSON.stringify({ message: messageRoom, pseudo: adminSocket.pseudo }))
+                break;
+            case 'quit':
+                messageRoom = socket.pseudo + ' a quitter le chat '
+                io.to(socket.room).emit("messageServ", JSON.stringify({ message: messageRoom, pseudo: adminSocket.pseudo }))
+                break;
+            case 'create':
+                messageRoom = socket.pseudo+' a creer la room : ' + socket.room
                 io.to(roomAccueil).emit("messageServ", JSON.stringify({ message: messageRoom, pseudo: adminSocket.pseudo }))
-        }else if(action === 'delete'){
-                let messageRoom =socket.pseudo + ' a  supprimer la room : ' + room
+                break;
+            case 'delete':
+                messageRoom =socket.pseudo + ' a  supprimer la room : ' + socket.room
                 io.to(roomAccueil).emit("messageServ", JSON.stringify({ message: messageRoom, pseudo: adminSocket.pseudo }))
+                break;
+            default:
+                console.log('erreur : action inconnu')
         }
     }
+
+    
 })
 
 
