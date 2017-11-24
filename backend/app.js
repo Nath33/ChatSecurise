@@ -23,6 +23,7 @@ io.sockets.on('connection', function (socket) {
             socket.pseudo = pseudo
             socket.room = "Accueil"
             socket.join("Accueil")
+            messageQuitChat(socket, 'connect')
             messageMoveRoom(socket,'join')
             sendListUserRoom(socket.room)
             sendYourRoom(socket)
@@ -35,6 +36,12 @@ io.sockets.on('connection', function (socket) {
     socket.on('message', (message) => {
         console.log(message);
         io.to(socket.room).emit("message", JSON.stringify({ message: message, pseudo: socket.pseudo }));
+    })
+
+    socket.on('disconnect', () => {
+        messageMoveRoom(socket,'leave')
+        messageQuitChat(socket,'quit')
+        sendListUserRoom(socket.room)
     })
 
     socket.on('changeRoom', (data) => {
@@ -122,6 +129,16 @@ io.sockets.on('connection', function (socket) {
             }
         }
         return true
+    }
+
+    function messageQuitChat(socket, action){
+        if (action === 'connect') {
+            let messageRoom = socket.pseudo + ' a rejoint le chat '
+            io.to(socket.room).emit("messageServ", JSON.stringify({ message: messageRoom, pseudo: adminSocket.pseudo }))
+        }else if(action === 'quit'){
+            let messageRoom = socket.pseudo + ' a quitter le chat '
+            io.to(socket.room).emit("messageServ", JSON.stringify({ message: messageRoom, pseudo: adminSocket.pseudo }))
+        }
     }
 
     function messageMoveRoom(socket, action) {
