@@ -8,7 +8,8 @@ export default class RoomList extends React.Component {
 		super(props)
 		this.state = {
 			inputValue: "",
-			myRoom: ''
+			myRoom: '',
+			display: false,
 		}
 	}
 
@@ -52,11 +53,24 @@ export default class RoomList extends React.Component {
 	}
 
      makePop = () => {
-       document.getElementById("hiddenDiv").style.display = "block";
+		if(this.state.display === false){
+			document.getElementById("hiddenDiv").style.display = "block"
+			this.setState({
+				display: true,
+			 })
+		} else if ( this.state.display === true){
+			document.getElementById("hiddenDiv").style.display = "none";
+			this.setState({
+				display: false,
+			})
+		}
      }
 
      closePop = () => {
-       document.getElementById("hiddenDiv").style.display = "none";
+		document.getElementById("hiddenDiv").style.display = "none";
+	   this.setState({
+			display: false,
+		})
      }
 
 	render() {
