@@ -10,13 +10,11 @@
 #zone_rooms {
     background-color: #343434;
     border-right: 2px solid #262626;
-    height: 100%;
+    height: 85vh;
     margin:0;
-    min-height: 810px;
-    max-height: 810px;
-    padding: 0;
+    padding: 5px;
     overflow-y: auto;
-    color: #ecf0f1;
+    color: #FFF;
 }
 
 #zone_rooms #input_rooms {
@@ -45,15 +43,13 @@
 }
 
 #room_info {
-    min-height: 120px;
-    max-height: 120px;
-    height: 100%;
+    height: 15vh;
     padding:0;
     padding-bottom: 5%;
     background-color: #343434;
     border-top: 2px solid #262626;
     border-right: 2px solid #262626;
-    color: #ecf0f1;
+    color: #FFF;
 }
 
 #room_info h2{
@@ -97,7 +93,6 @@
     align: center;
     width: 20px;
     height: 20px;
-
 }
 #button_param:active {
     background-color: #343434;
@@ -137,10 +132,9 @@
 }
 
 #text {
-    height: 810px;
-    max-height: 810px;
+    height: 85vh;
     overflow-y: auto;
-    color:#ecf0f1;
+    color:#FFF;
 }
 
 #msg ul {
@@ -177,7 +171,7 @@
 }
 
 #zone_chat .input-group {
-    height: 120px;
+    height: 15vh;
     background-color: #bdc3c7;
     border-top: 2px solid #262626;
     border-radius: 0;
@@ -200,12 +194,10 @@
 
 /* Zone Users */
 #zone_users {
-    height: 100%;
+    height: 100vh;
     padding: 5px;
     background-color: #343434;
     border-left: 2px solid #262626;
-    min-height: 930px;
-    max-height: 930px;
 }
 
 #zone_users input {
@@ -217,7 +209,7 @@
 
 
 #users {
-    color: #ecf0f1;
+    color: #FFF;
     font-size: 30px;
     font-weight: bold;
     overflow-y: auto;
