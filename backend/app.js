@@ -10,6 +10,7 @@ const options = {
 let socket = openSocket('http://localhost:8081', options);
 socket.emit("verif", "Admin")
 let adminSocket
+let roomPassword=[]
 
 io.sockets.on('connection', function (socket) {
 
@@ -49,7 +50,36 @@ io.sockets.on('connection', function (socket) {
     socket.on('changeRoom', (data) => {
         const {newRoom} = JSON.parse(data)
         if(newRoom === socket.room){return}
+        //verif password
+        if(roomPassword[newRoom]){
+            console.log('password required to connect at ' +newRoom)
+            socket.emit('passwordAsk',newRoom)
+        }else{
+            if(socket.room !== 'Accueil' && listUserRoom(socket.room).length === 1){
+                if(roomPassword[newRoom]){
+                    roomPassword.splice(roomPassword.indexOf(roomPassword[newRoom]),1)
+                }
+                messageRoom(socket, 'delete')
+            }
+            leaveRoom(socket)
+            joinRoom(newRoom)
+            if(listUserRoom(socket.room).length===1){
+                messageRoom(socket,'create')
+            }
+            sendYourRoom(socket)
+            sendEveryOneListRoom()
+        }
+    })
+
+    socket.on('setPasswordRoom',(data)=>{
+        const {newRoom,password} = JSON.parse(data)
+        roomPassword[newRoom]=password
+        console.log(roomPassword)
+        if(newRoom === socket.room){return}
         if(socket.room !== 'Accueil' && listUserRoom(socket.room).length === 1){
+            if(roomPassword[newRoom]){
+                roomPassword.splice(roomPassword.indexOf(roomPassword[newRoom]),1)
+            }
             messageRoom(socket, 'delete')
         }
         leaveRoom(socket)
@@ -59,6 +89,35 @@ io.sockets.on('connection', function (socket) {
         }
         sendYourRoom(socket)
         sendEveryOneListRoom()
+    })
+
+    socket.on('changeRoomPassword', (data) => {
+        let {newRoom} = JSON.parse(data)
+        console.log('password required for '+newRoom)
+        newRoom=newRoom+' - lock'
+        socket.emit('setPassword',newRoom)
+    })
+
+    socket.on('checkPassword',(data)=>{
+        const{password,newRoom}=JSON.parse(data)
+        if(password===roomPassword[newRoom]){
+            console.log('access granted')
+            if(socket.room !== 'Accueil' && listUserRoom(socket.room).length === 1){
+                if(roomPassword[newRoom]){
+                    roomPassword.splice(roomPassword.indexOf(roomPassword[newRoom]),1)
+                }
+                messageRoom(socket, 'delete')
+            }
+            leaveRoom(socket)
+            joinRoom(newRoom)
+            if(listUserRoom(socket.room).length===1){
+                messageRoom(socket,'create')
+            }
+            sendYourRoom(socket)
+            sendEveryOneListRoom()
+        }else{
+            console.log('access denied')
+        }
     })
 
     /*------------------------------*/
