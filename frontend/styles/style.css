@@ -1,20 +1,24 @@
-#basic-addon2 {
-    background-color: #4B4B4B;
-    color: #DDDDDE;
-    border-color: #3C3C3C;
+:root{
+    --color-one: #343434;
+    --color-two: #2D2D2D;
+    --color-tree: #bdc3c7;
+    --color-four: #FFF;
+    --color-five: #e67e22;
+    --color-six: #555;
 }
+
 /* Zone Rooms */
 #room_g {
     padding:0;
 }
 #zone_rooms {
-    background-color: #343434;
-    border-right: 2px solid #262626;
+    background-color: var(--color-one);
+    border-right: 2px solid var(--color-two);
     height: 85vh;
     margin:0;
     padding: 5px;
     overflow-y: auto;
-    color: #FFF;
+    color: var(--color-four);
 }
 
 #zone_rooms #input_rooms {
@@ -22,22 +26,23 @@
     text-align: center;
 }
 
-#zone_rooms input {
+#zone_rooms input, #zone_users input {
     width: 60%;
     height: 40px;
-    background-color: #4B4B4B;
-    color: #DDDDDE;
-    border-color: #3C3C3C;
+    background-color: var(--color-two);
+    color: var(--color-four);
+    border-color: var(--color-tree);
 }
 
 #zone_rooms span {
     width: 40%;
     height: 40px;
     margin-top: 0;
-    border-color: #3C3C3C;
+    border-color: var(--color-tree);
+    cursor: pointer;
 }
 #zone_rooms .nbItem, #zone_users .nbItem {
-    color: #797979;
+    color: var(--color-tree);
     text-align: center;
 }
 
@@ -51,10 +56,10 @@
     height: 15vh;
     padding:0;
     padding-bottom: 5%;
-    background-color: #343434;
-    border-top: 2px solid #262626;
-    border-right: 2px solid #262626;
-    color: #FFF;
+    background-color: var(--color-one);
+    border-top: 2px solid var(--color-two);
+    border-right: 2px solid var(--color-two);
+    color: var(--color-four);
 }
 
 #room_info h2{
@@ -64,7 +69,7 @@
 }
 
 #room_info p{
-    color: #797979;
+    color: var(--color-tree);
     margin-left: 5%;
     margin-bottom: 10%;
     margin-top: 20px;
@@ -73,7 +78,7 @@
 }
 
 #room_info h4{
-    color: #797979;
+    color: var(--color-tree);
     margin-left: 5%;
     margin-top: 10px;
     -webkit-margin-after: 0;
@@ -132,14 +137,21 @@
 
 /* Zone Chat */
 #zone_chat {
-    background-color: #2D2D2D;
+    background-color: var(--color-two);
     padding: 0;
 }
 
-#text {
+#zone_chat span {
+    background-color: var(--color-one);
+    color: var(--color-four);
+    border-color: var(--color-two);
+    cursor: pointer;
+}
+
+#zone_chat #text {
     height: 85vh;
     overflow-y: auto;
-    color:#FFF;
+    color: var(--color-four);
 }
 
 #msg ul {
@@ -153,7 +165,7 @@
 
 }
 #msg li:nth-child(2n) {
-    background-color: #1d1d1d;
+    background-color: var(--color-one);
     padding-bottom:5px;
 }
 
@@ -162,12 +174,12 @@
     margin-right: 1%;
     margin-bottom: 0;
     padding-bottom: 2px;
-    color: #e67e22;
+    color: var(--color-five);
 }
 
 #msg h5 {
     padding-top: 7px;
-    color: #eb9f5c;
+    color: var(--color-tree);
 }
 
 #msg p {
@@ -184,15 +196,15 @@
 
 #zone_chat .input-group {
     height: 15vh;
-    background-color: #bdc3c7;
-    border-top: 2px solid #262626;
+    background-color: var(--color-tree);
+    border-top: 2px solid var(--color-two);
     border-radius: 0;
 }
 
 #zone_chat input {
-    background-color: #4B4B4B;
-    color: #DDDDDE;
-    border-color: #3C3C3C;
+    background-color: var(--color-six);
+    color: var(--color-four);
+    border-color: var(--color-two);
     border-radius: 0;
 }
 
@@ -200,28 +212,16 @@
     border-radius: 0;
 }
 
-.input-group-addon{
-    cursor: pointer !important;
-}
-
 /* Zone Users */
 #zone_users {
     height: 100vh;
     padding: 5px;
-    background-color: #343434;
-    border-left: 2px solid #262626;
+    background-color: var(--color-one);
+    border-left: 2px solid var(--color-two);
 }
-
-#zone_users input {
-    background-color: #4B4B4B;
-    color: #DDDDDE;
-    border-color: #3C3C3C;
-    border-radius: 0;
-}
-
 
 #users {
-    color: #FFF;
+    color: var(--color-four);
     font-size: 30px;
     font-weight: bold;
     overflow-y: auto;
@@ -240,7 +240,7 @@
     margin-left: 25px;
     margin-right: 25px;
     margin-top: 2px;
-    border: 3px solid #e67e22;
+    border: 3px solid var(--color-five);
 }
 
 #profil {

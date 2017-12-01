@@ -91,7 +91,7 @@ export default class RoomList extends React.Component {
 					<div className="input-group">
 						<input type="text" className="form-control" placeholder="Créer une salle" aria-label="roomname"
 								aria-describedby="basic-addon2" onChange={this.handleNewValue} value={this.state.inputValue} onKeyPress={this.handleEnterPress}/>
-						<span className="input-group-addon" id="basic-addon2" onClick={this.createRoom}>Créer</span>
+						<span className="input-group-addon" onClick={this.createRoom}>Créer</span>
 					</div>
 					<p className="nbItem">{this.countElement()}</p>
 					{this.props.rooms.map((room, index) => <RoomRow key={index} click={this.handleChangeRoom} room={room} test={this.props.room}/>)}
