@@ -17,7 +17,7 @@ export default class App extends React.Component {
 			rooms: [],
 			myRoom: "",
 			pseudo: "",
-			key:'guadeloupe'
+			key:'Guadeloupe'
 		}
 	}
 
@@ -51,6 +51,20 @@ export default class App extends React.Component {
 				myRoom: JSON.parse(jsonRoom),
 				messages: [],
 			})
+		})
+
+		subscribe('setPassword',(newRoom)=>{
+			let password
+			do {
+				password = prompt('password :')
+				console.log(password.length === 0 || !password.replace(/\s/g, '').length)
+			}while(password.length === 0 || !password.replace(/\s/g, '').length)
+			sendToServer('setPasswordRoom',JSON.stringify({newRoom:newRoom,password:password}))
+		})
+
+		subscribe('passwordAsk',(newRoom)=>{
+			let password = prompt('password :')
+			sendToServer('checkPassword',JSON.stringify({password:password,newRoom:newRoom}))
 		})
 
 		subscribe('message', (jsonMessage) => {
@@ -93,12 +107,17 @@ export default class App extends React.Component {
 		sendToServer("message", this.cryptage(message,this.state.key))
 	}
 
-	handleChangeRoom = (roomName) => {
+	handleChangeRoom = (roomName,passwordRequired) => {
+		console.log(passwordRequired)
 		if (roomName.trim() === "") {
 			alert("Room vide")
 		}
 		else {
-			sendToServer("changeRoom", JSON.stringify({newRoom: roomName}))
+			if(passwordRequired){
+				sendToServer("changeRoomPassword", JSON.stringify({newRoom: roomName}))
+			}else{
+				sendToServer("changeRoom", JSON.stringify({newRoom: roomName}))
+			}
 		}
 	}
 

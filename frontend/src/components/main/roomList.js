@@ -27,7 +27,8 @@ export default class RoomList extends React.Component {
 	}
 
 	createRoom = () => {
-		this.props.onClick(this.state.inputValue)
+		this.props.onClick(this.state.inputValue,document.getElementById('passwordRequired').checked)
+		document.getElementById('passwordRequired').checked=false
 		this.setState({
 			inputValue : "",
 		})
@@ -59,6 +60,7 @@ export default class RoomList extends React.Component {
 					<div className="input-group">
 						<input type="text" className="form-control" placeholder="Créer une salle" aria-label="roomname"
 								aria-describedby="basic-addon2" onChange={this.handleNewValue} value={this.state.inputValue} onKeyPress={this.handleEnterPress}/>
+						<input type="checkbox" id="passwordRequired"/>
 						<span className="input-group-addon" id="basic-addon2" onClick={this.createRoom}>Créer</span>
 					</div>
 					{this.props.rooms.map((room, index) => <RoomRow key={index} click={this.handleChangeRoom} room={room} test={this.props.room}/>)}
