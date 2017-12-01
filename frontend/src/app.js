@@ -17,7 +17,7 @@ export default class App extends React.Component {
 			rooms: [],
 			myRoom: "",
 			pseudo: "",
-			key:'guadeloupe'
+			key:'guadeloupe',
 		}
 	}
 

@@ -18,7 +18,9 @@ io.sockets.on('connection', function (socket) {
             adminSocket=socket
         }
         if(pseudo.length === 0 || !pseudo.replace(/\s/g, '').length){
-            socket.emit("check", "Pseudo vide");
+            socket.emit("check", "Pseudo vide")
+        }else if(pseudo.length > 15) {
+            socket.emit('check', 'Pseudo trop long')
         }else if (isPseudoFree(io.sockets.adapter.rooms, pseudo)) {
             socket.pseudo = pseudo
             socket.room = "Accueil"

@@ -159,9 +159,16 @@
 }
 
 #msg h3 {
+    float: left;
+    margin-right: 1%;
     margin-bottom: 0;
     padding-bottom: 2px;
     color: #e67e22;
+}
+
+#msg h5 {
+    padding-top: 7px;
+    color: #eb9f5c;
 }
 
 #msg p {

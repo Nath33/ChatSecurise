@@ -52,6 +52,7 @@ export default class RoomList extends React.Component {
 		}
 	}
 
+	//onClick params button
      makePop = () => {
 		if(this.state.display === false){
 			document.getElementById("hiddenDiv").style.display = "block"
@@ -66,12 +67,13 @@ export default class RoomList extends React.Component {
 		}
      }
 
+	 //onClick quit button in hiddendiv
      closePop = () => {
 		document.getElementById("hiddenDiv").style.display = "none";
-	   this.setState({
+	    this.setState({
 			display: false,
 		})
-     }
+	}
 
 	render() {
 		return (
@@ -90,7 +92,7 @@ export default class RoomList extends React.Component {
 						<p>Salle actuelle :</p>
 						<h4>{this.props.room}</h4>
 					</div>
-					<div id="hiddenDiv" >
+					<div id="hiddenDiv">
 						<div id="button_close_div">
 							<button id='button_close' onClick={this.closePop}></button>
 						</div>

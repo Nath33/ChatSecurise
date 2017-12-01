@@ -9,9 +9,8 @@ export default class MessageRow extends React.Component {
 	render() {
 		return (
 			<div>
-				<h3><img
-					src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=="
-					alt="Red dot"/>{this.props.message.pseudo} {this.props.message.date.toDateString()}</h3>
+				<h3>{this.props.message.pseudo} -- </h3>
+				<h5>{this.props.message.date.toDateString()}</h5>
 				<p>{this.props.message.message}</p>
 			</div>
 		)
