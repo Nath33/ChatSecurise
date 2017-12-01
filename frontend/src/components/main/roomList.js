@@ -75,6 +75,15 @@ export default class RoomList extends React.Component {
 		})
 	}
 
+	countElement = () => {
+		let count = 0
+		this.props.rooms.map((room, index) => count++)
+		if (count < 2)
+			return "Il y a "+count+" room"
+		else
+			return "Il y a "+count+" rooms"
+	}
+
 	render() {
 		return (
 			<div id="room_g" className="col-2">
@@ -84,6 +93,7 @@ export default class RoomList extends React.Component {
 								aria-describedby="basic-addon2" onChange={this.handleNewValue} value={this.state.inputValue} onKeyPress={this.handleEnterPress}/>
 						<span className="input-group-addon" id="basic-addon2" onClick={this.createRoom}>Créer</span>
 					</div>
+					<p className="nbItem">{this.countElement()}</p>
 					{this.props.rooms.map((room, index) => <RoomRow key={index} click={this.handleChangeRoom} room={room} test={this.props.room}/>)}
 				</div>
 				<div id="room_info">

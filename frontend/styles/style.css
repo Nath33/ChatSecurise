@@ -38,10 +38,15 @@
     margin-top: 0;
     border-color: #3C3C3C;
 }
+#zone_rooms .nbItem, #zone_users .nbItem {
+    color: #797979;
+    text-align: center;
+}
 
 #zone_rooms li {
     font-size: 1.75em;
-    margin-left: 15px;
+    margin-left: 30px;
+    list-style: none;
 }
 
 #room_info {

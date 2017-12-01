@@ -7,6 +7,15 @@ export default class UserList extends React.Component {
 		super(props)
 	}
 
+	countElement = () => {
+		let count = -1
+		this.props.users.map((user, index) => count++)
+		if (count < 2)
+			return count+" utilisateur connecté"
+		else
+			return count+" utilisateurs connectés"
+	}
+
 	render() {
 
         const listItems = this.props.users.map(function (user, index) {
@@ -21,6 +30,7 @@ export default class UserList extends React.Component {
 								 aria-describedby="basic-addon2"/>
 					<span className="input-group-addon" id="basic-addon2">Rechercher</span>
 				</div>
+				<p className="nbItem">{this.countElement()}</p>
 				<div id="users">
 					{listItems}
 				</div>
