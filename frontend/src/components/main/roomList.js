@@ -52,6 +52,7 @@ export default class RoomList extends React.Component {
 		}
 	}
 
+	//onClick params button
      makePop = () => {
 		if(this.state.display === false){
 			document.getElementById("hiddenDiv").style.display = "block"
@@ -66,12 +67,22 @@ export default class RoomList extends React.Component {
 		}
      }
 
+	 //onClick quit button in hiddendiv
      closePop = () => {
 		document.getElementById("hiddenDiv").style.display = "none";
-	   this.setState({
+	    this.setState({
 			display: false,
 		})
-     }
+	}
+
+	countElement = () => {
+		let count = 0
+		this.props.rooms.map((room, index) => count++)
+		if (count < 2)
+			return "Il y a "+count+" room"
+		else
+			return "Il y a "+count+" rooms"
+	}
 
 	render() {
 		return (
@@ -82,6 +93,7 @@ export default class RoomList extends React.Component {
 								aria-describedby="basic-addon2" onChange={this.handleNewValue} value={this.state.inputValue} onKeyPress={this.handleEnterPress}/>
 						<span className="input-group-addon" id="basic-addon2" onClick={this.createRoom}>Créer</span>
 					</div>
+					<p className="nbItem">{this.countElement()}</p>
 					{this.props.rooms.map((room, index) => <RoomRow key={index} click={this.handleChangeRoom} room={room} test={this.props.room}/>)}
 				</div>
 				<div id="room_info">
@@ -90,7 +102,7 @@ export default class RoomList extends React.Component {
 						<p>Salle actuelle :</p>
 						<h4>{this.props.room}</h4>
 					</div>
-					<div id="hiddenDiv" >
+					<div id="hiddenDiv">
 						<div id="button_close_div">
 							<button id='button_close' onClick={this.closePop}></button>
 						</div>
