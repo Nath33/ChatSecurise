@@ -10,7 +10,7 @@ export default class UserList extends React.Component {
 	countElement = () => {
 		let count = 0
 		this.props.users.map((user, index) => {
-			if (user !== "Admin") { count++; console.log(count) }
+			if (user !== "Admin") { count++ }
 		})
 		if (count < 2)
 			return count+" utilisateur connecté"

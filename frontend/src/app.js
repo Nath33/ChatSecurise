@@ -17,7 +17,7 @@ export default class App extends React.Component {
 			rooms: [],
 			myRoom: "",
 			pseudo: "",
-			key:'Guadeloupe'
+			key:'Guadeloupe',
 		}
 	}
 
@@ -70,7 +70,7 @@ export default class App extends React.Component {
 		subscribe('message', (jsonMessage) => {
 			let message = JSON.parse(jsonMessage)
 			let newMessagesList = this.state.messages
-			let decryptMessage=this.decryptage(message.message,this.state.key)
+			let decryptMessage=this.decryptage(message.message,this.decryptage(myRoom,this.state.key))
 			newMessagesList.push({pseudo: message.pseudo, message: decryptMessage, date: new Date()})
 			this.setState({
 				messages: newMessagesList
@@ -104,8 +104,9 @@ export default class App extends React.Component {
 
 	handleSendMessage = (message) => {
 		console.log("Send to everyone", message)
+		console.log(this.state.myRoom)
 		if (message.length !== 0)
-			sendToServer("message", this.cryptage(message,this.state.key))
+			sendToServer("message", this.cryptage(message,this.cryptage(myRoom,this.state.key))
 	}
 
 	handleChangeRoom = (roomName,passwordRequired) => {
@@ -186,7 +187,6 @@ export default class App extends React.Component {
 		}
 		return decrypt;
 	}
-
 
 	render() {
 		return (
