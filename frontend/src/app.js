@@ -4,7 +4,7 @@ import UserList from 'components/main/userList';
 import RoomList from 'components/main/roomList';
 import Chat from 'components/main/chat';
 
-import {sendToServer, subscribe} from './connectToSocket';
+import { sendToServer, subscribe } from './connectToSocket';
 
 
 export default class App extends React.Component {
@@ -17,7 +17,7 @@ export default class App extends React.Component {
 			rooms: [],
 			myRoom: "",
 			pseudo: "",
-			key:'Guadeloupe',
+			key: 'Guadeloupe',
 		}
 	}
 
@@ -34,7 +34,7 @@ export default class App extends React.Component {
 		})
 
 		subscribe('List', (message) => {
-			console.log("list "+message)
+			console.log("list " + message)
 			this.setState({
 				users: JSON.parse(message)
 			})
@@ -53,25 +53,25 @@ export default class App extends React.Component {
 			})
 		})
 
-		subscribe('setPassword',(newRoom)=>{
+		subscribe('setPassword', (newRoom) => {
 			let password
 			do {
 				password = prompt('password :')
 				console.log(password.length === 0 || !password.replace(/\s/g, '').length)
-			}while(password.length === 0 || !password.replace(/\s/g, '').length)
-			sendToServer('setPasswordRoom',JSON.stringify({newRoom:newRoom,password:password}))
+			} while (password.length === 0 || !password.replace(/\s/g, '').length)
+			sendToServer('setPasswordRoom', JSON.stringify({ newRoom: newRoom, password: password }))
 		})
 
-		subscribe('passwordAsk',(newRoom)=>{
+		subscribe('passwordAsk', (newRoom) => {
 			let password = prompt('password :')
-			sendToServer('checkPassword',JSON.stringify({password:password,newRoom:newRoom}))
+			sendToServer('checkPassword', JSON.stringify({ password: password, newRoom: newRoom }))
 		})
 
 		subscribe('message', (jsonMessage) => {
 			let message = JSON.parse(jsonMessage)
 			let newMessagesList = this.state.messages
-			let decryptMessage=this.decryptage(message.message,this.decryptage(myRoom,this.state.key))
-			newMessagesList.push({pseudo: message.pseudo, message: decryptMessage, date: new Date()})
+			let decryptMessage = this.decryptage(message.message, this.cryptage(this.state.myRoom, this.state.key))
+			newMessagesList.push({ pseudo: message.pseudo, message: decryptMessage, date: new Date() })
 			this.setState({
 				messages: newMessagesList
 			})
@@ -82,8 +82,8 @@ export default class App extends React.Component {
 		subscribe('messageServ', (jsonMessage) => {
 			let message = JSON.parse(jsonMessage)
 			let newMessagesList = this.state.messages
-			let messageRoom=message.message
-			newMessagesList.push({pseudo: message.pseudo, message: messageRoom, date: new Date()})
+			let messageRoom = message.message
+			newMessagesList.push({ pseudo: message.pseudo, message: messageRoom, date: new Date() })
 			this.setState({
 				messages: newMessagesList
 			})
@@ -96,29 +96,28 @@ export default class App extends React.Component {
 		});
 	}
 
-    checkUser = () => {
-        let pseudo = prompt('nom : ')
-        sendToServer('verif', pseudo)
-        this.setState({pseudo: pseudo})
-    }
-
-	handleSendMessage = (message) => {
-		console.log("Send to everyone", message)
-		console.log(this.state.myRoom)
-		if (message.length !== 0)
-			sendToServer("message", this.cryptage(message,this.cryptage(myRoom,this.state.key)))
+	checkUser = () => {
+		let pseudo = prompt('nom : ')
+		sendToServer('verif', pseudo)
+		this.setState({ pseudo: pseudo })
 	}
 
-	handleChangeRoom = (roomName,passwordRequired) => {
+	handleSendMessage = (message) => {
+		if (message.length !== 0) {
+			sendToServer("message", this.cryptage(message, this.cryptage(this.state.myRoom, this.state.key)))
+		}
+	}
+
+	handleChangeRoom = (roomName, passwordRequired) => {
 		console.log(passwordRequired)
 		if (roomName.trim() === "") {
 			alert("Room vide")
 		}
 		else {
-			if(passwordRequired){
-				sendToServer("changeRoomPassword", JSON.stringify({newRoom: roomName}))
-			}else{
-				sendToServer("changeRoom", JSON.stringify({newRoom: roomName}))
+			if (passwordRequired) {
+				sendToServer("changeRoomPassword", JSON.stringify({ newRoom: roomName }))
+			} else {
+				sendToServer("changeRoom", JSON.stringify({ newRoom: roomName }))
 			}
 		}
 	}
@@ -191,10 +190,10 @@ export default class App extends React.Component {
 	render() {
 		return (
 			<div className="row">
-				<RoomList rooms={this.state.rooms} onClick={this.handleChangeRoom} pseudo={this.state.pseudo} room={this.state.myRoom}/>
+				<RoomList rooms={this.state.rooms} onClick={this.handleChangeRoom} pseudo={this.state.pseudo} room={this.state.myRoom} />
 				<Chat messages={this.state.messages} pseudo={this.state.pseudo} room={this.state.myRoom}
-							onSend={this.handleSendMessage}/>
-				<UserList users={this.state.users}/>
+					onSend={this.handleSendMessage} />
+				<UserList users={this.state.users} />
 			</div>
 		);
 	}
