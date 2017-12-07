@@ -112,7 +112,7 @@ io.sockets.on('connection', function (socket) {
             sendYourRoom(socket)
             sendEveryOneListRoom()
         }else{
-            console.log('access denied')
+            socket.emit('accessDenied','')
         }
     })
 

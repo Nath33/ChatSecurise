@@ -89,6 +89,10 @@ export default class App extends React.Component {
 			elem.scrollTop = elem.scrollHeight;
 		})
 
+		subscribe('accessDenied', () => {
+			alert('Mot de passe invalide')
+		})	
+
 		window.addEventListener("beforeunload", () => {
 			sendToServer("disconnect", "")
 		});
