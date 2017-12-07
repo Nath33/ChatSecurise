@@ -111,16 +111,16 @@
 #hiddenDiv{
     display: none;
     background-color: rgba(80, 80, 80, 0.7);
-    width: 100px;
-    height: 100px;
+    width: 250px;
+    height: 30px;
     position: absolute;
     left: 85%;
     z-index: 50;
-    bottom: 10.5%;
+    bottom: 13.5%;
 }
 
 #button_close_div{
-    padding-left: 90px;
+    padding-left: 240px;
     margin-top: -10px;
 }
 

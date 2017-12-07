@@ -10,6 +10,7 @@ export default class RoomList extends React.Component {
 			inputValue: "",
 			myRoom: '',
 			display: false,
+			inputPseudo: '',
 		}
 	}
 
@@ -108,7 +109,11 @@ export default class RoomList extends React.Component {
 						<div id="button_close_div">
 							<button id='button_close' onClick={this.closePop}></button>
 						</div>
-							<p>wip</p>
+						<div className="input-group">
+						<input type="text" className="form-control" placeholder="Changer Pseudo" aria-label="changepseudo"
+								aria-describedby="basic-addon2" onChange={this.handleNewValue} value={this.state.inputPseudo} onKeyPress={this.handleEnterPress}/>
+						<span className="input-group-addon" id="basic-addon2" >Change</span>
+					</div>
 					</div>
 					<div id="info_button">
 						<button id="button_param" className="btn" onClick={this.makePop}>
