@@ -106,7 +106,7 @@ export default class App extends React.Component {
 		console.log("Send to everyone", message)
 		console.log(this.state.myRoom)
 		if (message.length !== 0)
-			sendToServer("message", this.cryptage(message,this.cryptage(myRoom,this.state.key))
+			sendToServer("message", this.cryptage(message,this.cryptage(myRoom,this.state.key)))
 	}
 
 	handleChangeRoom = (roomName,passwordRequired) => {
