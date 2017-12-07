@@ -34,7 +34,6 @@ export default class App extends React.Component {
 		})
 
 		subscribe('List', (message) => {
-			console.log("list " + message)
 			this.setState({
 				users: JSON.parse(message)
 			})
@@ -57,7 +56,6 @@ export default class App extends React.Component {
 			let password
 			do {
 				password = prompt('password :')
-				console.log(password.length === 0 || !password.replace(/\s/g, '').length)
 			} while (password.length === 0 || !password.replace(/\s/g, '').length)
 			sendToServer('setPasswordRoom', JSON.stringify({ newRoom: newRoom, password: password }))
 		})
@@ -109,7 +107,6 @@ export default class App extends React.Component {
 	}
 
 	handleChangeRoom = (roomName, passwordRequired) => {
-		console.log(passwordRequired)
 		if (roomName.trim() === "") {
 			alert("Room vide")
 		}

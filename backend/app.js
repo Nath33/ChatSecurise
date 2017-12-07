@@ -52,7 +52,6 @@ io.sockets.on('connection', function (socket) {
         if(newRoom === socket.room){return}
         //verif password
         if(roomPassword[newRoom]){
-            console.log('password required to connect at ' +newRoom)
             socket.emit('passwordAsk',newRoom)
         }else{
             if(socket.room !== 'Accueil' && listUserRoom(socket.room).length === 1){
@@ -74,7 +73,6 @@ io.sockets.on('connection', function (socket) {
     socket.on('setPasswordRoom',(data)=>{
         const {newRoom,password} = JSON.parse(data)
         roomPassword[newRoom]=password
-        console.log(roomPassword)
         if(newRoom === socket.room){return}
         if(socket.room !== 'Accueil' && listUserRoom(socket.room).length === 1){
             if(roomPassword[newRoom]){
@@ -93,7 +91,6 @@ io.sockets.on('connection', function (socket) {
 
     socket.on('changeRoomPassword', (data) => {
         let {newRoom} = JSON.parse(data)
-        console.log('password required for '+newRoom)
         newRoom=newRoom+' - lock'
         socket.emit('setPassword',newRoom)
     })
@@ -101,7 +98,6 @@ io.sockets.on('connection', function (socket) {
     socket.on('checkPassword',(data)=>{
         const{password,newRoom}=JSON.parse(data)
         if(password===roomPassword[newRoom]){
-            console.log('access granted')
             if(socket.room !== 'Accueil' && listUserRoom(socket.room).length === 1){
                 if(roomPassword[newRoom]){
                     roomPassword.splice(roomPassword.indexOf(roomPassword[newRoom]),1)
