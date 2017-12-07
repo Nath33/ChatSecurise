@@ -1,5 +1,5 @@
 import React from 'react'
-import {subscribe} from './../../connectToSocket';
+import {subscribe,sendToServer} from './../../connectToSocket';
 import RoomRow from '../row/roomRow';
 
 export default class RoomList extends React.Component {
@@ -20,11 +20,23 @@ export default class RoomList extends React.Component {
 				myRoom: JSON.parse(jsonRoom),
 			})
 		})
+		subscribe('newPseudo',(data)=>{
+			const {newPseudo}=JSON.parse(data)
+			document.getElementById('pseudo').innerHTML=newPseudo
+		})
 	}
+
+	
 
 	handleNewValue = (evt) => {
 		this.setState({
 			inputValue: evt.target.value
+		})
+	}
+
+	handleNewValuePseudo = (value)=>{
+		this.setState({
+			inputPseudo: value.target.value
 		})
 	}
 
@@ -47,6 +59,12 @@ export default class RoomList extends React.Component {
 		this.props.onClick(roomName)
 	}
 
+	handleChangePseudo = (newPseudo)=>{
+		console.log(this.state.inputPseudo)
+		sendToServer('changePseudo',JSON.stringify({ newPseudo: this.state.inputPseudo }))
+	}
+	
+		
 	handleEnterPress = (target) => {
 		//13 = la touche entrée
 		if(target.charCode===13){
@@ -101,7 +119,7 @@ export default class RoomList extends React.Component {
 				</div>
 				<div id="room_info">
 					<div id="info_text">
-						<h2>{this.props.pseudo}</h2>
+						<h2 id='pseudo'>{this.props.pseudo}</h2>
 						<p>Salle actuelle :</p>
 						<h4>{this.props.room}</h4>
 					</div>
@@ -110,9 +128,9 @@ export default class RoomList extends React.Component {
 							<button id='button_close' onClick={this.closePop}></button>
 						</div>
 						<div className="input-group">
-						<input type="text" className="form-control" placeholder="Changer Pseudo" aria-label="changepseudo"
-								aria-describedby="basic-addon2" value={this.state.inputPseudo} onKeyPress={this.handleEnterPress}/>
-						<span className="input-group-addon" id="basic-addon2" >Change</span>
+						<input type="text" className="form-control" placeholder="Changer Pseudo" id="changepseudo"
+								aria-describedby="basic-addon2" value={this.state.inputPseudo} onChange={this.handleNewValuePseudo} value={this.state.inputValuePseudo}/>
+						<span className="input-group-addon" id="basic-addon2" onClick={this.handleChangePseudo}  >Change</span>
 					</div>
 					</div>
 					<div id="info_button">

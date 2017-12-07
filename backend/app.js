@@ -112,7 +112,25 @@ io.sockets.on('connection', function (socket) {
             sendYourRoom(socket)
             sendEveryOneListRoom()
         }else{
-            socket.emit('accessDenied','')
+            socket.emit('alertServer','Mot de passe invalide')
+        }
+    })
+
+    socket.on('changePseudo',(data)=>{
+        const {newPseudo}=JSON.parse(data)
+        console.log(newPseudo)
+        if(newPseudo.length === 0 || !newPseudo.replace(/\s/g, '').length){
+            socket.emit("alertServer", "Pseudo vide")
+        }else if(newPseudo.length > 15) {
+            socket.emit('alertServer', 'Pseudo trop long')
+        }else if (isPseudoFree(io.sockets.adapter.rooms, newPseudo)) {
+            socket.pseudo = newPseudo
+            sendListUserRoom(socket.room)
+            sendYourRoom(socket)
+            sendEveryOneListRoom()
+            socket.emit('newPseudo',JSON.stringify({newPseudo: newPseudo}))
+        } else {
+            socket.emit("alertServer", "Identifiant déjà utilisé");
         }
     })
 
