@@ -111,7 +111,7 @@ export default class RoomList extends React.Component {
 						</div>
 						<div className="input-group">
 						<input type="text" className="form-control" placeholder="Changer Pseudo" aria-label="changepseudo"
-								aria-describedby="basic-addon2" onChange={this.handleNewValue} value={this.state.inputPseudo} onKeyPress={this.handleEnterPress}/>
+								aria-describedby="basic-addon2" value={this.state.inputPseudo} onKeyPress={this.handleEnterPress}/>
 						<span className="input-group-addon" id="basic-addon2" >Change</span>
 					</div>
 					</div>
