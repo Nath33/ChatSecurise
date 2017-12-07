@@ -119,6 +119,10 @@
     bottom: 13.5%;
 }
 
+#hiddenDiv span{
+    cursor: pointer;
+}
+
 #button_close_div{
     padding-left: 240px;
     margin-top: -10px;
