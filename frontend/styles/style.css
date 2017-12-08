@@ -41,6 +41,24 @@
     border-color: var(--color-tree);
     cursor: pointer;
 }
+
+#security{
+    width: 100%;
+}
+
+#security p{
+    width: 20%;
+    display: block;
+    float:left;
+    margin-right: 0;
+    font-size:0.8em;
+}
+
+#passwordRequired{
+    
+}
+
+
 #zone_rooms .nbItem, #zone_users .nbItem {
     color: var(--color-tree);
     text-align: center;

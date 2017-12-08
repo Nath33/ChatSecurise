@@ -63,6 +63,10 @@ export default class RoomList extends React.Component {
 		console.log(this.state.inputPseudo)
 		sendToServer('changePseudo',JSON.stringify({ newPseudo: this.state.inputPseudo }))
 		document.getElementById('changepseudo').value = ""
+		document.getElementById("hiddenDiv").style.display = "none"
+		this.setState({
+			display:false
+		})
 	}
 
 	handlePseudoPress = (target) => {
@@ -70,7 +74,6 @@ export default class RoomList extends React.Component {
 			this.handleChangePseudo()
 		}
 	}
-	
 		
 	handleEnterPress = (target) => {
 		//13 = la touche entrée
@@ -118,8 +121,13 @@ export default class RoomList extends React.Component {
 					<div className="input-group">
 						<input type="text" className="form-control" placeholder="Créer une salle" aria-label="roomname"
 								aria-describedby="basic-addon2" onChange={this.handleNewValue} value={this.state.inputValue} onKeyPress={this.handleEnterPress}/>
-						<input type="checkbox" id="passwordRequired"/>
 						<span className="input-group-addon" onClick={this.createRoom}>Créer</span>
+					</div>
+					<div id="security">
+						<p>
+							Room sécurisé
+						</p>
+						<input type="checkbox" id="passwordRequired"/>
 					</div>
 					<p className="nbItem">{this.countElement()}</p>
 					{this.props.rooms.map((room, index) => <RoomRow key={index} click={this.handleChangeRoom} room={room} test={this.props.room}/>)}
