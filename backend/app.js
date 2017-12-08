@@ -112,7 +112,27 @@ io.sockets.on('connection', function (socket) {
             sendYourRoom(socket)
             sendEveryOneListRoom()
         }else{
-            socket.emit('accessDenied','')
+            socket.emit('alertServer','Mot de passe invalide')
+        }
+    })
+
+    socket.on('changePseudo',(data)=>{
+        const {newPseudo}=JSON.parse(data)
+        console.log(newPseudo)
+        if(newPseudo.length === 0 || !newPseudo.replace(/\s/g, '').length){
+            socket.emit("alertServer", "Pseudo vide")
+        }else if(newPseudo.length > 15) {
+            socket.emit('alertServer', 'Pseudo trop long')
+        }else if (isPseudoFree(io.sockets.adapter.rooms, newPseudo)) {
+            const oldPseudo = socket.pseudo
+            socket.pseudo = newPseudo
+            sendListUserRoom(socket.room)
+            sendYourRoom(socket)
+            sendEveryOneListRoom()
+            messageRoom(socket, 'changePseudo', oldPseudo)
+            socket.emit('newPseudo',JSON.stringify({newPseudo: newPseudo}))
+        } else {
+            socket.emit("alertServer", "Identifiant déjà utilisé");
         }
     })
 
@@ -188,7 +208,7 @@ io.sockets.on('connection', function (socket) {
         return true
     }
 
-    function messageRoom(socket, action) {
+    function messageRoom(socket, action, alt) {
         let roomAccueil=adminSocket.room
         let messageRoom
         switch (action) {
@@ -213,8 +233,12 @@ io.sockets.on('connection', function (socket) {
                 io.to(roomAccueil).emit("messageServ", JSON.stringify({ message: messageRoom, pseudo: adminSocket.pseudo }))
                 break;
             case 'delete':
-                messageRoom =socket.pseudo + ' a  supprimer la room : ' + socket.room
+                messageRoom = socket.pseudo + ' a  supprimer la room : ' + socket.room
                 io.to(roomAccueil).emit("messageServ", JSON.stringify({ message: messageRoom, pseudo: adminSocket.pseudo }))
+                break;
+            case 'changePseudo':
+                messageRoom = alt + " maintenant s'appel " + socket.pseudo
+                io.to(socket.room).emit('messageServ', JSON.stringify({ message: messageRoom, pseudo: adminSocket.pseudo }))
                 break;
             default:
                 console.log('erreur : action inconnu')
