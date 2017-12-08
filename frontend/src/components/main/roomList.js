@@ -62,6 +62,13 @@ export default class RoomList extends React.Component {
 	handleChangePseudo = (newPseudo)=>{
 		console.log(this.state.inputPseudo)
 		sendToServer('changePseudo',JSON.stringify({ newPseudo: this.state.inputPseudo }))
+		document.getElementById('changepseudo').value = ""
+	}
+
+	handlePseudoPress = (target) => {
+		if(target.charCode===13){
+			this.handleChangePseudo()
+		}
 	}
 	
 		
@@ -129,7 +136,7 @@ export default class RoomList extends React.Component {
 						</div>
 						<div className="input-group">
 						<input type="text" className="form-control" placeholder="Changer Pseudo" id="changepseudo"
-								aria-describedby="basic-addon2" value={this.state.inputPseudo} onChange={this.handleNewValuePseudo} value={this.state.inputValuePseudo}/>
+								aria-describedby="basic-addon2" value={this.state.inputPseudo} onChange={this.handleNewValuePseudo} value={this.state.inputValuePseudo} onKeyPress={this.handlePseudoPress}/>
 						<span className="input-group-addon" id="basic-addon2" onClick={this.handleChangePseudo}  >Change</span>
 					</div>
 					</div>
