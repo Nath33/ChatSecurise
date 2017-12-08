@@ -197,8 +197,8 @@
     color: var(--color-five);
 }
 
-#msg h5 {
-    padding-top: 7px;
+#msg p {
+    padding-top: 2px;
     color: var(--color-tree);
 }
 
