@@ -124,11 +124,9 @@ export default class RoomList extends React.Component {
 						<span className="input-group-addon" onClick={this.createRoom}>Créer</span>
 					</div>
 					<div id="security">
-						<div class="input-group">
+						<div className="input-group">
 							<p> Sécuriser la room </p>
-							<span id="checkBox" class="input-group-addon">
-								<input id="passwordRequired" type="radio" aria-label="Radio button for following text input" />
-							</span>
+  							<p><input id="passwordRequired" type="checkbox" /><label for="passwordRequired"><span className="ui"></span></label></p>
 						</div>
 					</div>
 					<p className="nbItem">{this.countElement()}</p>
