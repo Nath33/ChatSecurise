@@ -1,5 +1,5 @@
 import React from 'react'
-import {subscribe,sendToServer} from './../../connectToSocket';
+import { subscribe, sendToServer } from './../../connectToSocket';
 import RoomRow from '../row/roomRow';
 
 export default class RoomList extends React.Component {
@@ -14,19 +14,19 @@ export default class RoomList extends React.Component {
 		}
 	}
 
-	componentDidUpdate(){
+	componentDidUpdate() {
 		subscribe('yourRoom', (jsonRoom) => {
 			this.setState({
 				myRoom: JSON.parse(jsonRoom),
 			})
 		})
-		subscribe('newPseudo',(data)=>{
-			const {newPseudo}=JSON.parse(data)
-			document.getElementById('pseudo').innerHTML=newPseudo
+		subscribe('newPseudo', (data) => {
+			const { newPseudo } = JSON.parse(data)
+			document.getElementById('pseudo').innerHTML = newPseudo
 		})
 	}
 
-	
+
 
 	handleNewValue = (evt) => {
 		this.setState({
@@ -34,17 +34,17 @@ export default class RoomList extends React.Component {
 		})
 	}
 
-	handleNewValuePseudo = (value)=>{
+	handleNewValuePseudo = (value) => {
 		this.setState({
 			inputPseudo: value.target.value
 		})
 	}
 
 	createRoom = () => {
-		this.props.onClick(this.state.inputValue,document.getElementById('passwordRequired').checked)
-		document.getElementById('passwordRequired').checked=false
+		this.props.onClick(this.state.inputValue, document.getElementById('passwordRequired').checked)
+		document.getElementById('passwordRequired').checked = false
 		this.setState({
-			inputValue : "",
+			inputValue: "",
 		})
 		/*
 		subscribe('yourRoom', (jsonRoom) => {
@@ -59,48 +59,48 @@ export default class RoomList extends React.Component {
 		this.props.onClick(roomName)
 	}
 
-	handleChangePseudo = (newPseudo)=>{
+	handleChangePseudo = (newPseudo) => {
 		console.log(this.state.inputPseudo)
-		sendToServer('changePseudo',JSON.stringify({ newPseudo: this.state.inputPseudo }))
+		sendToServer('changePseudo', JSON.stringify({ newPseudo: this.state.inputPseudo }))
 		document.getElementById('changepseudo').value = ""
 		document.getElementById("hiddenDiv").style.display = "none"
 		this.setState({
-			display:false
+			display: false
 		})
 	}
 
 	handlePseudoPress = (target) => {
-		if(target.charCode===13){
+		if (target.charCode === 13) {
 			this.handleChangePseudo()
 		}
 	}
-		
+
 	handleEnterPress = (target) => {
 		//13 = la touche entrée
-		if(target.charCode===13){
+		if (target.charCode === 13) {
 			this.createRoom()
 		}
 	}
 
 	//onClick params button
-     makePop = () => {
-		if(this.state.display === false){
+	makePop = () => {
+		if (this.state.display === false) {
 			document.getElementById("hiddenDiv").style.display = "block"
 			this.setState({
 				display: true,
-			 })
-		} else if ( this.state.display === true){
+			})
+		} else if (this.state.display === true) {
 			document.getElementById("hiddenDiv").style.display = "none";
 			this.setState({
 				display: false,
 			})
 		}
-     }
+	}
 
-	 //onClick quit button in hiddendiv
-     closePop = () => {
+	//onClick quit button in hiddendiv
+	closePop = () => {
 		document.getElementById("hiddenDiv").style.display = "none";
-	    this.setState({
+		this.setState({
 			display: false,
 		})
 	}
@@ -109,9 +109,9 @@ export default class RoomList extends React.Component {
 		let count = 0
 		this.props.rooms.map((room, index) => count++)
 		if (count < 2)
-			return "Il y a "+count+" room"
+			return "Il y a " + count + " room"
 		else
-			return "Il y a "+count+" rooms"
+			return "Il y a " + count + " rooms"
 	}
 
 	render() {
@@ -120,17 +120,19 @@ export default class RoomList extends React.Component {
 				<div id="zone_rooms">
 					<div className="input-group">
 						<input type="text" className="form-control" placeholder="Créer une salle" aria-label="roomname"
-								aria-describedby="basic-addon2" onChange={this.handleNewValue} value={this.state.inputValue} onKeyPress={this.handleEnterPress}/>
+							aria-describedby="basic-addon2" onChange={this.handleNewValue} value={this.state.inputValue} onKeyPress={this.handleEnterPress} />
 						<span className="input-group-addon" onClick={this.createRoom}>Créer</span>
 					</div>
 					<div id="security">
-						<p>
-							Room sécurisé
-						</p>
-						<input type="checkbox" id="passwordRequired"/>
+						<div class="input-group">
+							<p> Sécuriser la room </p>
+							<span id="checkBox" class="input-group-addon">
+								<input id="passwordRequired" type="radio" aria-label="Radio button for following text input" />
+							</span>
+						</div>
 					</div>
 					<p className="nbItem">{this.countElement()}</p>
-					{this.props.rooms.map((room, index) => <RoomRow key={index} click={this.handleChangeRoom} room={room} test={this.props.room}/>)}
+					{this.props.rooms.map((room, index) => <RoomRow key={index} click={this.handleChangeRoom} room={room} test={this.props.room} />)}
 				</div>
 				<div id="room_info">
 					<div id="info_text">
@@ -143,10 +145,10 @@ export default class RoomList extends React.Component {
 							<button id='button_close' onClick={this.closePop}></button>
 						</div>
 						<div className="input-group">
-						<input type="text" className="form-control" placeholder="Changer Pseudo" id="changepseudo"
-								aria-describedby="basic-addon2" value={this.state.inputPseudo} onChange={this.handleNewValuePseudo} value={this.state.inputValuePseudo} onKeyPress={this.handlePseudoPress}/>
-						<span className="input-group-addon" id="basic-addon2" onClick={this.handleChangePseudo}  >Change</span>
-					</div>
+							<input type="text" className="form-control" placeholder="Changer Pseudo" id="changepseudo"
+								aria-describedby="basic-addon2" value={this.state.inputPseudo} onChange={this.handleNewValuePseudo} value={this.state.inputValuePseudo} onKeyPress={this.handlePseudoPress} />
+							<span className="input-group-addon" id="basic-addon2" onClick={this.handleChangePseudo}  >Change</span>
+						</div>
 					</div>
 					<div id="info_button">
 						<button id="button_param" className="btn" onClick={this.makePop}>

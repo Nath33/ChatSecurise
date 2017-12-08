@@ -44,20 +44,18 @@
 
 #security{
     width: 100%;
+    border-bottom: 1px solid #000000;
+}
+
+#security span{
+    width: 40%;
 }
 
 #security p{
-    width: 20%;
-    display: block;
-    float:left;
-    margin-right: 0;
-    font-size:0.8em;
+    width: 60%;
+    text-align: center;
+    padding-top: 4%;
 }
-
-#passwordRequired{
-    
-}
-
 
 #zone_rooms .nbItem, #zone_users .nbItem {
     color: var(--color-tree);
