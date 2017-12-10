@@ -24,10 +24,8 @@ export default class Chat extends React.Component {
 	}
 
 	handleEnterPress = (target) => {
-		if(target.charCode===13){
-			//13 = la touche entrée
+		if(target.charCode === 13) //13 = la touche entrée
 			this.send()
-		}
 	}
 
 	render() {
@@ -43,9 +41,17 @@ export default class Chat extends React.Component {
 					</div>
 				</div>
 				<div className="input-group">
-					<input type="text" className="form-control" placeholder="Écrire ici..." aria-label="message"
-								 aria-describedby="basic-addon2" value={this.state.inputValue} onChange={this.update} onKeyPress={this.handleEnterPress}/>
-					<span className="input-group-addon" id="basic-addon2" onClick={this.send}>Envoyer</span>
+					<input type="text"
+							className="form-control"
+							placeholder="Écrire ici..." 
+							value={this.state.inputValue}
+							onChange={this.update}
+							onKeyPress={this.handleEnterPress}
+					/>
+					<span className="input-group-addon"
+							id="basic-addon2"
+							onClick={this.send}>Envoyer
+					</span>
 				</div>
 			</div>
 		)

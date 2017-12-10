@@ -25,11 +25,10 @@ export default class RoomRow extends React.Component {
 		}
 
 		let list = "";
-		if (this.props.room === this.props.test) {
+		if (this.props.room === this.props.test)
 			list = <span style={style}>{this.props.room}</span>;
-		} else {
+		else
 			list = <span>{this.props.room}</span>;
-		}
 
 		return (
 			<div>

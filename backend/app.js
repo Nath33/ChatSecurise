@@ -2,27 +2,27 @@ const app = require('express')(),
     server = require('http').createServer(app),
     io = require('socket.io').listen(server),
     openSocket = require('socket.io-client')
+
 const options = {
     transports: ['websocket'],
     'force new connection': true
-};
+}
 
 let socket = openSocket('http://localhost:8081', options);
 socket.emit("verif", "Admin")
 let adminSocket
-let roomPassword=[]
+let roomPassword = []
 
 io.sockets.on('connection', function (socket) {
 
     socket.on("verif", pseudo => {
-        if(pseudo==='Admin'){
-            adminSocket=socket
-        }
-        if(pseudo.length === 0 || !pseudo.replace(/\s/g, '').length){
+        if (pseudo === 'Admin')
+            adminSocket = socket
+        if (pseudo.length === 0 || !pseudo.replace(/\s/g, '').length)
             socket.emit("check", "Pseudo vide")
-        }else if(pseudo.length > 15) {
+        else if (pseudo.length > 15)
             socket.emit('check', 'Pseudo trop long')
-        }else if (isPseudoFree(io.sockets.adapter.rooms, pseudo)) {
+        else if (isPseudoFree(io.sockets.adapter.rooms, pseudo)) {
             socket.pseudo = pseudo
             socket.room = "Accueil"
             socket.join("Accueil")
@@ -31,13 +31,12 @@ io.sockets.on('connection', function (socket) {
             sendListUserRoom(socket.room)
             sendYourRoom(socket)
             sendEveryOneListRoom()
-        } else {
-            socket.emit("check", "Identifiant déjà utilisé");
-        }
+        } else
+            socket.emit("check", "Identifiant déjà utilisé")
     })
 
     socket.on('message', (message) => {
-        console.log(message);//a garder pour montrer le cryptage (NICO DEPERO)
+        console.log(message)//a garder pour montrer le cryptage (NICO DEPERO)
         io.to(socket.room).emit("message", JSON.stringify({ message: message, pseudo: socket.pseudo }));
     })
 
@@ -48,82 +47,77 @@ io.sockets.on('connection', function (socket) {
     })
 
     socket.on('changeRoom', (data) => {
-        const {newRoom} = JSON.parse(data)
-        if(newRoom === socket.room){return}
+        const { newRoom } = JSON.parse(data)
+        if(newRoom === socket.room)
+            return
         //verif password
-        if(roomPassword[newRoom]){
+        if(roomPassword[newRoom])
             socket.emit('passwordAsk',newRoom)
-        }else{
+        else {
             if(socket.room !== 'Accueil' && listUserRoom(socket.room).length === 1){
-                if(roomPassword[newRoom]){
+                if(roomPassword[newRoom])
                     roomPassword.splice(roomPassword.indexOf(roomPassword[newRoom]),1)
-                }
                 messageRoom(socket, 'delete')
             }
             leaveRoom(socket)
             joinRoom(newRoom)
-            if(listUserRoom(socket.room).length===1){
+            if(listUserRoom(socket.room).length === 1)
                 messageRoom(socket,'create')
-            }
             sendYourRoom(socket)
             sendEveryOneListRoom()
         }
     })
 
-    socket.on('setPasswordRoom',(data)=>{
-        const {newRoom,password} = JSON.parse(data)
-        roomPassword[newRoom]=password
-        if(newRoom === socket.room){return}
+    socket.on('setPasswordRoom',(data) => {
+        const { newRoom, password } = JSON.parse(data)
+        roomPassword[newRoom] = password
+        if(newRoom === socket.room)
+            return
         if(socket.room !== 'Accueil' && listUserRoom(socket.room).length === 1){
-            if(roomPassword[newRoom]){
+            if(roomPassword[newRoom])
                 roomPassword.splice(roomPassword.indexOf(roomPassword[newRoom]),1)
-            }
             messageRoom(socket, 'delete')
         }
         leaveRoom(socket)
         joinRoom(newRoom)
-        if(listUserRoom(socket.room).length===1){
+        if(listUserRoom(socket.room).length === 1)
             messageRoom(socket,'create')
-        }
         sendYourRoom(socket)
         sendEveryOneListRoom()
     })
 
     socket.on('changeRoomPassword', (data) => {
-        let {newRoom} = JSON.parse(data)
-        newRoom=newRoom+' - lock'
-        socket.emit('setPassword',newRoom)
+        let { newRoom } = JSON.parse(data)
+        newRoom = newRoom+' - lock'
+        socket.emit('setPassword', newRoom)
     })
 
-    socket.on('checkPassword',(data)=>{
-        const{password,newRoom}=JSON.parse(data)
-        if(password===roomPassword[newRoom]){
+    socket.on('checkPassword',(data) => {
+        const { password, newRoom } = JSON.parse(data)
+        if(password === roomPassword[newRoom]){
             if(socket.room !== 'Accueil' && listUserRoom(socket.room).length === 1){
-                if(roomPassword[newRoom]){
+                if(roomPassword[newRoom])
                     roomPassword.splice(roomPassword.indexOf(roomPassword[newRoom]),1)
-                }
                 messageRoom(socket, 'delete')
             }
             leaveRoom(socket)
             joinRoom(newRoom)
-            if(listUserRoom(socket.room).length===1){
+            if(listUserRoom(socket.room).length === 1)
                 messageRoom(socket,'create')
-            }
             sendYourRoom(socket)
             sendEveryOneListRoom()
-        }else{
+        }else
             socket.emit('alertServer','Mot de passe invalide')
-        }
     })
 
-    socket.on('changePseudo',(data)=>{
-        const {newPseudo}=JSON.parse(data)
+    socket.on('changePseudo',(data) => {
+        const { newPseudo } = JSON.parse(data)
         console.log(newPseudo)
-        if(newPseudo.length === 0 || !newPseudo.replace(/\s/g, '').length){
+        if(newPseudo.length === 0 || !newPseudo.replace(/\s/g, '').length)
             socket.emit("alertServer", "Pseudo vide")
-        }else if(newPseudo.length > 15) {
+        else if(newPseudo.length > 15)
             socket.emit('alertServer', 'Pseudo trop long')
-        }else if (isPseudoFree(io.sockets.adapter.rooms, newPseudo)) {
+        else if (isPseudoFree(io.sockets.adapter.rooms, newPseudo)) {
             const oldPseudo = socket.pseudo
             socket.pseudo = newPseudo
             sendListUserRoom(socket.room)
@@ -131,9 +125,8 @@ io.sockets.on('connection', function (socket) {
             sendEveryOneListRoom()
             messageRoom(socket, 'changePseudo', oldPseudo)
             socket.emit('newPseudo',JSON.stringify({newPseudo: newPseudo}))
-        } else {
-            socket.emit("alertServer", "Identifiant déjà utilisé");
-        }
+        } else
+            socket.emit("alertServer", "Identifiant déjà utilisé")
     })
 
     /*------------------------------*/
@@ -163,9 +156,8 @@ io.sockets.on('connection', function (socket) {
             if (
                 io.in(room).connected.hasOwnProperty(sock) &&
                 io.in(room).connected[sock].room === room
-            ) {
+            )
                 listUser.push(io.in(room).connected[sock].pseudo)
-            }
         }
         return listUser
     }
@@ -177,9 +169,8 @@ io.sockets.on('connection', function (socket) {
     function getConnectedSocketIdsList() {
         let ids = []
         for (const id in io.sockets.connected) {
-            if (io.sockets.adapter.rooms.hasOwnProperty(id)) {
+            if (io.sockets.adapter.rooms.hasOwnProperty(id))
                 ids.push(id)
-            }
         }
         return ids
     }
@@ -188,11 +179,12 @@ io.sockets.on('connection', function (socket) {
         let listRooms = []
         let connectedSocketIds = getConnectedSocketIdsList()
         for (const room in io.sockets.adapter.rooms) {
-            if (io.sockets.adapter.rooms.hasOwnProperty(room) && connectedSocketIds.indexOf(room) === -1) {
+            if (
+                io.sockets.adapter.rooms.hasOwnProperty(room) &&
+                connectedSocketIds.indexOf(room) === -1
+            )
                 listRooms.push(room)
-            }
         }
-
         io.sockets.emit('listRoom', JSON.stringify(listRooms))
     }
 
@@ -201,15 +193,14 @@ io.sockets.on('connection', function (socket) {
             if (
                 io.in(rooms).connected.hasOwnProperty(sock) &&
                 io.in(rooms).connected[sock].pseudo === pseudo
-            ) {
+            )
                 return false
-            }
         }
         return true
     }
 
     function messageRoom(socket, action, alt) {
-        let roomAccueil=adminSocket.room
+        let roomAccueil = adminSocket.room
         let messageRoom
         switch (action) {
             case 'join':
@@ -244,10 +235,7 @@ io.sockets.on('connection', function (socket) {
                 console.log('erreur : action inconnu')
         }
     }
-
-    
 })
-
 
 server.listen(8081, () => {
     console.log("listen on 8081")

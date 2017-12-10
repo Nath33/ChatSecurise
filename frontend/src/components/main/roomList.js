@@ -26,8 +26,6 @@ export default class RoomList extends React.Component {
 		})
 	}
 
-
-
 	handleNewValue = (evt) => {
 		this.setState({
 			inputValue: evt.target.value
@@ -70,16 +68,13 @@ export default class RoomList extends React.Component {
 	}
 
 	handlePseudoPress = (target) => {
-		if (target.charCode === 13) {
+		if (target.charCode === 13) //13 = la touche entrée
 			this.handleChangePseudo()
-		}
 	}
 
 	handleEnterPress = (target) => {
-		//13 = la touche entrée
-		if (target.charCode === 13) {
+		if (target.charCode === 13) //13 = la touche entrée
 			this.createRoom()
-		}
 	}
 
 	//onClick params button
@@ -119,14 +114,26 @@ export default class RoomList extends React.Component {
 			<div id="room_g" className="col-2">
 				<div id="zone_rooms">
 					<div className="input-group">
-						<input type="text" className="form-control" placeholder="Créer une salle" aria-label="roomname"
-							aria-describedby="basic-addon2" onChange={this.handleNewValue} value={this.state.inputValue} onKeyPress={this.handleEnterPress} />
-						<span className="input-group-addon" onClick={this.createRoom}>Créer</span>
+						<input type="text"
+							className="form-control"
+							placeholder="Créer une salle"
+							onChange={this.handleNewValue}
+							value={this.state.inputValue}
+							onKeyPress={this.handleEnterPress}
+						/>
+						<span className="input-group-addon"
+							onClick={this.createRoom}>Créer
+						</span>
 					</div>
 					<div id="security">
 						<div className="input-group">
 							<p> Sécuriser la room </p>
-  							<p><input id="passwordRequired" type="checkbox" /><label for="passwordRequired"><span className="ui"></span></label></p>
+  							<p>
+								<input id="passwordRequired" type="checkbox" />
+								<label for="passwordRequired">
+									<span className="ui"></span>
+								</label>
+							</p>
 						</div>
 					</div>
 					<p className="nbItem">{this.countElement()}</p>
@@ -143,9 +150,19 @@ export default class RoomList extends React.Component {
 							<button id='button_close' onClick={this.closePop}></button>
 						</div>
 						<div className="input-group">
-							<input type="text" className="form-control" placeholder="Changer Pseudo" id="changepseudo"
-								aria-describedby="basic-addon2" value={this.state.inputPseudo} onChange={this.handleNewValuePseudo} value={this.state.inputValuePseudo} onKeyPress={this.handlePseudoPress} />
-							<span className="input-group-addon" id="basic-addon2" onClick={this.handleChangePseudo}  >Change</span>
+							<input type="text"
+								className="form-control"
+								placeholder="Changer Pseudo"
+								id="changepseudo"
+								value={this.state.inputPseudo}
+								onChange={this.handleNewValuePseudo}
+								value={this.state.inputValuePseudo}
+								onKeyPress={this.handlePseudoPress}
+							/>
+							<span className="input-group-addon"
+								id="basic-addon2"
+								onClick={this.handleChangePseudo}>Change
+							</span>
 						</div>
 					</div>
 					<div id="info_button">

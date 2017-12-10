@@ -8,7 +8,7 @@ export default class UserRow extends React.Component {
 
     handle= ()=>{
     	this.props.click(this.props.user)
-		}
+	}
 
     render() {
         return (

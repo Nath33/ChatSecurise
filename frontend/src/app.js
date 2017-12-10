@@ -91,7 +91,7 @@ export default class App extends React.Component {
 
 		subscribe('alertServer', (data) => {
 			alert(data)
-		})	
+		})
 
 		window.addEventListener("beforeunload", () => {
 			sendToServer("disconnect", "")
@@ -105,22 +105,18 @@ export default class App extends React.Component {
 	}
 
 	handleSendMessage = (message) => {
-		if (message.length !== 0) {
+		if (message.length !== 0)
 			sendToServer("message", this.cryptage(message, this.cryptage(this.state.myRoom, this.state.key)))
-		}
 	}
 
 	handleChangeRoom = (roomName, passwordRequired) => {
-		if (roomName.trim() === "") {
+		if (roomName.trim() === "")
 			alert("Room vide")
-		}
-		else {
-			if (passwordRequired) {
+		else
+			if (passwordRequired)
 				sendToServer("changeRoomPassword", JSON.stringify({ newRoom: roomName }))
-			} else {
+			else
 				sendToServer("changeRoom", JSON.stringify({ newRoom: roomName }))
-			}
-		}
 	}
 
 	cryptage = (phrase, cle) => {
@@ -191,9 +187,16 @@ export default class App extends React.Component {
 	render() {
 		return (
 			<div className="row">
-				<RoomList rooms={this.state.rooms} onClick={this.handleChangeRoom} pseudo={this.state.pseudo} room={this.state.myRoom} />
-				<Chat messages={this.state.messages} pseudo={this.state.pseudo} room={this.state.myRoom}
-					onSend={this.handleSendMessage} />
+				<RoomList rooms={this.state.rooms}
+					onClick={this.handleChangeRoom}
+					pseudo={this.state.pseudo}
+					room={this.state.myRoom}
+				/>
+				<Chat messages={this.state.messages}
+					pseudo={this.state.pseudo}
+					room={this.state.myRoom}
+					onSend={this.handleSendMessage}
+				/>
 				<UserList users={this.state.users} />
 			</div>
 		);

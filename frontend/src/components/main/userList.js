@@ -28,9 +28,13 @@ export default class UserList extends React.Component {
 		return (
 			<div id="zone_users" className="col-2">
 				<div className="input-group">
-					<input type="text" className="form-control" placeholder="Nom d'utilisateur" aria-label="username"
-							aria-describedby="basic-addon2"/>
-					<span className="input-group-addon" onClick={this.createRoom}>Rechercher</span>
+					<input type="text"
+						className="form-control"
+						placeholder="Nom d'utilisateur"
+					/>
+					<span className="input-group-addon"
+						onClick={this.createRoom}>Rechercher
+					</span>
 				</div>
 				<p className="nbItem">{this.countElement()}</p>
 				<div id="users">

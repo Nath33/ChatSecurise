@@ -303,7 +303,6 @@
   background: var(--color-four);
   top: .07em; left: .24em;
 }
-
 /* on checked */
 [type="checkbox"]:checked + label:before {
   background:#34495E;
@@ -312,7 +311,6 @@
   background: #39D2B4;
   left: 2.4em;
 }
-
 [type="checkbox"]:checked + label .ui,
 [type="checkbox"]:not(:checked) + label .ui:before,
 [type="checkbox"]:checked + label .ui:after {
