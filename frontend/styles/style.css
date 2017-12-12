@@ -130,9 +130,9 @@
     width: 250px;
     height: 30px;
     position: absolute;
-    left: 85%;
+    left: 90%;
     z-index: 50;
-    bottom: 13.5%;
+    bottom: 15%;
 }
 
 #hiddenDiv span{
