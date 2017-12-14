@@ -6,7 +6,6 @@ import Chat from 'components/main/chat';
 
 import { sendToServer, subscribe } from './connectToSocket';
 
-
 export default class App extends React.Component {
 
 	constructor(props) {
@@ -22,6 +21,7 @@ export default class App extends React.Component {
 	}
 
 	componentDidMount() {
+		
 		this.checkUser()
 
 		subscribe('Error', (message) => {
@@ -185,8 +185,13 @@ export default class App extends React.Component {
 	}
 
 	render() {
+		// if (this.state.css === 1) 
+		// 	var loaded = ''
+		// else
+		// 	var loaded = ''
 		return (
 			<div className="row">
+				{/* <link rel="stylesheet" type="text/css" href="styles/darkstyle.css" /> */}
 				<RoomList rooms={this.state.rooms}
 					onClick={this.handleChangeRoom}
 					pseudo={this.state.pseudo}

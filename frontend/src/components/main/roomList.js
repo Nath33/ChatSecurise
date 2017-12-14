@@ -11,10 +11,24 @@ export default class RoomList extends React.Component {
 			myRoom: '',
 			display: false,
 			inputPseudo: '',
+			css:2,
 		}
 	}
 
 	componentDidUpdate() {
+
+		switch (this.state.css){
+			case 1:
+				require('styles/darkstyle.css') 
+				break
+			case 2:
+				require('styles/lightstyle.css')
+				break
+			default:
+				require('styles/lightstyle.css')
+				break
+		}
+
 		subscribe('yourRoom', (jsonRoom) => {
 			this.setState({
 				myRoom: JSON.parse(jsonRoom),
@@ -77,6 +91,18 @@ export default class RoomList extends React.Component {
 			this.createRoom()
 	}
 
+	handleCSSClear = (target)=>{
+		this.setState({
+			css:2
+		})
+	}
+
+	handleCSSDark = (target)=>{
+		this.setState({
+			css:1
+		})
+	}
+
 	//onClick params button
 	makePop = () => {
 		if (this.state.display === false) {
@@ -130,7 +156,7 @@ export default class RoomList extends React.Component {
 							<p> Sécuriser la room </p>
   							<p>
 								<input id="passwordRequired" type="checkbox" />
-								<label for="passwordRequired">
+								<label htmlFor="passwordRequired">
 									<span className="ui"></span>
 								</label>
 							</p>
@@ -163,6 +189,17 @@ export default class RoomList extends React.Component {
 								id="basic-addon2"
 								onClick={this.handleChangePseudo}>Change
 							</span>
+
+							<button id="buttonClear"
+								className="btn"
+								onClick={this.handleCSSClear}
+							>White Theme</button>
+
+							<button id="buttonDark"
+								className="btn"
+								onClick={this.handleCSSDark}
+							>Dark Theme</button>
+
 						</div>
 					</div>
 					<div id="info_button">
