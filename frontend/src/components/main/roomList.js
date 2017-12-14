@@ -181,6 +181,7 @@ export default class RoomList extends React.Component {
 							</span>
 						</div>
 						<br />
+						<h5>Modifier le thème</h5>
 						<div className="btn-group" data-toggle="buttons">
 							<label className="btn btn-secondary">
 								<input type="radio" name="light" id="changeColor1" onChange={this.changeColor} /> Light
