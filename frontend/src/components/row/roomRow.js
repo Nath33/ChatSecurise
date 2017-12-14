@@ -20,13 +20,9 @@ export default class RoomRow extends React.Component {
 	}
 
 	render() {
-		var style = {
-			color: '#e67e22',
-		}
-
 		let list = "";
 		if (this.props.room === this.props.test)
-			list = <span style={style}>{this.props.room}</span>;
+			list = <span className="roomSelected">{this.props.room}</span>;
 		else
 			list = <span>{this.props.room}</span>;
 
