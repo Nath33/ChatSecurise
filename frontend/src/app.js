@@ -1,11 +1,13 @@
 import React from 'react';
 import 'styles/index.scss';
+import 'styles/darkstyle.css';
+import 'styles/lightstyle.css';
+import 'styles/pinkstyle.css';
 import UserList from 'components/main/userList';
 import RoomList from 'components/main/roomList';
 import Chat from 'components/main/chat';
 
 import { sendToServer, subscribe } from './connectToSocket';
-
 
 export default class App extends React.Component {
 
@@ -22,6 +24,7 @@ export default class App extends React.Component {
 	}
 
 	componentDidMount() {
+
 		this.checkUser()
 
 		subscribe('Error', (message) => {
@@ -187,6 +190,7 @@ export default class App extends React.Component {
 	render() {
 		return (
 			<div className="row">
+				{/* <link rel="stylesheet" type="text/css" href="styles/darkstyle.css" /> */}
 				<RoomList rooms={this.state.rooms}
 					onClick={this.handleChangeRoom}
 					pseudo={this.state.pseudo}

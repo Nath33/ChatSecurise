@@ -15,6 +15,7 @@ export default class RoomList extends React.Component {
 	}
 
 	componentDidUpdate() {
+
 		subscribe('yourRoom', (jsonRoom) => {
 			this.setState({
 				myRoom: JSON.parse(jsonRoom),
@@ -44,13 +45,29 @@ export default class RoomList extends React.Component {
 		this.setState({
 			inputValue: "",
 		})
-		/*
-		subscribe('yourRoom', (jsonRoom) => {
-			this.setState({
-				myRoom: JSON.parse(jsonRoom),
-			})
-		})
-		*/
+	}
+
+	changeColor = () => {
+		if (document.getElementById('changeColor1').checked === true) {
+			document.getElementById("MyBody").classList.remove('dark')
+			document.getElementById("MyBody").classList.remove('pink')
+			document.getElementById("MyBody").classList.add('light')
+			document.getElementById('changeColor1').checked = false
+		} else if (document.getElementById('changeColor2').checked === true) {
+			document.getElementById("MyBody").classList.add('dark')
+			document.getElementById("MyBody").classList.remove('pink')
+			document.getElementById("MyBody").classList.remove('light')
+			document.getElementById('changeColor2').checked = false
+		} else if (document.getElementById('changeColor3').checked === true) {
+			document.getElementById("MyBody").classList.remove('dark')
+			document.getElementById("MyBody").classList.add('pink')
+			document.getElementById("MyBody").classList.remove('light')
+			document.getElementById('changeColor3').checked = false
+		} else {
+			document.getElementById("MyBody").classList.remove('dark')
+			document.getElementById("MyBody").classList.remove('pink')
+			document.getElementById("MyBody").classList.add('light')
+		}
 	}
 
 	handleChangeRoom = (roomName) => {
@@ -58,7 +75,6 @@ export default class RoomList extends React.Component {
 	}
 
 	handleChangePseudo = (newPseudo) => {
-		console.log(this.state.inputPseudo)
 		sendToServer('changePseudo', JSON.stringify({ newPseudo: this.state.inputPseudo }))
 		document.getElementById('changepseudo').value = ""
 		document.getElementById("hiddenDiv").style.display = "none"
@@ -130,7 +146,7 @@ export default class RoomList extends React.Component {
 							<p> Sécuriser la room </p>
   							<p>
 								<input id="passwordRequired" type="checkbox" />
-								<label for="passwordRequired">
+								<label htmlFor="passwordRequired">
 									<span className="ui"></span>
 								</label>
 							</p>
@@ -164,6 +180,20 @@ export default class RoomList extends React.Component {
 								onClick={this.handleChangePseudo}>Change
 							</span>
 						</div>
+						<br />
+						<h5>Modifier le thème</h5>
+						<div className="btn-group" data-toggle="buttons">
+							<label className="btn btn-secondary">
+								<input type="radio" name="light" id="changeColor1" onChange={this.changeColor} /> Light
+							</label>
+							<label className="btn btn-secondary">
+								<input type="radio" name="dark" id="changeColor2" onChange={this.changeColor} /> Dark
+							</label>
+							<label className="btn btn-secondary">
+								<input type="radio" name="pink" id="changeColor3" onChange={this.changeColor} /> Pink
+							</label>
+						</div>
+						<br />
 					</div>
 					<div id="info_button">
 						<button id="button_param" className="btn" onClick={this.makePop}>
