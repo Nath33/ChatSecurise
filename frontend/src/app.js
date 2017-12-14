@@ -1,5 +1,7 @@
 import React from 'react';
 import 'styles/index.scss';
+import 'styles/darkstyle.css';
+import 'styles/lightstyle.css';
 import UserList from 'components/main/userList';
 import RoomList from 'components/main/roomList';
 import Chat from 'components/main/chat';
@@ -21,7 +23,7 @@ export default class App extends React.Component {
 	}
 
 	componentDidMount() {
-		
+
 		this.checkUser()
 
 		subscribe('Error', (message) => {
@@ -185,10 +187,6 @@ export default class App extends React.Component {
 	}
 
 	render() {
-		// if (this.state.css === 1) 
-		// 	var loaded = ''
-		// else
-		// 	var loaded = ''
 		return (
 			<div className="row">
 				{/* <link rel="stylesheet" type="text/css" href="styles/darkstyle.css" /> */}

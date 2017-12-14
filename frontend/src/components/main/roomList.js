@@ -11,23 +11,10 @@ export default class RoomList extends React.Component {
 			myRoom: '',
 			display: false,
 			inputPseudo: '',
-			css:2,
 		}
 	}
 
 	componentDidUpdate() {
-
-		switch (this.state.css){
-			case 1:
-				require('styles/darkstyle.css') 
-				break
-			case 2:
-				require('styles/lightstyle.css')
-				break
-			default:
-				require('styles/lightstyle.css')
-				break
-		}
 
 		subscribe('yourRoom', (jsonRoom) => {
 			this.setState({
@@ -58,13 +45,19 @@ export default class RoomList extends React.Component {
 		this.setState({
 			inputValue: "",
 		})
-		/*
-		subscribe('yourRoom', (jsonRoom) => {
-			this.setState({
-				myRoom: JSON.parse(jsonRoom),
-			})
-		})
-		*/
+	}
+
+	changeColor = () => {
+		if (document.getElementById('changeColor').checked === true){
+			document.getElementById("MyBody").classList.remove('light')
+			document.getElementById("MyBody").classList.add('dark')
+		}
+		else{
+			document.getElementById("MyBody").classList.remove('dark')
+			document.getElementById("MyBody").classList.add('light')
+		}
+
+
 	}
 
 	handleChangeRoom = (roomName) => {
@@ -72,7 +65,6 @@ export default class RoomList extends React.Component {
 	}
 
 	handleChangePseudo = (newPseudo) => {
-		console.log(this.state.inputPseudo)
 		sendToServer('changePseudo', JSON.stringify({ newPseudo: this.state.inputPseudo }))
 		document.getElementById('changepseudo').value = ""
 		document.getElementById("hiddenDiv").style.display = "none"
@@ -89,18 +81,6 @@ export default class RoomList extends React.Component {
 	handleEnterPress = (target) => {
 		if (target.charCode === 13) //13 = la touche entrée
 			this.createRoom()
-	}
-
-	handleCSSClear = (target)=>{
-		this.setState({
-			css:2
-		})
-	}
-
-	handleCSSDark = (target)=>{
-		this.setState({
-			css:1
-		})
 	}
 
 	//onClick params button
@@ -189,18 +169,16 @@ export default class RoomList extends React.Component {
 								id="basic-addon2"
 								onClick={this.handleChangePseudo}>Change
 							</span>
-
-							<button id="buttonClear"
-								className="btn"
-								onClick={this.handleCSSClear}
-							>White Theme</button>
-
-							<button id="buttonDark"
-								className="btn"
-								onClick={this.handleCSSDark}
-							>Dark Theme</button>
-
 						</div>
+						<p>
+							<input id="changeColor"
+									type="checkbox"
+								 	onChange={this.changeColor}/>
+							<label htmlFor="changeColor">
+								<span className="ui"></span>
+							</label>
+						</p>
+						<br />
 					</div>
 					<div id="info_button">
 						<button id="button_param" className="btn" onClick={this.makePop}>

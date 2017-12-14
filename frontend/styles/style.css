@@ -122,11 +122,12 @@
     display: none;
     background-color: rgba(80, 80, 80, 0.7);
     width: 250px;
-    height: 30px;
+    height: auto;
     position: absolute;
     left: 90%;
     z-index: 50;
     bottom: 15%;
+    padding: 10px;
 }
 
 #hiddenDiv span{
