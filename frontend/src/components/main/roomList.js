@@ -48,18 +48,21 @@ export default class RoomList extends React.Component {
 	}
 
 	changeColor = () => {
-		if (document.getElementById('changeColor').name === "light") {
+		if (document.getElementById('changeColor1').checked === true) {
 			document.getElementById("MyBody").classList.remove('dark')
 			document.getElementById("MyBody").classList.remove('pink')
 			document.getElementById("MyBody").classList.add('light')
-		} else if (document.getElementById('changeColor').name === "dark") {
+			document.getElementById('changeColor1').checked = false
+		} else if (document.getElementById('changeColor2').checked === true) {
 			document.getElementById("MyBody").classList.add('dark')
 			document.getElementById("MyBody").classList.remove('pink')
 			document.getElementById("MyBody").classList.remove('light')
-		} else if (document.getElementById('changeColor').name === "dark") {
+			document.getElementById('changeColor2').checked = false
+		} else if (document.getElementById('changeColor3').checked === true) {
 			document.getElementById("MyBody").classList.remove('dark')
 			document.getElementById("MyBody").classList.add('pink')
 			document.getElementById("MyBody").classList.remove('light')
+			document.getElementById('changeColor3').checked = false
 		} else {
 			document.getElementById("MyBody").classList.remove('dark')
 			document.getElementById("MyBody").classList.remove('pink')
@@ -180,13 +183,13 @@ export default class RoomList extends React.Component {
 						<br />
 						<div className="btn-group" data-toggle="buttons">
 							<label className="btn btn-secondary">
-								<input type="radio" name="light" id="changeColor" onChange={this.changeColor} /> Light
+								<input type="radio" name="light" id="changeColor1" onChange={this.changeColor} /> Light
 							</label>
 							<label className="btn btn-secondary">
-								<input type="radio" name="dark" id="changeColor" onChange={this.changeColor} /> Dark
+								<input type="radio" name="dark" id="changeColor2" onChange={this.changeColor} /> Dark
 							</label>
 							<label className="btn btn-secondary">
-								<input type="radio" name="pink" id="changeColor" onChange={this.changeColor} /> Pink
+								<input type="radio" name="pink" id="changeColor3" onChange={this.changeColor} /> Pink
 							</label>
 						</div>
 						<br />

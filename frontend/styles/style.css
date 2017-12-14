@@ -180,7 +180,7 @@
 
 }
 #msg li:nth-child(2n) {
-    background-color: var(--color-one);
+    background-color: var(--color-seven);
     padding-bottom:5px;
 }
 

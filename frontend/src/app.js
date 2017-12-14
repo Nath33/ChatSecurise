@@ -2,6 +2,7 @@ import React from 'react';
 import 'styles/index.scss';
 import 'styles/darkstyle.css';
 import 'styles/lightstyle.css';
+import 'styles/pinkstyle.css';
 import UserList from 'components/main/userList';
 import RoomList from 'components/main/roomList';
 import Chat from 'components/main/chat';
