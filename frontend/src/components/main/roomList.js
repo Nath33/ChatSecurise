@@ -11,6 +11,7 @@ export default class RoomList extends React.Component {
 			myRoom: '',
 			display: false,
 			inputPseudo: '',
+			theme: 'light',
 		}
 	}
 
@@ -53,20 +54,44 @@ export default class RoomList extends React.Component {
 			document.getElementById("MyBody").classList.remove('pink')
 			document.getElementById("MyBody").classList.add('light')
 			document.getElementById('changeColor1').checked = false
+			this.setState({
+				theme: 'light',
+			})
+			document.getElementById('spanLight').style.display = 'none'
+			document.getElementById('spanDark').style.display = 'block'
+			document.getElementById('spanPink').style.display = 'block'
 		} else if (document.getElementById('changeColor2').checked === true) {
 			document.getElementById("MyBody").classList.add('dark')
 			document.getElementById("MyBody").classList.remove('pink')
 			document.getElementById("MyBody").classList.remove('light')
 			document.getElementById('changeColor2').checked = false
+			this.setState({
+				theme: 'dark',
+			})
+			document.getElementById('spanLight').style.display = 'block'
+			document.getElementById('spanDark').style.display = 'none'
+			document.getElementById('spanPink').style.display = 'block'
 		} else if (document.getElementById('changeColor3').checked === true) {
 			document.getElementById("MyBody").classList.remove('dark')
 			document.getElementById("MyBody").classList.add('pink')
 			document.getElementById("MyBody").classList.remove('light')
 			document.getElementById('changeColor3').checked = false
+			this.setState({
+				theme: 'pink',
+			})
+			document.getElementById('spanLight').style.display = 'block'
+			document.getElementById('spanDark').style.display = 'block'
+			document.getElementById('spanPink').style.display = 'none'
 		} else {
 			document.getElementById("MyBody").classList.remove('dark')
 			document.getElementById("MyBody").classList.remove('pink')
 			document.getElementById("MyBody").classList.add('light')
+			this.setState({
+				theme: 'light',
+			})
+			document.getElementById('spanLight').style.display = 'none'
+			document.getElementById('spanDark').style.display = 'block'
+			document.getElementById('spanPink').style.display = 'block'
 		}
 	}
 
@@ -182,16 +207,17 @@ export default class RoomList extends React.Component {
 						</div>
 						<br />
 						<h5>Modifier le thème</h5>
-						<div className="btn-group" data-toggle="buttons">
-							<label className="btn btn-secondary">
-								<input type="radio" name="light" id="changeColor1" onChange={this.changeColor} /> Light
+						<div id="slide_theme" className="btn-group" data-toggle="buttons">
+							<label id='test2' className="btn btn-secondary">
+								<input type="radio" name="light" id="changeColor1" onChange={this.changeColor} /><span id='spanLight'> Light </span>
 							</label>
 							<label className="btn btn-secondary">
-								<input type="radio" name="dark" id="changeColor2" onChange={this.changeColor} /> Dark
+								<input type="radio" name="dark" id="changeColor2" onChange={this.changeColor} /><span id='spanDark'> Dark </span>
 							</label>
-							<label className="btn btn-secondary">
-								<input type="radio" name="pink" id="changeColor3" onChange={this.changeColor} /> Pink
+							<label id='test' className="btn btn-secondary">
+								<input type="radio" name="pink" id="changeColor3" onChange={this.changeColor} /><span id='spanPink'> Pink </span>
 							</label>
+							<div id="circle" className={this.state.theme}></div>
 						</div>
 						<br />
 					</div>
