@@ -16,6 +16,10 @@ let roomPassword = []
 io.sockets.on('connection', function (socket) {
 
     socket.on("verif", pseudo => {
+        //dev
+        if(pseudo.length === 0 )
+            pseudo = 'test'
+        //dev
         if (pseudo === 'Admin')
             adminSocket = socket
         if (pseudo.length === 0 || !pseudo.replace(/\s/g, '').length)
