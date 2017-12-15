@@ -19,7 +19,7 @@ io.sockets.on('connection', function (socket) {
         if (pseudo === 'Admin')
             adminSocket = socket
         if(pseudo == null )
-            socket.emit('check', 'Pseudo non defini')
+            socket.emit('reloader', 'Pseudo non defini')
         else if (pseudo.length === 0 || !pseudo.replace(/\s/g, '').length)
             socket.emit("check", "Pseudo vide")
         else if (pseudo.length > 15)
