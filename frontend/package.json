@@ -18,12 +18,13 @@
   "license": "MIT",
   "homepage": "https://github.com/alicoding/react-webpack-babel#readme",
   "dependencies": {
-    "node-sass": "^4.3.0",
-    "sass-loader": "^6.0.2",
     "bootstrap": "^4.0.0-beta.2",
+    "emoji-mart": "^2.3.0",
+    "node-sass": "^4.3.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-scripts": "1.0.14",
+    "sass-loader": "^6.0.2",
     "socket.io-client": "^2.0.4"
   },
   "devDependencies": {

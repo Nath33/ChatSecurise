@@ -1,5 +1,6 @@
 import React from 'react'
 import MessageRow from '../row/messageRow';
+import { Picker, Emoji } from 'emoji-mart'
 
 export default class Chat extends React.Component {
 
@@ -28,7 +29,12 @@ export default class Chat extends React.Component {
 			this.send()
 	}
 
+
+
 	render() {
+
+		const tabin = ['smileys & people']
+
 		return (
 			<div id="zone_chat" className="col-8">
 				<div className="App">
@@ -43,11 +49,20 @@ export default class Chat extends React.Component {
 				<div className="input-group">
 					<input type="text"
 							className="form-control"
-							placeholder="Écrire ici..." 
+							placeholder="Écrire ici..."
 							value={this.state.inputValue}
 							onChange={this.update}
 							onKeyPress={this.handleEnterPress}
 					/>
+
+					<span className="btn_smiley">:)</span>
+
+					<Picker set='twitter'
+							style={{ position: 'absolute', bottom: '15vh', right: '0px', 'z-index': '10', 'overflow-y': 'auto', height: '300px'}}
+							include={tabin}
+							className="hiddenSmiley"
+					/>
+
 					<span className="input-group-addon"
 							id="basic-addon2"
 							onClick={this.send}>Envoyer
