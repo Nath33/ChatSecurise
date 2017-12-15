@@ -16,13 +16,11 @@ let roomPassword = []
 io.sockets.on('connection', function (socket) {
 
     socket.on("verif", pseudo => {
-        //dev
-        if(pseudo.length === 0 )
-            pseudo = 'test'
-        //dev
         if (pseudo === 'Admin')
             adminSocket = socket
-        if (pseudo.length === 0 || !pseudo.replace(/\s/g, '').length)
+        if(pseudo == null )
+            socket.emit('check', 'Pseudo non defini')
+        else if (pseudo.length === 0 || !pseudo.replace(/\s/g, '').length)
             socket.emit("check", "Pseudo vide")
         else if (pseudo.length > 15)
             socket.emit('check', 'Pseudo trop long')
@@ -116,7 +114,6 @@ io.sockets.on('connection', function (socket) {
 
     socket.on('changePseudo',(data) => {
         const { newPseudo } = JSON.parse(data)
-        console.log(newPseudo)
         if(newPseudo.length === 0 || !newPseudo.replace(/\s/g, '').length)
             socket.emit("alertServer", "Pseudo vide")
         else if(newPseudo.length > 15)
