@@ -112,7 +112,6 @@ io.sockets.on('connection', function (socket) {
 
     socket.on('changePseudo',(data) => {
         const { newPseudo } = JSON.parse(data)
-        console.log(newPseudo)
         if(newPseudo.length === 0 || !newPseudo.replace(/\s/g, '').length)
             socket.emit("alertServer", "Pseudo vide")
         else if(newPseudo.length > 15)
@@ -121,8 +120,6 @@ io.sockets.on('connection', function (socket) {
             const oldPseudo = socket.pseudo
             socket.pseudo = newPseudo
             sendListUserRoom(socket.room)
-            sendYourRoom(socket)
-            sendEveryOneListRoom()
             messageRoom(socket, 'changePseudo', oldPseudo)
             socket.emit('newPseudo',JSON.stringify({newPseudo: newPseudo}))
         } else

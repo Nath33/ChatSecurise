@@ -190,7 +190,6 @@ export default class App extends React.Component {
 	render() {
 		return (
 			<div className="row">
-				{/* <link rel="stylesheet" type="text/css" href="styles/darkstyle.css" /> */}
 				<RoomList rooms={this.state.rooms}
 					onClick={this.handleChangeRoom}
 					pseudo={this.state.pseudo}
