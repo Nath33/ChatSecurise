@@ -110,7 +110,7 @@
     background-repeat: no-repeat;
     background-position: center;
     background-color: #797979;
-    align: center;
+    text-align: center;
     width: 20px;
     height: 20px;
 }
@@ -148,6 +148,57 @@
     background-size: 20px;
     background-color: rgba(80, 80, 80, 0);
     border: 1px solid #000000;
+}
+
+#slide_theme {
+    position: relative;
+}
+
+#slide_theme label {
+    width: 50%;
+}
+
+#circle {
+    height: 25px;
+    width: 25px;
+    border-radius: 25px;
+    color: #000000;
+    opacity: 80%;
+    position: absolute;
+    top: 14%;
+    z-index: 3;
+
+    transition: left 0.3s ease;
+}
+
+#circle.light{
+    background-color: #4a728d;
+    left: 2%;
+}
+
+#circle.dark{
+    background-color: #bdc3c7;
+    left: 42%;
+
+}
+
+#circle.pink{
+    background-color: #fff;
+    left: 81%;
+}
+
+#test{
+    border-top-right-radius: 25%;
+    border-bottom-right-radius: 25%;
+}
+
+#test2{
+    border-top-left-radius: 25%;
+    border-bottom-left-radius: 25%;
+}
+
+#spanLight {
+    display: none;
 }
 
 /* Zone Chat */
@@ -330,62 +381,4 @@
   border: 1px dashed var(--color-tree);
   box-sizing: border-box;
   margin-top: -1px;
-}
-
-
-#slide_theme {
-    position: relative;
-}
-
-#circle {
-    height: 25px;
-    width: 25px;
-    border-radius: 25px;
-    color: #000000;
-    opacity: 80%;
-    position: absolute;
-    top: 14%;
-    z-index: 3;
-
-    transition: left 0.3s ease;
-}
-#circle.light{
-    background-color: #4a728d;
-    left: 2%;
-}
-
-#circle.dark{
-    background-color: #bdc3c7;
-    left: 42%;
-
-}
-
-#circle.pink{
-    height: 25px;
-    width: 25px;
-    border-radius: 25px;
-    background-color: #fff;
-    color: #000000;
-    position: absolute;
-    top: 14%;
-    left: 81%;
-    z-index: 3;
-}
-
-#slide_theme label {
-    width: 50%;
-}
-
-#test{
-    border-top-right-radius: 25%;
-    border-bottom-right-radius: 25%;
-}
-
-#test2{
-    border-top-left-radius: 25%;
-    border-bottom-left-radius: 25%;
-}
-
-#spanLight {
-    display: none;
 }
