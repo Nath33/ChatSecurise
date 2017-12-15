@@ -96,6 +96,11 @@ export default class App extends React.Component {
 			alert(data)
 		})
 
+		subscribe('reloader', (data) => {
+			alert(data)
+			location.reload()
+		})
+
 		window.addEventListener("beforeunload", () => {
 			sendToServer("disconnect", "")
 		});
