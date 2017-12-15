@@ -127,7 +127,7 @@ export default class App extends React.Component {
 		let coordphrase_cle = new Array();
 		let newcoord = new Array();
 		let coordcrypt = new Array();
-		let alpha = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789àâéêèëîïôöçù',!?.;:=+-()/@%$* ";
+		let alpha = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789àâéêèëîïôöçù',!?.;:=+-()/@%$*<> ";
 		let crypt = "";
 		let phrase_cle = "";
 		var car = 0;
@@ -157,7 +157,7 @@ export default class App extends React.Component {
 		let coordphrase_cle = new Array();
 		let newcoord = new Array();
 		let coordcrypt = new Array();
-		let alpha = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789àâéêèëîïôöçù',!?.;:=+-()/@%$* ";
+		let alpha = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789àâéêèëîïôöçù',!?.;:=+-()/@%$*<> ";
 		let decrypt = "";
 		let phrase_cle = "";
 		var car = 0;
