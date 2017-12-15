@@ -18,7 +18,9 @@ io.sockets.on('connection', function (socket) {
     socket.on("verif", pseudo => {
         if (pseudo === 'Admin')
             adminSocket = socket
-        if (pseudo.length === 0 || !pseudo.replace(/\s/g, '').length)
+        if(pseudo == null )
+            socket.emit('check', 'Pseudo non defini')
+        else if (pseudo.length === 0 || !pseudo.replace(/\s/g, '').length)
             socket.emit("check", "Pseudo vide")
         else if (pseudo.length > 15)
             socket.emit('check', 'Pseudo trop long')
