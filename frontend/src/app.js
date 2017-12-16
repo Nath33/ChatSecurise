@@ -71,7 +71,8 @@ export default class App extends React.Component {
 		subscribe('message', (jsonMessage) => {
 			let message = JSON.parse(jsonMessage)
 			let newMessagesList = this.state.messages
-			let decryptMessage = this.decryptage(message.message, this.cryptage(this.state.myRoom, this.state.key))
+			//let decryptMessage = this.decryptage(message.message, this.cryptage(this.state.myRoom, this.state.key))
+			let decryptMessage = message.message
 			newMessagesList.push({ pseudo: message.pseudo, message: decryptMessage, date: new Date() })
 			this.setState({
 				messages: newMessagesList
@@ -109,7 +110,8 @@ export default class App extends React.Component {
 
 	handleSendMessage = (message) => {
 		if (message.length !== 0)
-			sendToServer("message", this.cryptage(message, this.cryptage(this.state.myRoom, this.state.key)))
+			//sendToServer("message", this.cryptage(message, this.cryptage(this.state.myRoom, this.state.key)))
+			sendToServer("message", message)
 	}
 
 	handleChangeRoom = (roomName, passwordRequired) => {
