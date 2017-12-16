@@ -7,9 +7,35 @@ export default class Chat extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			inputValue: ""
+			inputValue: "",
+			popupVisible: false
 		}
-	}
+		this.handleClick = this.handleClick.bind(this);
+	    this.handleOutsideClick = this.handleOutsideClick.bind(this);
+
+	  }
+
+	  handleClick() {
+	    if (!this.state.popupVisible) {
+	      // attach/remove event handler
+	      document.addEventListener('click', this.handleOutsideClick, false);
+	    } else {
+	      document.removeEventListener('click', this.handleOutsideClick, false);
+	    }
+
+	    this.setState(prevState => ({
+	       popupVisible: !prevState.popupVisible,
+	    }));
+	  }
+
+	  handleOutsideClick(e) {
+	    // ignore clicks on the component itself
+	    if (this.node.contains(e.target)) {
+	      return;
+	    }
+
+	    this.handleClick();
+	  }
 
 	send = () => {
 		this.props.onSend(this.state.inputValue)
@@ -51,6 +77,7 @@ export default class Chat extends React.Component {
 						</div>
 					</div>
 				</div>
+
 				<div className="input-group">
 					<input type="text"
 							className="form-control"
@@ -60,17 +87,21 @@ export default class Chat extends React.Component {
 							onKeyPress={this.handleEnterPress}
 							id="inputSmiley"
 					/>
-
-					<span className="btn_smiley">:)</span>
-
-					<Picker set='twitter'
-						include='smileys & people'
-						style={{ position: 'absolute', bottom: '15vh', right: '0px', zIndex: '10', overflowY: 'auto', height: '300px'}}
-						className="hiddenSmiley"
-						onClick={this.addEmoji}
-						onKeyPress={this.handleEnterPress}
-					/>
-
+					<div className="popover-container" ref={node => { this.node = node; }}>
+						{this.state.popupVisible && (
+						  <div className="popover" >
+								<Picker set='twitter'
+									exclude='recent'
+									style={{zIndex: '10', overflowY: 'auto', height: '300px'}}
+									onClick={this.addEmoji}
+									onKeyPress={this.handleEnterPress}
+								/>
+						  </div>
+						)}
+						<button onClick={this.handleClick} >
+							:)
+						</button>
+					  </div>
 					<span className="input-group-addon"
 							id="basic-addon2"
 							onClick={this.send}>Envoyer

@@ -226,23 +226,19 @@
 #zone_chat #basic-addon2 {
     border-radius: 0;
 }
-.emoji-mart-bar, .emoji-mart-search, .emoji-mart-category-label{
+.emoji-mart-bar, .emoji-mart-search{
     display: none;
 }
-.btn_smiley{
-    padding: 10px;
-    line-height: 13vh;
+.popover-container button{
+    height: 15vh;
+    position: relative;
 }
-.hiddenSmiley{
-    display: none;
-    background-color: rgba(80, 80, 80, 0.7);
-    width: 250px;
-    height: auto;
+.popover {
+    background-color: transparent;
+    border: none;
     position: absolute;
-    left: 90%;
-    z-index: 50;
-    bottom: 15%;
-    padding: 10px;
+    left: 75vh;
+    top: -35vh;
 }
 
 /* Zone Users */
