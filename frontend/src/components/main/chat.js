@@ -29,6 +29,15 @@ export default class Chat extends React.Component {
 			this.send()
 	}
 
+	addEmoji = (emoji, event) => {
+    	var inputSmiley = document.getElementById("inputSmiley");
+    	inputSmiley.value += emoji.native;
+		this.setState({
+			inputValue:inputSmiley.value
+		})
+		inputSmiley.focus();
+	}
+
 	render() {
 
 		return (
@@ -49,15 +58,19 @@ export default class Chat extends React.Component {
 							value={this.state.inputValue}
 							onChange={this.update}
 							onKeyPress={this.handleEnterPress}
+							id="inputSmiley"
 					/>
 
 					<span className="btn_smiley">:)</span>
 
 					<Picker set='twitter'
 						include='smileys & people'
-						style={{ position: 'absolute', bottom: '15vh', right: '0px', 'z-index': '10', 'overflow-y': 'auto', height: '300px'}}
+						style={{ position: 'absolute', bottom: '15vh', right: '0px', zIndex: '10', overflowY: 'auto', height: '300px'}}
 						className="hiddenSmiley"
+						onClick={this.addEmoji}
+						onKeyPress={this.handleEnterPress}
 					/>
+
 					<span className="input-group-addon"
 							id="basic-addon2"
 							onClick={this.send}>Envoyer
