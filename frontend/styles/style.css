@@ -244,13 +244,10 @@
 }
 
 #msg p {
-    padding-top: 2px;
+    padding-top: 8px;
     color: var(--color-tree);
-}
-
-#msg p {
     margin-left: 3px;
-    font-size: 20px;
+    font-size: 16px;
 }
 
 #profil_chat {
