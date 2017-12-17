@@ -1,5 +1,5 @@
-module.export = function (server) {
-    const io = require('socket.io').listen(server)
+module.exports = function (serveur) {
+    const io = require('socket.io').listen(serveur)
 
     const messageController = require('./controllers/message-controller')
     const roomController = require('./controllers/room-controller')
