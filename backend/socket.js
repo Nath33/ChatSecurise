@@ -18,7 +18,7 @@ module.exports = function (serveur) {
         socket.on('message', messageHandler.message)
 
         socket.on('changeRoom', roomHandler.changeRoom)
-        socket.on('setPassword', roomHandler.setPasswordRoom)
+        socket.on('setPasswordRoom', roomHandler.setPasswordRoom)
         socket.on('changeRoomPassword', roomHandler.changeRoomPassword)
         socket.on('checkPassword', roomHandler.checkPassword)
 

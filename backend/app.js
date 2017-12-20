@@ -12,8 +12,8 @@ const options = {
 let socket = openSocket('http://localhost:8081', options);
 
 socket.emit("verif", "Admin")
-let roomPassword = []
 //global.adminSocket = socket
+global.roomPassword = []
 
 serveur.listen(8081, () => {
 

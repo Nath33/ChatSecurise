@@ -6,8 +6,6 @@ module.exports = function (io, socket) {
         transports: ['websocket'],
         'force new connection': true
     }
-
-    let roomPassword = []
     
     return {
         changeRoom: (data) => {
@@ -32,7 +30,6 @@ module.exports = function (io, socket) {
             }
         },
         setPasswordRoom: (data) => {
-            let roomPassword = []
             const { newRoom, password } = JSON.parse(data)
             roomPassword[newRoom] = password
             if (newRoom === socket.room)
