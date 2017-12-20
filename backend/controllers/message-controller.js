@@ -1,19 +1,18 @@
 module.exports = function (io, socket) {
+
+    const options = {
+        transports: ['websocket'],
+        'force new connection': true
+    }
+    
+    let roomPassword = []
+
     return {
         message: (message) => {
             console.log(message)//a garder pour montrer le cryptage (NICO DEPERO)
             io.to(socket.room).emit("message", JSON.stringify({ message: message, pseudo: socket.pseudo }));
         }
     }
-
-    const options = {
-        transports: ['websocket'],
-        'force new connection': true
-    }
-
-    socket.emit("verif", "Admin")
-    let adminSocket
-    let roomPassword = []
 
     function leaveRoom(socket) {
         let roomName = socket.room;

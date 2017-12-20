@@ -11,14 +11,14 @@ module.exports = function (serveur) {
         const roomHandler = roomController(io, socket)
         const pseudoHandler = pseudoController(io, socket)
 
-        socket.on('verifPseudo', pseudoHandler.verifPseudo)
+        socket.on('verif', pseudoHandler.verifPseudo)
         socket.on('changePseudo', pseudoHandler.changePseudo)
         socket.on('disconnect', pseudoHandler.disconnect)
 
         socket.on('message', messageHandler.message)
 
         socket.on('changeRoom', roomHandler.changeRoom)
-        socket.on('setPasswordRoom', roomHandler.setPasswordRoom)
+        socket.on('setPassword', roomHandler.setPasswordRoom)
         socket.on('changeRoomPassword', roomHandler.changeRoomPassword)
         socket.on('checkPassword', roomHandler.checkPassword)
 

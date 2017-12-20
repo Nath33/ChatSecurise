@@ -1,4 +1,12 @@
 module.exports = function (io, socket) {
+
+    const options = {
+        transports: ['websocket'],
+        'force new connection': true
+    }
+
+    let roomPassword = []
+    
     return {
         changeRoom: (data) => {
             const { newRoom } = JSON.parse(data)
@@ -62,15 +70,6 @@ module.exports = function (io, socket) {
                 socket.emit('alertServer', 'Mot de passe invalide')
         },
     }
-
-    const options = {
-        transports: ['websocket'],
-        'force new connection': true
-    }
-
-    socket.emit("verif", "Admin")
-    let adminSocket
-    let roomPassword = []
 
     function leaveRoom(socket) {
         let roomName = socket.room;
