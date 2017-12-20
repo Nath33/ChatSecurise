@@ -11,7 +11,7 @@ export default class MessageRow extends React.Component {
 		return (
 			<div>
 				<h3>{this.props.message.pseudo}</h3>
-				<p> -- {dateFormat(this.props.message.date, "dddd d, h:MM")}</p>
+				<p> -- {dateFormat(this.props.message.date, "dddd d, H:MM")}</p>
 				<p>{this.props.message.message}</p>
 			</div>
 		)
