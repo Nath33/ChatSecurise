@@ -66,39 +66,5 @@ function isPseudoFree(rooms, pseudo) {
     return true
 }
 
-function messageRoom(socket, action, alt) {
-    let roomAccueil = adminSocket.room
-    let messageRoom
-    switch (action) {
-        case 'join':
-            messageRoom = socket.pseudo + ' a rejoint la room ' + socket.room
-            io.to(socket.room).emit("messageServ", JSON.stringify({ message: messageRoom, pseudo: adminSocket.pseudo }))
-            break;
-        case 'leave':
-            messageRoom = socket.pseudo + ' a quitter la room ' + socket.room
-            io.to(socket.room).emit("messageServ", JSON.stringify({ message: messageRoom, pseudo: adminSocket.pseudo }))
-            break;
-        case 'connect':
-            messageRoom = socket.pseudo + ' a rejoint le chat '
-            io.to(socket.room).emit("messageServ", JSON.stringify({ message: messageRoom, pseudo: adminSocket.pseudo }))
-            break;
-        case 'quit':
-            messageRoom = socket.pseudo + ' a quitter le chat '
-            io.to(socket.room).emit("messageServ", JSON.stringify({ message: messageRoom, pseudo: adminSocket.pseudo }))
-            break;
-        case 'create':
-            messageRoom = socket.pseudo + ' a creer la room : ' + socket.room
-            io.to(roomAccueil).emit("messageServ", JSON.stringify({ message: messageRoom, pseudo: adminSocket.pseudo }))
-            break;
-        case 'delete':
-            messageRoom = socket.pseudo + ' a  supprimer la room : ' + socket.room
-            io.to(roomAccueil).emit("messageServ", JSON.stringify({ message: messageRoom, pseudo: adminSocket.pseudo }))
-            break;
-        case 'changePseudo':
-            messageRoom = alt + " maintenant s'appel " + socket.pseudo
-            io.to(socket.room).emit('messageServ', JSON.stringify({ message: messageRoom, pseudo: adminSocket.pseudo }))
-            break;
-        default:
-            console.log('erreur : action inconnu')
-    }
+
 }
