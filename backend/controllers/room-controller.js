@@ -68,6 +68,13 @@ module.exports = function (io, socket) {
             } else
                 socket.emit('alertServer', 'Mot de passe invalide')
         },
+        getPassword: (data)=>{
+            if(!data){
+                socket.emit('returnGetPassword',roomPassword[socket.room])
+            }else{
+                socket.emit('returnGetPassword',JSON.stringify({pass:roomPassword[socket.room],message:data}))
+            }
+        },
     }
 
     function leaveRoom(socket) {
