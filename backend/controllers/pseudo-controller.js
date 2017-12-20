@@ -1,5 +1,7 @@
 module.exports = function (io, socket) {
 
+    require('./adminsocket')
+
     const options = {
         transports: ['websocket'],
         'force new connection': true
