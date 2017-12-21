@@ -19,6 +19,7 @@ export default class App extends React.Component {
 			rooms: [],
 			myRoom: "",
 			pseudo: "",
+			messageTemp: "",
 			key: 'Guadeloupe',
 		}
 	}
@@ -71,13 +72,18 @@ export default class App extends React.Component {
 		subscribe('message', (jsonMessage) => {
 			let message = JSON.parse(jsonMessage)
 			let newMessagesList = this.state.messages
-			let decryptMessage = this.decryptage(message.message, this.cryptage(this.state.myRoom, this.state.key))
-			newMessagesList.push({ pseudo: message.pseudo, message: decryptMessage, date: new Date() })
-			this.setState({
-				messages: newMessagesList
-			})
-			let elem = document.getElementById('text');
-			elem.scrollTop = elem.scrollHeight;
+			let decryptMessage = ""
+			if ((this.state.myRoom.substr(this.state.myRoom.lastIndexOf('-'), 6)) == '- lock') {
+				sendToServer('getPwd', message)
+			} else {
+				decryptMessage = this.decryptage(message.message, this.cryptage(this.state.myRoom, this.state.key))
+				newMessagesList.push({ pseudo: message.pseudo, message: decryptMessage, date: new Date() })
+				this.setState({
+					messages: newMessagesList
+				})
+				let elem = document.getElementById('text');
+				elem.scrollTop = elem.scrollHeight;
+			}
 		})
 
 		subscribe('messageServ', (jsonMessage) => {
@@ -101,6 +107,29 @@ export default class App extends React.Component {
 			location.reload()
 		})
 
+		subscribe('returnGetPassword', (data) => {
+			if (this.state.messageTemp != "") {
+				let message = this.cryptage(this.cryptage(this.state.messageTemp, data), this.cryptage(this.state.myRoom, this.state.key))
+				this.setState({
+					messageTemp: ""
+				})
+				console.log(this.state.messageTemp)
+				sendToServer("message", message)
+			} else {
+				let message = JSON.parse(data)
+				let newMessagesList = this.state.messages
+				let decryptMessage = this.decryptage(this.decryptage(message.message.message, message.pass), this.cryptage(this.state.myRoom, this.state.key))
+
+				newMessagesList.push({ pseudo: message.message.pseudo, message: decryptMessage, date: new Date() })
+				this.setState({
+					messages: newMessagesList
+				})
+
+				let elem = document.getElementById('text');
+				elem.scrollTop = elem.scrollHeight;
+			}
+		})
+
 		window.addEventListener("beforeunload", () => {
 			sendToServer("disconnect", "")
 		});
@@ -113,8 +142,16 @@ export default class App extends React.Component {
 	}
 
 	handleSendMessage = (message) => {
-		if (message.length !== 0)
-			sendToServer("message", this.cryptage(message, this.cryptage(this.state.myRoom, this.state.key)))
+		if (message.length !== 0) {
+			if ((this.state.myRoom.substr(this.state.myRoom.lastIndexOf('-'), 6)) == '- lock') {
+				this.setState({
+					messageTemp: message
+				})
+				sendToServer('getPwd')
+			} else {
+				sendToServer("message", this.cryptage(message, this.cryptage(this.state.myRoom, this.state.key)))
+			}
+		}
 	}
 
 	handleChangeRoom = (roomName, passwordRequired) => {
